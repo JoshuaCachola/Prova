@@ -1,0 +1,265 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="1662" viewBox="0 0 1280 1662">
+  <defs>
+    <rect id="rect-1" width="1078" height="711" x="111" y="612"/>
+    <mask id="mask-2" x="0" y="0" maskContentUnits="userSpaceOnUse" maskUnits="userSpaceOnUse">
+      <rect width="1280" height="1662" x="0" y="0" fill="black"/>
+      <use fill="white" xlink:href="#rect-1"/>
+    </mask>
+    <rect id="rect-3" width="1078" height="72" x="111" y="891"/>
+    <mask id="mask-4" x="0" y="0" maskContentUnits="userSpaceOnUse" maskUnits="userSpaceOnUse">
+      <rect width="1280" height="1662" x="0" y="0" fill="black"/>
+      <use fill="white" xlink:href="#rect-3"/>
+    </mask>
+    <rect id="rect-5" width="1078" height="72" x="111" y="1035"/>
+    <mask id="mask-6" x="0" y="0" maskContentUnits="userSpaceOnUse" maskUnits="userSpaceOnUse">
+      <rect width="1280" height="1662" x="0" y="0" fill="black"/>
+      <use fill="white" xlink:href="#rect-5"/>
+    </mask>
+    <rect id="rect-7" width="1078" height="72" x="111" y="1179"/>
+    <mask id="mask-8" x="0" y="0" maskContentUnits="userSpaceOnUse" maskUnits="userSpaceOnUse">
+      <rect width="1280" height="1662" x="0" y="0" fill="black"/>
+      <use fill="white" xlink:href="#rect-7"/>
+    </mask>
+    <rect id="rect-9" width="1078" height="72" x="111" y="819"/>
+    <mask id="mask-10" x="0" y="0" maskContentUnits="userSpaceOnUse" maskUnits="userSpaceOnUse">
+      <rect width="1280" height="1662" x="0" y="0" fill="black"/>
+      <use fill="white" xlink:href="#rect-9"/>
+    </mask>
+    <rect id="rect-11" width="1078" height="72" x="111" y="963"/>
+    <mask id="mask-12" x="0" y="0" maskContentUnits="userSpaceOnUse" maskUnits="userSpaceOnUse">
+      <rect width="1280" height="1662" x="0" y="0" fill="black"/>
+      <use fill="white" xlink:href="#rect-11"/>
+    </mask>
+    <rect id="rect-13" width="1078" height="72" x="111" y="1107"/>
+    <mask id="mask-14" x="0" y="0" maskContentUnits="userSpaceOnUse" maskUnits="userSpaceOnUse">
+      <rect width="1280" height="1662" x="0" y="0" fill="black"/>
+      <use fill="white" xlink:href="#rect-13"/>
+    </mask>
+    <rect id="rect-15" width="1078" height="72" x="111" y="1251"/>
+    <mask id="mask-16" x="0" y="0" maskContentUnits="userSpaceOnUse" maskUnits="userSpaceOnUse">
+      <rect width="1280" height="1662" x="0" y="0" fill="black"/>
+      <use fill="white" xlink:href="#rect-15"/>
+    </mask>
+    <rect id="rect-17" width="1078" height="72" x="111" y="747"/>
+    <mask id="mask-18" x="0" y="0" maskContentUnits="userSpaceOnUse" maskUnits="userSpaceOnUse">
+      <rect width="1280" height="1662" x="0" y="0" fill="black"/>
+      <use fill="white" xlink:href="#rect-17"/>
+    </mask>
+    <rect id="rect-19" width="1078" height="72" x="111" y="675"/>
+    <mask id="mask-20" x="0" y="0" maskContentUnits="userSpaceOnUse" maskUnits="userSpaceOnUse">
+      <rect width="1280" height="1662" x="0" y="0" fill="black"/>
+      <use fill="white" xlink:href="#rect-19"/>
+    </mask>
+    <path id="path-22" fill-rule="evenodd" d="M263 145h954c6.07106527 0 11 4.92893473 11 11v381c0 6.07106527-4.92893473 11-11 11H263c-6.07106527 0-11-4.92893473-11-11V156c0-6.07106527 4.92893473-11 11-11z"/>
+    <mask id="mask-23" x="0" y="0" maskContentUnits="userSpaceOnUse" maskUnits="userSpaceOnUse">
+      <rect width="1280" height="1662" x="0" y="0" fill="black"/>
+      <use fill="white" xlink:href="#path-22"/>
+    </mask>
+    <rect id="rect-24" width="304" height="300" x="283" y="195"/>
+    <mask id="mask-25" x="0" y="0" maskContentUnits="userSpaceOnUse" maskUnits="userSpaceOnUse">
+      <rect width="1280" height="1662" x="0" y="0" fill="black"/>
+      <use fill="white" xlink:href="#rect-24"/>
+    </mask>
+    <rect id="rect-26" width="304" height="300" x="587" y="195"/>
+    <mask id="mask-27" x="0" y="0" maskContentUnits="userSpaceOnUse" maskUnits="userSpaceOnUse">
+      <rect width="1280" height="1662" x="0" y="0" fill="black"/>
+      <use fill="white" xlink:href="#rect-26"/>
+    </mask>
+    <rect id="rect-28" width="304" height="300" x="891" y="195"/>
+    <mask id="mask-29" x="0" y="0" maskContentUnits="userSpaceOnUse" maskUnits="userSpaceOnUse">
+      <rect width="1280" height="1662" x="0" y="0" fill="black"/>
+      <use fill="white" xlink:href="#rect-28"/>
+    </mask>
+    <rect id="rect-30" width="180" height="403" x="35" y="145"/>
+    <mask id="mask-31" x="0" y="0" maskContentUnits="userSpaceOnUse" maskUnits="userSpaceOnUse">
+      <rect width="1280" height="1662" x="0" y="0" fill="black"/>
+      <use fill="white" xlink:href="#rect-30"/>
+    </mask>
+    <rect id="rect-32" width="1280" height="88" x="0" y="0"/>
+    <mask id="mask-33" x="0" y="0" maskContentUnits="userSpaceOnUse" maskUnits="userSpaceOnUse">
+      <rect width="1280" height="1662" x="0" y="0" fill="black"/>
+      <use fill="white" xlink:href="#rect-32"/>
+    </mask>
+  </defs>
+  <g>
+    <g>
+      <use fill="rgb(255,255,255)" xlink:href="#rect-1"/>
+      <use fill-opacity="0" stroke="rgb(128,128,128)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2" mask="url(#mask-2)" xlink:href="#rect-1"/>
+    </g>
+    <g>
+      <g>
+        <use fill="rgb(208,208,208)" xlink:href="#rect-3"/>
+        <use fill-opacity="0" stroke="rgb(128,128,128)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2" mask="url(#mask-4)" xlink:href="#rect-3"/>
+      </g>
+      <g>
+        <use fill="rgb(208,208,208)" xlink:href="#rect-5"/>
+        <use fill-opacity="0" stroke="rgb(128,128,128)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2" mask="url(#mask-6)" xlink:href="#rect-5"/>
+      </g>
+      <g>
+        <use fill="rgb(208,208,208)" xlink:href="#rect-7"/>
+        <use fill-opacity="0" stroke="rgb(128,128,128)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2" mask="url(#mask-8)" xlink:href="#rect-7"/>
+      </g>
+      <g>
+        <use fill="rgb(255,255,255)" xlink:href="#rect-9"/>
+        <use fill-opacity="0" stroke="rgb(128,128,128)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2" mask="url(#mask-10)" xlink:href="#rect-9"/>
+      </g>
+      <g>
+        <use fill="rgb(255,255,255)" xlink:href="#rect-11"/>
+        <use fill-opacity="0" stroke="rgb(128,128,128)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2" mask="url(#mask-12)" xlink:href="#rect-11"/>
+      </g>
+      <g>
+        <use fill="rgb(255,255,255)" xlink:href="#rect-13"/>
+        <use fill-opacity="0" stroke="rgb(128,128,128)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2" mask="url(#mask-14)" xlink:href="#rect-13"/>
+      </g>
+      <g>
+        <use fill="rgb(255,255,255)" xlink:href="#rect-15"/>
+        <use fill-opacity="0" stroke="rgb(128,128,128)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2" mask="url(#mask-16)" xlink:href="#rect-15"/>
+      </g>
+      <g>
+        <use fill="rgb(208,208,208)" xlink:href="#rect-17"/>
+        <use fill-opacity="0" stroke="rgb(128,128,128)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2" mask="url(#mask-18)" xlink:href="#rect-17"/>
+      </g>
+      <g>
+        <use fill="rgb(255,255,255)" xlink:href="#rect-19"/>
+        <use fill-opacity="0" stroke="rgb(128,128,128)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2" mask="url(#mask-20)" xlink:href="#rect-19"/>
+      </g>
+    </g>
+    <g>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="344" y="716" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">Route 1</tspan>
+      </text>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="344" y="1292" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">Route 6</tspan>
+      </text>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="344" y="1220" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">Route 5</tspan>
+      </text>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="344" y="1148" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">Route 4</tspan>
+      </text>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="344" y="1076" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">Route 3</tspan>
+      </text>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="344" y="1004" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">Route 2</tspan>
+      </text>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="344" y="932" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">Route 1</tspan>
+      </text>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="344" y="860" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">Route 3</tspan>
+      </text>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="344" y="788" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">Route 2</tspan>
+      </text>
+    </g>
+    <g>
+      <rect width="1078" height="63" x="111" y="612" fill="rgb(200,200,200)"/>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="949" y="649" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">Calories Burned</tspan>
+      </text>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="727" y="649" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">Distance</tspan>
+      </text>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="353" y="649" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">Route</tspan>
+      </text>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="181" y="649" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">Date</tspan>
+      </text>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="553" y="649" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">Time</tspan>
+      </text>
+    </g>
+    <g>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="166" y="716" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">6/5/2020</tspan>
+      </text>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="166" y="1148" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">6/11/2020</tspan>
+      </text>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="166" y="1220" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">6/12/2020</tspan>
+      </text>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="166" y="1292" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">6/13/2020</tspan>
+      </text>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="166" y="1076" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">6/10/2020</tspan>
+      </text>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="166" y="1004" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">6/9/2020</tspan>
+      </text>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="166" y="932" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">6/8/2020</tspan>
+      </text>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="166" y="860" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">6/7/2020</tspan>
+      </text>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="166" y="788" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">6/6/2020</tspan>
+      </text>
+    </g>
+  </g>
+  <g>
+    <g>
+      <use fill="rgb(255,255,255)" xlink:href="#path-22"/>
+      <use fill-opacity="0" stroke="rgb(128,128,128)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2" mask="url(#mask-23)" xlink:href="#path-22"/>
+    </g>
+    <g>
+      <use fill="rgb(255,255,255)" xlink:href="#rect-24"/>
+      <use fill-opacity="0" stroke="rgb(128,128,128)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2" mask="url(#mask-25)" xlink:href="#rect-24"/>
+    </g>
+    <text font-size="0" style="white-space:pre">
+      <tspan x="383" y="236" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">Daily Progress</tspan>
+    </text>
+    <g>
+      <use fill="rgb(255,255,255)" xlink:href="#rect-26"/>
+      <use fill-opacity="0" stroke="rgb(128,128,128)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2" mask="url(#mask-27)" xlink:href="#rect-26"/>
+    </g>
+    <text font-size="0" style="white-space:pre">
+      <tspan x="668" y="236" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">Overall Progress</tspan>
+    </text>
+    <g>
+      <use fill="rgb(255,255,255)" xlink:href="#rect-28"/>
+      <use fill-opacity="0" stroke="rgb(128,128,128)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2" mask="url(#mask-29)" xlink:href="#rect-28"/>
+    </g>
+    <text font-size="0" style="white-space:pre">
+      <tspan x="283" y="127" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">Personal Stats</tspan>
+    </text>
+    <text font-size="0" style="white-space:pre">
+      <tspan x="987" y="236" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">Some kind of stats</tspan>
+    </text>
+  </g>
+  <g>
+    <g>
+      <use fill="rgb(255,255,255)" xlink:href="#rect-30"/>
+      <use fill-opacity="0" stroke="rgb(128,128,128)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2" mask="url(#mask-31)" xlink:href="#rect-30"/>
+    </g>
+    <text font-size="0" style="white-space:pre">
+      <tspan x="54" y="200.278" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">Time</tspan>
+    </text>
+    <text font-size="0" style="white-space:pre">
+      <tspan x="54" y="242.642" fill="rgb(59,59,59)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">Personal Best</tspan>
+    </text>
+  </g>
+  <g>
+    <g>
+      <use fill="rgb(255,255,255)" xlink:href="#rect-32"/>
+      <use fill-opacity="0" stroke="rgb(128,128,128)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2" mask="url(#mask-33)" xlink:href="#rect-32"/>
+    </g>
+    <path fill="rgb(255,89,52)" fill-rule="evenodd" d="M1007 28h121c4.4153202 0 8 3.5846798 8 8v17c0 4.4153202-3.5846798 8-8 8h-121c-4.4153202 0-8-3.5846798-8-8V36c0-4.4153202 3.5846798-8 8-8z"/>
+    <text font-size="0" style="white-space:pre">
+      <tspan x="1040" y="50" fill="rgb(255,255,255)" font-family="Arial" font-size="16" font-weight="400" style="white-space:pre;text-transform:none">My Runs</tspan>
+    </text>
+    <text font-size="0" style="white-space:pre">
+      <tspan x="30" y="53" fill="rgb(251,62,62)" font-family="Arial" font-size="26" font-weight="400" style="white-space:pre;text-transform:none">PROVA</tspan>
+    </text>
+    <g>
+      <ellipse cx="1177.5" cy="44" fill="rgb(200,200,200)" rx="21.5" ry="22"/>
+      <text font-size="0" style="white-space:pre">
+        <tspan x="1165" y="51" fill="rgb(255,255,255)" font-family="Arial" font-size="20" font-weight="400" style="white-space:pre;text-transform:none">AL</tspan>
+      </text>
+    </g>
+  </g>
+</svg>
