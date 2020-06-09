@@ -23,10 +23,9 @@ function App() {
 					<NavBar />
 				</header>
 				<Switch>
-					<Route path="/" exact={true} component={LandingPage} />
 					<PrivateRoute path="/profile" exact component={Profile} />
 					<PrivateRoute path="/external-api" exact component={ExternalApi} />
-
+					<Route path="/" exact={true} component={LandingPage} />
 					<Route path="/create-route" exact={true} component={CreateMap} />
 					<Route path="/home" exact={true} component={HomePage} />
 					<Route path="/my-routes" exact={true} component={MyRoutes} />
