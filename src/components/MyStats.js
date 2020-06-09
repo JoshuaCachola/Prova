@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
 import { Box } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 import Calendar from './stats/Calendar';
+import RunDetails from './stats/RunDetails';
+
+const useStyles = makeStyles({
+  nav: {
+    maxHeight: "100%",
+    maxWidth: "20%",
+    overflowY: "scroll"
+  },
+  list: {
+    listStyleType: "none"
+  }
+});
 
 const MyStats = () => {
   const [myRuns, setMyRuns] = useState([]);
+  const [calData, setCalData] = useState([]);
   useEffect(() => {
     const runs = [
       { 'id': 1, 'distance': 21.01, 'time': 222.71, 'date': '2020, 06, 30', 'user_id': 1, 'calories': 2383.36, 'route': 5 },
@@ -117,22 +130,36 @@ const MyStats = () => {
       filtered_runs.push(fRun);
     });
 
-    setMyRuns(filtered_runs);
+    setMyRuns(runs);
+
+    // needs to be sorted by date
+    setCalData(filtered_runs);
   }, []);
 
+  const handleRunDetails = e => {
+    console.log("clicked!");
+  };
+
+  const classes = useStyles();
   return (
     <>
-      <nav>
-        {myRuns.map(runs => {
-          return (
-            <NavLink key={myRuns.id} >
-
-            </NavLink>
-          );
-        })}
-      </nav>
-      <Box width="1000px" height="500px">
-        <Calendar myRuns={myRuns} />
+      <Box className={classes.nav}>
+        <ul>
+          {myRuns.map(run => {
+            return (
+              <li
+                key={run.id}
+                className={classes.list}
+                onClick={handleRunDetails}
+              >
+                <RunDetails run={run} />
+              </li>
+            );
+          })}
+        </ul>
+      </Box>
+      <Box width='1000px' height='500px'>
+        <Calendar myRuns={calData} />
       </Box>
     </>
   );

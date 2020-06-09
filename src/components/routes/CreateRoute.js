@@ -1,18 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
 import mapboxgl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
+import { createRoute } from '../../store/routes';
+import { useAuth0 } from '../../react-auth0-spa';
 
-const CreateMap = () => {
+const CreateRoute = () => {
   mapboxgl.accessToken = 'pk.eyJ1IjoibWFya2ptNjEwIiwiYSI6ImNrYjFjeTBoMzAzb3UyeXF1YTE3Y25wdDMifQ.K9r926HKVv0u8RQzpdXleg';
+
   const [mapState, setMapState] = useState({
     lng: -122,
     lat: 37,
     zoom: 2
   });
-  //   const [map, setMap] = useState(null);
-  //   const [draw, setMapDraw] = useState(null);
-  //   const handleMapDraw = (mapdraw) => setMapDraw(mapdraw);
-  //   const handleMap = (map) => setMap(map);
+
+  const { user } = useAuth0()
+
   let mapContainer = useRef(null);
 
   // creates MapBox obj
@@ -74,12 +76,7 @@ const CreateMap = () => {
         ]
       });
 
-      // handleMapDraw(drawObj);
-      // handleMap(mapObj);
-      // console.log(map);
-      // console.log(draw);
-      //   handleMapDraw(draw);
-      // map.addControl(draw);
+
 
       const updateRoute = () => {
         removeRoute();
@@ -133,49 +130,7 @@ const CreateMap = () => {
 
         };
       };
-      ////////////////////////////////////
-      //       const geojson = {
-      //         type: 'Feature',
-      //         properties: {},
-      //         geometry: {
-      //           type: 'LineString',
-      //           coordinates: route
-      //         }
-      //       };
-      //       // if the route already exists on the map, reset it using setData
-      //       if (map.getSource('route')) {
-      //         map.getSource('route').setData(geojson);
-      //       } else { // otherwise, make a new request
-      //         map.addLayer({
-      //           id: 'route',
-      //           type: 'line',
-      //           source: {
-      //             type: 'geojson',
-      //             data: {
-      //               type: 'Feature',
-      //               properties: {},
-      //               geometry: {
-      //                 type: 'LineString',
-      //                 coordinates: geojson
-      //               }
-      //             }
-      //           },
-      //           layout: {
-      //             'line-join': 'round',
-      //             'line-cap': 'round'
-      //           },
-      //           paint: {
-      //             'line-color': '#3887be',
-      //             'line-width': 5,
-      //             'line-opacity': 0.75
-      //           }
-      //         });
-      //       }
-      //       // add turn instructions here at the end
-      //     };
-      //     req.send();
-      //   }
-      //////////////////////////////
+
       const getMatch = async e => {
         const url = 'https://api.mapbox.com/directions/v5/mapbox/walking/' + e + '?geometries=geojson&steps=true&&access_token=' + mapboxgl.accessToken;
 
@@ -187,6 +142,7 @@ const CreateMap = () => {
         //   [-122.650444, 45.542088],
         //   [-122.658813, 45.542107]]
         // };
+
         try {
           let res = await fetch(url);
 
@@ -197,9 +153,13 @@ const CreateMap = () => {
           // const duration = res.routes[0].duration / 60;
 
           const coords = res.routes[0].geometry;
-          console.log(coords)
           console.log(coords.coordinates);
           addRoute(coords);
+          const stringCoords = coords.coordinates.join(';')
+          console.log(user)
+          createRoute(100.0, 0, 0, stringCoords, 1)
+
+
         } catch (err) {
           console.error(err);
         }
@@ -219,14 +179,6 @@ const CreateMap = () => {
   useEffect(() => {
     createMB();
 
-    // createMB()
-    // if (!draw) setMapDraw(createMBD());
-    // setMapDraw(createMBD());
-    // console.log(map, draw);
-    // map.addControl(draw);
-    // map.on('draw.create', updateRoute);
-    // map.on('draw.update', updateRoute);
-    // map.on('draw.delete', removeRoute);
 
   }, []);
 
@@ -243,4 +195,4 @@ const CreateMap = () => {
 
 };
 
-export default CreateMap;
+export default CreateRoute;
