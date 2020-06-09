@@ -1,6 +1,7 @@
 // src/App.js
 
 import React from 'react';
+
 import NavBar from './components/NavBar';
 
 import { Router, Route, Switch } from 'react-router-dom';
@@ -8,6 +9,11 @@ import Profile from './components/Profile';
 import history from './utils/history';
 import PrivateRoute from './components/PrivateRoute';
 import ExternalApi from './views/ExternalApi';
+import CreateMap from './components/routes/CreateMap';
+import LandingPage from './components/LandingPage';
+import HomePage from './components/HomePage';
+import MyRoutes from './components/routes/MyRoutes';
+import MyStats from './components/MyStats';
 
 function App() {
 	return (
@@ -18,9 +24,13 @@ function App() {
 					<NavBar />
 				</header>
 				<Switch>
-					<Route path="/" exact />
 					<PrivateRoute path="/profile" exact component={Profile} />
 					<PrivateRoute path="/external-api" exact component={ExternalApi} />
+          <Route path='/' exact={true} component={LandingPage} />
+          <Route path='/create-route' exact={true} component={CreateMap} />
+          <Route path='/home' exact={true} component={HomePage} />
+          <Route path='/my-routes' exact={true} component={MyRoutes} />
+          <Route path='/my-stats' exact={true} component={MyStats} />
 				</Switch>
 			</Router>
 		</div>

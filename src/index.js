@@ -2,6 +2,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Auth0Provider } from './react-auth0-spa';
@@ -14,6 +16,7 @@ const onRedirectCallback = (appState) => {
 };
 
 ReactDOM.render(
+  <BrowserRouter>
 	<Auth0Provider
 		domain={config.domain}
 		client_id={config.clientId}
@@ -21,9 +24,11 @@ ReactDOM.render(
 		audience={config.audience}
 		onRedirectCallback={onRedirectCallback}
 	>
-		<App />
-	</Auth0Provider>,
+      <App />
+	</Auth0Provider>
+  </BrowserRouter>,
 	document.getElementById('root')
+
 );
 
 serviceWorker.unregister();

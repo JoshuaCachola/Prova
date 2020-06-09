@@ -1,1 +1,21 @@
 /* TODO Add site wide styles */
+
+.mapContainer {
+  position: absolute;
+  height: 900px;
+  width: 900px;
+}
+
+.info-box {
+  height: 100px;
+  width: 150px;
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  background-color: rgba(255, 255, 255, .9);
+  padding: 15px;
+  text-align: left;
+  font-family: 'Arial';
+  margin: 0;
+  font-size: 13px;
+}
