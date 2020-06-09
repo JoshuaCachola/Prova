@@ -15,13 +15,14 @@ import PrivateRoute from './components/PrivateRoute';
 import ExternalApi from './views/ExternalApi';
 
 function App() {
+
 	return (
 		<div className="App">
 			{/* Don't forget to include the history module */}
 			<Router history={history}>
-				<header>
+				{/* <header>
 					<NavBar />
-				</header>
+				</header> */}
 				<Switch>
 					<PrivateRoute path="/profile" exact component={Profile} />
 					<PrivateRoute path="/external-api" exact component={ExternalApi} />
