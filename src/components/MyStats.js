@@ -1,112 +1,140 @@
-import React, { useState } from 'react';
-import { ResponsiveCalendar } from '@nivo/calendar';
+import React, { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
+import { Box } from '@material-ui/core';
+
+import Calendar from './stats/Calendar';
 
 const MyStats = () => {
-  const [runs, setRuns] = useState(
-    { 'id': 1, 'distance': 12.65, 'time': 134.34, 'date': datetime.date(2018, 2, 11), 'user_id': 1, 'calories': 1435.01, 'route': 2 },
-    { 'id': 2, 'distance': 15.93, 'time': 167.42, 'date': datetime.date(2019, 3, 4), 'user_id': 1, 'calories': 1807.09, 'route': 4 },
-    { 'id': 3, 'distance': 13.42, 'time': 134.74, 'date': datetime.date(2018, 5, 16), 'user_id': 1, 'calories': 1522.36, 'route': 9 },
-    { 'id': 4, 'distance': 23.52, 'time': 182.28, 'date': datetime.date(2020, 2, 12), 'user_id': 1, 'calories': 2668.1, 'route': 1 },
-    { 'id': 5, 'distance': 18.64, 'time': 244.93, 'date': datetime.date(2018, 8, 6), 'user_id': 1, 'calories': 2114.51, 'route': 7 },
-    { 'id': 6, 'distance': 22.7, 'time': 306.68, 'date': datetime.date(2020, 11, 21), 'user_id': 1, 'calories': 2575.08, 'route': 4 },
-    { 'id': 7, 'distance': 18.84, 'time': 139.6, 'date': datetime.date(2020, 7, 21), 'user_id': 1, 'calories': 2137.2, 'route': 9 },
-    { 'id': 8, 'distance': 26.97, 'time': 332.54, 'date': datetime.date(2020, 7, 10), 'user_id': 1, 'calories': 3059.46, 'route': 7 },
-    { 'id': 9, 'distance': 20.09, 'time': 245.3, 'date': datetime.date(2018, 4, 27), 'user_id': 1, 'calories': 2279.0, 'route': 5 },
-    { 'id': 10, 'distance': 24.87, 'time': 211.15, 'date': datetime.date(2019, 6, 11), 'user_id': 1, 'calories': 2821.24, 'route': 4 },
-    { 'id': 11, 'distance': 20.99, 'time': 267.41, 'date': datetime.date(2018, 3, 30), 'user_id': 1, 'calories': 2381.09, 'route': 8 },
-    { 'id': 12, 'distance': 4.89, 'time': 62.49, 'date': datetime.date(2019, 12, 30), 'user_id': 1, 'calories': 554.72, 'route': 3 },
-    { 'id': 13, 'distance': 9.73, 'time': 78.42, 'date': datetime.date(2018, 4, 26), 'user_id': 1, 'calories': 1103.77, 'route': 7 },
-    { 'id': 14, 'distance': 14.12, 'time': 173.68, 'date': datetime.date(2019, 9, 26), 'user_id': 1, 'calories': 1601.77, 'route': 2 },
-    { 'id': 15, 'distance': 1.59, 'time': 19.16, 'date': datetime.date(2020, 3, 18), 'user_id': 1, 'calories': 180.37, 'route': 1 },
-    { 'id': 16, 'distance': 24.98, 'time': 241.06, 'date': datetime.date(2018, 11, 3), 'user_id': 1, 'calories': 2833.72, 'route': 3 },
-    { 'id': 17, 'distance': 5.49, 'time': 68.24, 'date': datetime.date(2019, 4, 18), 'user_id': 1, 'calories': 622.78, 'route': 4 },
-    { 'id': 18, 'distance': 3.28, 'time': 24.24, 'date': datetime.date(2018, 3, 11), 'user_id': 1, 'calories': 372.08, 'route': 9 },
-    { 'id': 19, 'distance': 9.68, 'time': 118.29, 'date': datetime.date(2019, 11, 27), 'user_id': 1, 'calories': 1098.09, 'route': 8 },
-    { 'id': 20, 'distance': 4.23, 'time': 57.49, 'date': datetime.date(2019, 9, 6), 'user_id': 1, 'calories': 479.85, 'route': 9 },
-    { 'id': 21, 'distance': 24.71, 'time': 252.78, 'date': datetime.date(2018, 5, 13), 'user_id': 1, 'calories': 2803.09, 'route': 7 },
-    { 'id': 22, 'distance': 14.43, 'time': 103.17, 'date': datetime.date(2018, 5, 7), 'user_id': 1, 'calories': 1636.93, 'route': 3 },
-    { 'id': 23, 'distance': 15.16, 'time': 194.2, 'date': datetime.date(2020, 1, 13), 'user_id': 1, 'calories': 1719.74, 'route': 7 },
-    { 'id': 24, 'distance': 19.02, 'time': 161.1, 'date': datetime.date(2020, 6, 21), 'user_id': 1, 'calories': 2157.62, 'route': 5 },
-    { 'id': 25, 'distance': 11.15, 'time': 130.34, 'date': datetime.date(2020, 11, 10), 'user_id': 1, 'calories': 1264.85, 'route': 2 },
-    { 'id': 26, 'distance': 17.94, 'time': 235.91, 'date': datetime.date(2020, 4, 27), 'user_id': 1, 'calories': 2035.1, 'route': 9 },
-    { 'id': 27, 'distance': 26.14, 'time': 250.68, 'date': datetime.date(2018, 11, 13), 'user_id': 1, 'calories': 2965.31, 'route': 7 },
-    { 'id': 28, 'distance': 2.25, 'time': 19.06, 'date': datetime.date(2020, 1, 21), 'user_id': 1, 'calories': 255.24, 'route': 7 },
-    { 'id': 29, 'distance': 11.54, 'time': 122.55, 'date': datetime.date(2019, 4, 2), 'user_id': 1, 'calories': 1309.09, 'route': 3 },
-    { 'id': 30, 'distance': 17.94, 'time': 247.93, 'date': datetime.date(2019, 3, 4), 'user_id': 1, 'calories': 2035.1, 'route': 6 },
-    { 'id': 31, 'distance': 11.48, 'time': 147.86, 'date': datetime.date(2019, 1, 7), 'user_id': 1, 'calories': 1302.29, 'route': 2 },
-    { 'id': 32, 'distance': 16.77, 'time': 207.95, 'date': datetime.date(2019, 8, 25), 'user_id': 1, 'calories': 1902.38, 'route': 1 },
-    { 'id': 33, 'distance': 5.89, 'time': 76.81, 'date': datetime.date(2018, 3, 8), 'user_id': 1, 'calories': 668.16, 'route': 1 },
-    { 'id': 34, 'distance': 2.24, 'time': 27.53, 'date': datetime.date(2018, 8, 6), 'user_id': 1, 'calories': 254.1, 'route': 8 },
-    { 'id': 35, 'distance': 17.3, 'time': 212.62, 'date': datetime.date(2019, 1, 31), 'user_id': 1, 'calories': 1962.5, 'route': 3 },
-    { 'id': 36, 'distance': 24.44, 'time': 205.3, 'date': datetime.date(2019, 7, 11), 'user_id': 1, 'calories': 2772.46, 'route': 5 },
-    { 'id': 37, 'distance': 7.48, 'time': 58.72, 'date': datetime.date(2018, 3, 2), 'user_id': 1, 'calories': 848.53, 'route': 2 },
-    { 'id': 38, 'distance': 17.74, 'time': 244.1, 'date': datetime.date(2018, 8, 15), 'user_id': 1, 'calories': 2012.42, 'route': 1 },
-    { 'id': 39, 'distance': 12.13, 'time': 104.68, 'date': datetime.date(2018, 3, 4), 'user_id': 1, 'calories': 1376.02, 'route': 3 },
-    { 'id': 40, 'distance': 21.09, 'time': 240.85, 'date': datetime.date(2018, 2, 5), 'user_id': 1, 'calories': 2392.44, 'route': 9 },
-    { 'id': 41, 'distance': 26.87, 'time': 321.9, 'date': datetime.date(2020, 11, 3), 'user_id': 1, 'calories': 3048.12, 'route': 6 },
-    { 'id': 42, 'distance': 17.84, 'time': 154.49, 'date': datetime.date(2018, 9, 4), 'user_id': 1, 'calories': 2023.76, 'route': 5 },
-    { 'id': 43, 'distance': 13.05, 'time': 120.32, 'date': datetime.date(2018, 10, 29), 'user_id': 1, 'calories': 1480.39, 'route': 6 },
-    { 'id': 44, 'distance': 14.51, 'time': 179.05, 'date': datetime.date(2018, 9, 2), 'user_id': 1, 'calories': 1646.01, 'route': 1 },
-    { 'id': 45, 'distance': 13.31, 'time': 106.75, 'date': datetime.date(2018, 9, 27), 'user_id': 1, 'calories': 1509.88, 'route': 6 },
-    { 'id': 46, 'distance': 14.19, 'time': 138.64, 'date': datetime.date(2019, 1, 14), 'user_id': 1, 'calories': 1609.71, 'route': 8 },
-    { 'id': 47, 'distance': 20.77, 'time': 247.79, 'date': datetime.date(2020, 3, 5), 'user_id': 1, 'calories': 2356.14, 'route': 8 },
-    { 'id': 48, 'distance': 7.89, 'time': 99.73, 'date': datetime.date(2020, 7, 13), 'user_id': 1, 'calories': 895.04, 'route': 7 },
-    { 'id': 49, 'distance': 3.01, 'time': 29.29, 'date': datetime.date(2020, 10, 15), 'user_id': 1, 'calories': 341.45, 'route': 2 },
-    { 'id': 50, 'distance': 8.84, 'time': 122.61, 'date': datetime.date(2020, 4, 20), 'user_id': 1, 'calories': 1002.8, 'route': 2 },
-    { 'id': 51, 'distance': 1.9, 'time': 18.49, 'date': datetime.date(2020, 1, 30), 'user_id': 1, 'calories': 215.54, 'route': 7 },
-    { 'id': 52, 'distance': 18.15, 'time': 196.93, 'date': datetime.date(2019, 6, 12), 'user_id': 1, 'calories': 2058.93, 'route': 4 },
-    { 'id': 53, 'distance': 6.39, 'time': 77.32, 'date': datetime.date(2019, 8, 10), 'user_id': 1, 'calories': 724.88, 'route': 5 },
-    { 'id': 54, 'distance': 25.98, 'time': 333.32, 'date': datetime.date(2020, 12, 3), 'user_id': 1, 'calories': 2947.16, 'route': 7 },
-    { 'id': 55, 'distance': 18.63, 'time': 228.03, 'date': datetime.date(2019, 7, 14), 'user_id': 1, 'calories': 2113.38, 'route': 3 },
-    { 'id': 56, 'distance': 15.04, 'time': 191.31, 'date': datetime.date(2019, 7, 16), 'user_id': 1, 'calories': 1706.13, 'route': 9 },
-    { 'id': 57, 'distance': 1.6, 'time': 12.93, 'date': datetime.date(2018, 6, 29), 'user_id': 1, 'calories': 181.5, 'route': 1 },
-    { 'id': 58, 'distance': 13.75, 'time': 131.59, 'date': datetime.date(2020, 6, 23), 'user_id': 1, 'calories': 1559.79, 'route': 6 },
-    { 'id': 59, 'distance': 23.83, 'time': 220.19, 'date': datetime.date(2020, 5, 21), 'user_id': 1, 'calories': 2703.26, 'route': 4 },
-    { 'id': 60, 'distance': 4.18, 'time': 52.0, 'date': datetime.date(2019, 6, 20), 'user_id': 1, 'calories': 474.18, 'route': 5 },
-    { 'id': 61, 'distance': 22.99, 'time': 291.97, 'date': datetime.date(2019, 5, 29), 'user_id': 1, 'calories': 2607.97, 'route': 3 },
-    { 'id': 62, 'distance': 7.11, 'time': 95.84, 'date': datetime.date(2019, 12, 15), 'user_id': 1, 'calories': 806.55, 'route': 3 },
-    { 'id': 63, 'distance': 16.87, 'time': 190.63, 'date': datetime.date(2020, 9, 24), 'user_id': 1, 'calories': 1913.72, 'route': 4 },
-    { 'id': 64, 'distance': 8.55, 'time': 70.54, 'date': datetime.date(2020, 12, 10), 'user_id': 1, 'calories': 969.91, 'route': 7 },
-    { 'id': 65, 'distance': 4.2, 'time': 45.65, 'date': datetime.date(2020, 3, 21), 'user_id': 1, 'calories': 476.45, 'route': 6 },
-    { 'id': 66, 'distance': 22.64, 'time': 259.91, 'date': datetime.date(2019, 12, 22), 'user_id': 1, 'calories': 2568.27, 'route': 9 },
-    { 'id': 67, 'distance': 17.69, 'time': 178.32, 'date': datetime.date(2020, 2, 2), 'user_id': 1, 'calories': 2006.74, 'route': 6 },
-    { 'id': 68, 'distance': 5.92, 'time': 67.43, 'date': datetime.date(2019, 9, 28), 'user_id': 1, 'calories': 671.56, 'route': 4 },
-    { 'id': 69, 'distance': 4.94, 'time': 42.04, 'date': datetime.date(2018, 10, 29), 'user_id': 1, 'calories': 560.39, 'route': 5 },
-    { 'id': 70, 'distance': 18.34, 'time': 244.11, 'date': datetime.date(2020, 4, 22), 'user_id': 1, 'calories': 2080.48, 'route': 8 },
-    { 'id': 71, 'distance': 25.21, 'time': 267.48, 'date': datetime.date(2019, 9, 24), 'user_id': 1, 'calories': 2859.81, 'route': 1 },
-    { 'id': 72, 'distance': 1.85, 'time': 24.73, 'date': datetime.date(2019, 9, 21), 'user_id': 1, 'calories': 209.86, 'route': 4 },
-    { 'id': 73, 'distance': 4.0, 'time': 33.48, 'date': datetime.date(2020, 4, 15), 'user_id': 1, 'calories': 453.76, 'route': 8 },
-    { 'id': 74, 'distance': 6.33, 'time': 60.7, 'date': datetime.date(2018, 5, 26), 'user_id': 1, 'calories': 718.07, 'route': 2 },
-    { 'id': 75, 'distance': 19.8, 'time': 145.73, 'date': datetime.date(2019, 3, 10), 'user_id': 1, 'calories': 2246.1, 'route': 2 },
-    { 'id': 76, 'distance': 6.77, 'time': 90.45, 'date': datetime.date(2019, 6, 10), 'user_id': 1, 'calories': 767.99, 'route': 2 },
-    { 'id': 77, 'distance': 26.22, 'time': 298.65, 'date': datetime.date(2018, 5, 29), 'user_id': 1, 'calories': 2974.38, 'route': 2 },
-    { 'id': 78, 'distance': 25.6, 'time': 236.54, 'date': datetime.date(2020, 6, 7), 'user_id': 1, 'calories': 2904.05, 'route': 6 },
-    { 'id': 79, 'distance': 16.76, 'time': 213.86, 'date': datetime.date(2018, 1, 23), 'user_id': 1, 'calories': 1901.25, 'route': 1 },
-    { 'id': 80, 'distance': 14.58, 'time': 144.2, 'date': datetime.date(2018, 1, 27), 'user_id': 1, 'calories': 1653.95, 'route': 4 },
-    { 'id': 81, 'distance': 13.08, 'time': 95.09, 'date': datetime.date(2020, 2, 22), 'user_id': 1, 'calories': 1483.79, 'route': 4 },
-    { 'id': 82, 'distance': 17.25, 'time': 223.22, 'date': datetime.date(2018, 3, 13), 'user_id': 1, 'calories': 1956.83, 'route': 6 },
-    { 'id': 83, 'distance': 21.13, 'time': 247.22, 'date': datetime.date(2018, 11, 5), 'user_id': 1, 'calories': 2396.98, 'route': 3 },
-    { 'id': 84, 'distance': 3.58, 'time': 47.94, 'date': datetime.date(2018, 9, 30), 'user_id': 1, 'calories': 406.11, 'route': 9 },
-    { 'id': 85, 'distance': 11.02, 'time': 118.02, 'date': datetime.date(2019, 7, 24), 'user_id': 1, 'calories': 1250.1, 'route': 9 },
-    { 'id': 86, 'distance': 23.52, 'time': 292.82, 'date': datetime.date(2018, 12, 9), 'user_id': 1, 'calories': 2668.1, 'route': 9 },
-    { 'id': 87, 'distance': 10.76, 'time': 106.85, 'date': datetime.date(2020, 9, 8), 'user_id': 1, 'calories': 1220.61, 'route': 3 },
-    { 'id': 88, 'distance': 10.07, 'time': 130.51, 'date': datetime.date(2020, 8, 3), 'user_id': 1, 'calories': 1142.34, 'route': 6 },
-    { 'id': 89, 'distance': 1.87, 'time': 26.16, 'date': datetime.date(2019, 4, 11), 'user_id': 1, 'calories': 212.13, 'route': 1 },
-    { 'id': 90, 'distance': 18.18, 'time': 191.25, 'date': datetime.date(2018, 4, 30), 'user_id': 1, 'calories': 2062.33, 'route': 4 },
-    { 'id': 91, 'distance': 4.67, 'time': 43.2, 'date': datetime.date(2020, 11, 30), 'user_id': 1, 'calories': 529.76, 'route': 9 },
-    { 'id': 92, 'distance': 25.9, 'time': 347.06, 'date': datetime.date(2019, 1, 19), 'user_id': 1, 'calories': 2938.08, 'route': 2 },
-    { 'id': 93, 'distance': 18.23, 'time': 219.12, 'date': datetime.date(2020, 6, 14), 'user_id': 1, 'calories': 2068.0, 'route': 8 },
-    { 'id': 94, 'distance': 11.26, 'time': 107.31, 'date': datetime.date(2020, 8, 16), 'user_id': 1, 'calories': 1277.33, 'route': 1 },
-    { 'id': 95, 'distance': 1.16, 'time': 11.17, 'date': datetime.date(2018, 11, 24), 'user_id': 1, 'calories': 131.59, 'route': 2 },
-    { 'id': 96, 'distance': 2.62, 'time': 21.04, 'date': datetime.date(2019, 1, 18), 'user_id': 1, 'calories': 297.21, 'route': 1 },
-    { 'id': 97, 'distance': 25.06, 'time': 309.49, 'date': datetime.date(2018, 9, 19), 'user_id': 1, 'calories': 2842.79, 'route': 4 },
-    { 'id': 98, 'distance': 17.1, 'time': 163.82, 'date': datetime.date(2019, 6, 23), 'user_id': 1, 'calories': 1939.82, 'route': 8 },
-    { 'id': 99, 'distance': 10.16, 'time': 119.18, 'date': datetime.date(2020, 7, 13), 'user_id': 1, 'calories': 1152.55, 'route': 3 });
+  const [myRuns, setMyRuns] = useState([]);
+  useEffect(() => {
+    const runs = [
+      { 'id': 1, 'distance': 21.01, 'time': 222.71, 'date': '2020, 06, 30', 'user_id': 1, 'calories': 2383.36, 'route': 5 },
+      { 'id': 2, 'distance': 21.36, 'time': 176.65, 'date': '2018, 05, 14', 'user_id': 1, 'calories': 2423.07, 'route': 6 },
+      { 'id': 3, 'distance': 18.84, 'time': 235.69, 'date': '2020, 03, 01', 'user_id': 1, 'calories': 2137.2, 'route': 2 },
+      { 'id': 4, 'distance': 10.96, 'time': 109.93, 'date': '2019, 06, 01', 'user_id': 1, 'calories': 1243.3, 'route': 7 },
+      { 'id': 5, 'distance': 19.29, 'time': 147.38, 'date': '2018, 01, 07', 'user_id': 1, 'calories': 2188.25, 'route': 4 },
+      { 'id': 6, 'distance': 10.84, 'time': 127.37, 'date': '2018, 09, 13', 'user_id': 1, 'calories': 1229.68, 'route': 7 },
+      { 'id': 7, 'distance': 26.71, 'time': 253.21, 'date': '2020, 03, 16', 'user_id': 1, 'calories': 3029.97, 'route': 2 },
+      { 'id': 8, 'distance': 11.49, 'time': 93.07, 'date': '2020, 09, 07', 'user_id': 1, 'calories': 1303.42, 'route': 8 },
+      { 'id': 9, 'distance': 17.58, 'time': 231.7, 'date': '2020, 11, 21', 'user_id': 1, 'calories': 1994.27, 'route': 4 },
+      { 'id': 10, 'distance': 14.44, 'time': 104.11, 'date': '2018, 11, 02', 'user_id': 1, 'calories': 1638.07, 'route': 6 },
+      { 'id': 11, 'distance': 4.99, 'time': 43.36, 'date': '2019, 05, 13', 'user_id': 1, 'calories': 566.06, 'route': 4 },
+      { 'id': 12, 'distance': 12.45, 'time': 97.73, 'date': '2020, 04, 02', 'user_id': 1, 'calories': 1412.32, 'route': 9 },
+      { 'id': 13, 'distance': 22.5, 'time': 270.45, 'date': '2018, 11, 04', 'user_id': 1, 'calories': 2552.39, 'route': 7 },
+      { 'id': 14, 'distance': 8.47, 'time': 112.14, 'date': '2020, 07, 03', 'user_id': 1, 'calories': 960.83, 'route': 9 },
+      { 'id': 15, 'distance': 3.71, 'time': 48.01, 'date': '2020, 04, 04', 'user_id': 1, 'calories': 420.86, 'route': 3 },
+      { 'id': 16, 'distance': 7.54, 'time': 103.0, 'date': '2020, 06, 06', 'user_id': 1, 'calories': 855.33, 'route': 8 },
+      { 'id': 17, 'distance': 22.43, 'time': 194.47, 'date': '2020, 07, 01', 'user_id': 1, 'calories': 2544.45, 'route': 4 },
+      { 'id': 18, 'distance': 20.51, 'time': 260.27, 'date': '2018, 06, 29', 'user_id': 1, 'calories': 2326.64, 'route': 9 },
+      { 'id': 19, 'distance': 25.36, 'time': 213.78, 'date': '2018, 12, 03', 'user_id': 1, 'calories': 2876.83, 'route': 5 },
+      { 'id': 20, 'distance': 21.81, 'time': 200.22, 'date': '2018, 08, 12', 'user_id': 1, 'calories': 2474.11, 'route': 7 },
+      { 'id': 21, 'distance': 26.02, 'time': 228.98, 'date': '2019, 08, 22', 'user_id': 1, 'calories': 2951.7, 'route': 9 },
+      { 'id': 22, 'distance': 14.53, 'time': 151.26, 'date': '2019, 09, 01', 'user_id': 1, 'calories': 1648.28, 'route': 3 },
+      { 'id': 23, 'distance': 13.11, 'time': 98.19, 'date': '2018, 08, 22', 'user_id': 1, 'calories': 1487.19, 'route': 9 },
+      { 'id': 24, 'distance': 2.18, 'time': 30.32, 'date': '2020, 02, 20', 'user_id': 1, 'calories': 247.3, 'route': 3 },
+      { 'id': 25, 'distance': 18.53, 'time': 201.98, 'date': '2019, 06, 04', 'user_id': 1, 'calories': 2102.03, 'route': 8 },
+      { 'id': 26, 'distance': 8.35, 'time': 60.62, 'date': '2020, 06, 17', 'user_id': 1, 'calories': 947.22, 'route': 3 },
+      { 'id': 27, 'distance': 10.57, 'time': 114.58, 'date': '2020, 02, 18', 'user_id': 1, 'calories': 1199.06, 'route': 3 },
+      { 'id': 28, 'distance': 5.39, 'time': 56.54, 'date': '2018, 04, 21', 'user_id': 1, 'calories': 611.44, 'route': 5 },
+      { 'id': 29, 'distance': 20.65, 'time': 160.86, 'date': '2019, 09, 14', 'user_id': 1, 'calories': 2342.53, 'route': 7 },
+      { 'id': 30, 'distance': 3.97, 'time': 40.53, 'date': '2020, 05, 06', 'user_id': 1, 'calories': 450.35, 'route': 6 },
+      { 'id': 31, 'distance': 15.74, 'time': 174.87, 'date': '2019, 10, 18', 'user_id': 1, 'calories': 1785.54, 'route': 4 },
+      { 'id': 32, 'distance': 6.6, 'time': 83.03, 'date': '2019, 09, 08', 'user_id': 1, 'calories': 748.7, 'route': 1 },
+      { 'id': 33, 'distance': 10.24, 'time': 112.44, 'date': '2018, 12, 19', 'user_id': 1, 'calories': 1161.62, 'route': 6 },
+      { 'id': 34, 'distance': 9.7, 'time': 114.46, 'date': '2020, 05, 06', 'user_id': 1, 'calories': 1100.36, 'route': 4 },
+      { 'id': 35, 'distance': 8.81, 'time': 92.95, 'date': '2020, 05, 11', 'user_id': 1, 'calories': 999.4, 'route': 8 },
+      { 'id': 36, 'distance': 9.03, 'time': 108.81, 'date': '2020, 01, 25', 'user_id': 1, 'calories': 1024.36, 'route': 5 },
+      { 'id': 37, 'distance': 7.34, 'time': 73.33, 'date': '2019, 03, 30', 'user_id': 1, 'calories': 832.65, 'route': 6 },
+      { 'id': 38, 'distance': 2.95, 'time': 25.87, 'date': '2020, 05, 12', 'user_id': 1, 'calories': 334.65, 'route': 6 },
+      { 'id': 39, 'distance': 13.95, 'time': 105.6, 'date': '2018, 04, 24', 'user_id': 1, 'calories': 1582.48, 'route': 3 },
+      { 'id': 40, 'distance': 12.94, 'time': 137.42, 'date': '2019, 02, 03', 'user_id': 1, 'calories': 1467.91, 'route': 6 },
+      { 'id': 41, 'distance': 16.43, 'time': 124.87, 'date': '2018, 07, 11', 'user_id': 1, 'calories': 1863.81, 'route': 7 },
+      { 'id': 42, 'distance': 11.15, 'time': 151.42, 'date': '2020, 07, 06', 'user_id': 1, 'calories': 1264.85, 'route': 6 },
+      { 'id': 43, 'distance': 11.93, 'time': 118.11, 'date': '2019, 06, 07', 'user_id': 1, 'calories': 1353.33, 'route': 3 },
+      { 'id': 44, 'distance': 20.65, 'time': 163.13, 'date': '2019, 12, 30', 'user_id': 1, 'calories': 2342.53, 'route': 1 },
+      { 'id': 45, 'distance': 12.93, 'time': 179.47, 'date': '2019, 06, 03', 'user_id': 1, 'calories': 1466.77, 'route': 7 },
+      { 'id': 46, 'distance': 18.04, 'time': 203.49, 'date': '2019, 03, 14', 'user_id': 1, 'calories': 2046.45, 'route': 1 },
+      { 'id': 47, 'distance': 14.64, 'time': 191.78, 'date': '2019, 08, 11', 'user_id': 1, 'calories': 1660.75, 'route': 7 },
+      { 'id': 48, 'distance': 6.79, 'time': 77.07, 'date': '2020, 11, 03', 'user_id': 1, 'calories': 770.25, 'route': 1 },
+      { 'id': 49, 'distance': 9.5, 'time': 109.25, 'date': '2020, 04, 01', 'user_id': 1, 'calories': 1077.68, 'route': 3 },
+      { 'id': 50, 'distance': 13.34, 'time': 181.69, 'date': '2019, 05, 17', 'user_id': 1, 'calories': 1513.28, 'route': 3 },
+      { 'id': 51, 'distance': 10.89, 'time': 89.84, 'date': '2020, 07, 24', 'user_id': 1, 'calories': 1235.36, 'route': 4 },
+      { 'id': 52, 'distance': 12.77, 'time': 176.48, 'date': '2018, 11, 05', 'user_id': 1, 'calories': 1448.62, 'route': 4 },
+      { 'id': 53, 'distance': 6.89, 'time': 56.64, 'date': '2020, 08, 08', 'user_id': 1, 'calories': 781.6, 'route': 7 },
+      { 'id': 54, 'distance': 25.97, 'time': 208.02, 'date': '2018, 11, 04', 'user_id': 1, 'calories': 2946.02, 'route': 8 },
+      { 'id': 55, 'distance': 1.29, 'time': 11.48, 'date': '2020, 11, 20', 'user_id': 1, 'calories': 146.34, 'route': 1 },
+      { 'id': 56, 'distance': 16.18, 'time': 203.71, 'date': '2018, 06, 21', 'user_id': 1, 'calories': 1835.45, 'route': 4 },
+      { 'id': 57, 'distance': 26.51, 'time': 311.76, 'date': '2019, 11, 10', 'user_id': 1, 'calories': 3007.28, 'route': 3 },
+      { 'id': 58, 'distance': 14.86, 'time': 150.38, 'date': '2019, 01, 06', 'user_id': 1, 'calories': 1685.71, 'route': 6 },
+      { 'id': 59, 'distance': 9.58, 'time': 91.49, 'date': '2019, 01, 15', 'user_id': 1, 'calories': 1086.75, 'route': 8 },
+      { 'id': 60, 'distance': 22.05, 'time': 282.68, 'date': '2019, 09, 10', 'user_id': 1, 'calories': 2501.34, 'route': 4 },
+      { 'id': 61, 'distance': 21.09, 'time': 159.65, 'date': '2020, 01, 29', 'user_id': 1, 'calories': 2392.44, 'route': 5 },
+      { 'id': 62, 'distance': 20.83, 'time': 160.6, 'date': '2020, 03, 15', 'user_id': 1, 'calories': 2362.94, 'route': 9 },
+      { 'id': 63, 'distance': 16.71, 'time': 150.89, 'date': '2019, 05, 12', 'user_id': 1, 'calories': 1895.57, 'route': 5 },
+      { 'id': 64, 'distance': 5.44, 'time': 51.95, 'date': '2018, 03, 18', 'user_id': 1, 'calories': 617.11, 'route': 5 },
+      { 'id': 65, 'distance': 4.18, 'time': 39.92, 'date': '2019, 03, 22', 'user_id': 1, 'calories': 474.18, 'route': 5 },
+      { 'id': 66, 'distance': 17.33, 'time': 189.76, 'date': '2019, 01, 24', 'user_id': 1, 'calories': 1965.91, 'route': 7 },
+      { 'id': 67, 'distance': 12.77, 'time': 151.32, 'date': '2018, 02, 08', 'user_id': 1, 'calories': 1448.62, 'route': 6 },
+      { 'id': 68, 'distance': 26.29, 'time': 314.43, 'date': '2019, 03, 20', 'user_id': 1, 'calories': 2982.32, 'route': 7 },
+      { 'id': 69, 'distance': 2.27, 'time': 21.43, 'date': '2019, 05, 08', 'user_id': 1, 'calories': 257.51, 'route': 7 },
+      { 'id': 70, 'distance': 1.06, 'time': 11.07, 'date': '2020, 03, 22', 'user_id': 1, 'calories': 120.25, 'route': 4 },
+      { 'id': 71, 'distance': 15.96, 'time': 160.4, 'date': '2019, 09, 02', 'user_id': 1, 'calories': 1810.49, 'route': 5 },
+      { 'id': 72, 'distance': 14.03, 'time': 161.06, 'date': '2019, 03, 20', 'user_id': 1, 'calories': 1591.56, 'route': 6 },
+      { 'id': 73, 'distance': 11.06, 'time': 79.63, 'date': '2020, 04, 05', 'user_id': 1, 'calories': 1254.64, 'route': 3 },
+      { 'id': 74, 'distance': 11.56, 'time': 131.32, 'date': '2018, 12, 27', 'user_id': 1, 'calories': 1311.36, 'route': 8 },
+      { 'id': 75, 'distance': 12.66, 'time': 160.78, 'date': '2019, 11, 28', 'user_id': 1, 'calories': 1436.14, 'route': 9 },
+      { 'id': 76, 'distance': 25.09, 'time': 282.01, 'date': '2018, 12, 29', 'user_id': 1, 'calories': 2846.2, 'route': 4 },
+      { 'id': 77, 'distance': 22.44, 'time': 236.29, 'date': '2018, 06, 13', 'user_id': 1, 'calories': 2545.58, 'route': 6 },
+      { 'id': 78, 'distance': 9.81, 'time': 74.16, 'date': '2018, 05, 20', 'user_id': 1, 'calories': 1112.84, 'route': 2 },
+      { 'id': 79, 'distance': 17.5, 'time': 194.6, 'date': '2020, 03, 19', 'user_id': 1, 'calories': 1985.19, 'route': 2 },
+      { 'id': 80, 'distance': 16.64, 'time': 122.3, 'date': '2018, 08, 19', 'user_id': 1, 'calories': 1887.63, 'route': 3 },
+      { 'id': 81, 'distance': 19.86, 'time': 152.92, 'date': '2020, 10, 04', 'user_id': 1, 'calories': 2252.91, 'route': 4 },
+      { 'id': 82, 'distance': 10.56, 'time': 81.42, 'date': '2019, 07, 26', 'user_id': 1, 'calories': 1197.92, 'route': 2 },
+      { 'id': 83, 'distance': 18.0, 'time': 188.28, 'date': '2020, 06, 19', 'user_id': 1, 'calories': 2041.91, 'route': 2 },
+      { 'id': 84, 'distance': 26.03, 'time': 207.72, 'date': '2020, 11, 01', 'user_id': 1, 'calories': 2952.83, 'route': 6 },
+      { 'id': 85, 'distance': 21.01, 'time': 208.84, 'date': '2020, 08, 21', 'user_id': 1, 'calories': 2383.36, 'route': 3 },
+      { 'id': 86, 'distance': 22.84, 'time': 272.71, 'date': '2019, 09, 04', 'user_id': 1, 'calories': 2590.96, 'route': 5 },
+      { 'id': 87, 'distance': 22.44, 'time': 187.37, 'date': '2018, 12, 14', 'user_id': 1, 'calories': 2545.58, 'route': 6 },
+      { 'id': 88, 'distance': 23.59, 'time': 323.18, 'date': '2019, 11, 02', 'user_id': 1, 'calories': 2676.04, 'route': 3 },
+      { 'id': 89, 'distance': 19.97, 'time': 227.46, 'date': '2020, 12, 19', 'user_id': 1, 'calories': 2265.39, 'route': 1 },
+      { 'id': 90, 'distance': 13.86, 'time': 183.09, 'date': '2020, 07, 05', 'user_id': 1, 'calories': 1572.27, 'route': 3 },
+      { 'id': 91, 'distance': 18.44, 'time': 229.39, 'date': '2020, 07, 10', 'user_id': 1, 'calories': 2091.82, 'route': 1 },
+      { 'id': 92, 'distance': 14.91, 'time': 126.59, 'date': '2019, 01, 19', 'user_id': 1, 'calories': 1691.38, 'route': 7 },
+      { 'id': 93, 'distance': 3.98, 'time': 31.0, 'date': '2018, 07, 04', 'user_id': 1, 'calories': 451.49, 'route': 7 },
+      { 'id': 94, 'distance': 7.54, 'time': 74.12, 'date': '2020, 11, 18', 'user_id': 1, 'calories': 855.33, 'route': 3 },
+      { 'id': 95, 'distance': 23.53, 'time': 247.54, 'date': '2020, 02, 22', 'user_id': 1, 'calories': 2669.23, 'route': 6 },
+      { 'id': 96, 'distance': 12.86, 'time': 160.88, 'date': '2019, 05, 12', 'user_id': 1, 'calories': 1458.83, 'route': 4 },
+      { 'id': 97, 'distance': 1.25, 'time': 16.95, 'date': '2019, 07, 08', 'user_id': 1, 'calories': 141.8, 'route': 8 },
+      { 'id': 98, 'distance': 24.1, 'time': 277.15, 'date': '2019, 05, 28', 'user_id': 1, 'calories': 2733.89, 'route': 8 },
+      { 'id': 99, 'distance': 2.86, 'time': 23.82, 'date': '2019, 09, 10', 'user_id': 1, 'calories': 324.44, 'route': 5 }];
+
+    const filtered_runs = [];
+    runs.forEach(run => {
+      const fRun = {};
+      fRun.day = run.date.split(", ").join("-");
+      fRun.value = run.distance;
+
+      filtered_runs.push(fRun);
+    });
+
+    setMyRuns(filtered_runs);
+  }, []);
 
   return (
-    <ResponsiveCalendar
-      data={runs.filter(run => { })}
-    />
+    <>
+      <nav>
+        {myRuns.map(runs => {
+          return (
+            <NavLink key={myRuns.id} >
+
+            </NavLink>
+          );
+        })}
+      </nav>
+      <Box width="1000px" height="500px">
+        <Calendar myRuns={myRuns} />
+      </Box>
+    </>
   );
 }
 
