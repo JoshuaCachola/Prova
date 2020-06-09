@@ -29,6 +29,7 @@ export const Auth0Provider = ({ children, onRedirectCallback = DEFAULT_REDIRECT_
 
 			if (isAuthenticated) {
 				const user = await auth0FromHook.getUser();
+				console.log(user);
 				let token = await auth0FromHook.getTokenSilently();
 				const res = await fetch(`${baseUrl}/users`, {
 					method: 'POST',
@@ -39,11 +40,13 @@ export const Auth0Provider = ({ children, onRedirectCallback = DEFAULT_REDIRECT_
 					}
 				});
 				const response = await res.json();
-				if (response.newUser) {
-					setUser({ ...user, userId: response.newUser.id });
+				console.log('response: ', response);
+				if (response) {
+					setUser({ ...user, userId: response.userId });
 				} else {
-					setUser({ ...user, userId: response.user.id });
+					setUser({ ...user, userId: response.userId });
 				}
+				// setUser(user);
 			}
 
 			setLoading(false);
