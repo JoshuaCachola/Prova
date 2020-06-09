@@ -1,4 +1,5 @@
 {
 	"domain": "prova-api.auth0.com",
-	"clientId": "kWYtVTeDqi1WdI39JGKE2c4Yev6AcMhR"
+	"clientId": "kWYtVTeDqi1WdI39JGKE2c4Yev6AcMhR",
+	"audience": "https://prova-api"
 }
