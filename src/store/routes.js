@@ -1,6 +1,8 @@
+import { dispatch } from 'redux';
+
 // const GET_ROUTES = 'GET_ROUTES';
 
-// export const getRoutes = routes => ({ type: 'GET_ROUTES', routes });
+export const getRoutes = routes => ({ type: 'GET_ROUTES', routes });
 
 import { baseUrl } from '../config/config';
 
@@ -9,7 +11,7 @@ export const getMyRoutes = async (userId) => {
 
     const parsedRes = await res.json()
 
-    // Need to see how structure of response compares to state before adding dispatch
+    dispatch(getRoutes(parsedRes))
 }
 
 export const createRoute = async (distance, averageTime, bestTime, coordinates, userId) => {
@@ -22,7 +24,6 @@ export const createRoute = async (distance, averageTime, bestTime, coordinates, 
     })
     const parsedRes = await res.json()
     console.log(parsedRes)
-
 }
 
 export const displayRoute = async (routeId) => {
@@ -45,13 +46,13 @@ export const displayRoute = async (routeId) => {
     return finalArr
 }
 
-// export default function reducer(state = {}, action) {
-//     switch (action.type) {
-//         case 'GET_ROUTES': {
-//             return {
-//                 ...state,
-//                 routes: action.routes
-//             }
-//         }
-//     }
-// }
+export default function reducer(state = {}, action) {
+    switch (action.type) {
+        case 'GET_ROUTES': {
+            return {
+                ...state,
+                routes: action.routes
+            }
+        }
+    }
+}

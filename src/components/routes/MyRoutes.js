@@ -56,7 +56,7 @@ const MyRoutes = () => {
 
   return (
     <>
-      <h1>My Routes</h1>
+      {/* map over routes in state to make side navbar */}
       <div>
         <div className='sidebarStyle'>
         </div>
