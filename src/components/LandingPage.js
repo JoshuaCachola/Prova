@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 const LandingPage = (props) => {
 	const classes = useStyles();
 
-	const { isAuthenticated, loginWithRedirect } = useAuth0();
+	const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
 	if (isAuthenticated) {
 		props.history.push('/home');
