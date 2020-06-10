@@ -1,20 +1,17 @@
-import { dispatch } from 'redux';
-
-// const GET_ROUTES = 'GET_ROUTES';
-
-export const getRoutes = routes => ({ type: 'GET_ROUTES', routes });
-
 import { baseUrl } from '../config/config';
 
-export const getMyRoutes = async (userId) => {
+
+export const getMyRoutesActionCreator = routes => ({ type: 'GET_MY_ROUTES', routes });
+
+export const getMyRoutes = userId => async (dispatch, getState) => {
     const res = await fetch(`${baseUrl}/users/${userId}/routes`)
 
     const parsedRes = await res.json()
 
-    dispatch(getRoutes(parsedRes))
+    dispatch(getMyRoutesActionCreator(parsedRes))
 }
 
-export const createRoute = async (distance, averageTime, bestTime, coordinates, userId) => {
+export const createRoute = (distance, averageTime, bestTime, coordinates, userId) => async (dispatch, getState) => {
     const res = await fetch(`${baseUrl}/routes`, {
         method: 'POST',
         body: JSON.stringify({ distance, averageTime, bestTime, coordinates, creatorId: userId }),
@@ -26,7 +23,7 @@ export const createRoute = async (distance, averageTime, bestTime, coordinates, 
     console.log(parsedRes)
 }
 
-export const displayRoute = async (routeId) => {
+export const displayRoute = routeId => async (dispatch, getState) => {
 
     const res = await fetch(`${baseUrl}/routes/1`)
     const parsedRes = await res.json()
@@ -48,11 +45,13 @@ export const displayRoute = async (routeId) => {
 
 export default function reducer(state = {}, action) {
     switch (action.type) {
-        case 'GET_ROUTES': {
+        case 'GET_MY_ROUTES': {
             return {
                 ...state,
                 routes: action.routes
             }
         }
+        default:
+            return state
     }
 }
