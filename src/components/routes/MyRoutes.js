@@ -4,6 +4,20 @@ import mapboxgl from 'mapbox-gl';
 import { getMyRoutes } from '../../store/routes';
 import { useAuth0 } from '../../react-auth0-spa';
 import MyRoutesNav from './MyRoutesNav';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import { makeStyles } from '@material-ui/core/styles';
+import VerticalTabs from './VerticalTabs';
+import PropTypes from 'prop-types';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+
+
+
+
+
+
+
 
 const MyRoutes = () => {
 
@@ -20,6 +34,7 @@ const MyRoutes = () => {
   const currentRoute = useSelector(state => state.routes.currentRoute)
 
   const [map, setMap] = useState(null)
+  const [selectedTab, setSelectedTab] = useState(0)
 
   useEffect(() => {
     // getMyRoutes(user.userId)
@@ -45,6 +60,11 @@ const MyRoutes = () => {
 
   useEffect(() => {
     if (map && currentRoute) {
+      if (map.getSource('route')) {
+        map.removeLayer('route');
+        map.removeSource('route');
+      }
+
       const firstSplit = currentRoute.coordinates.split(';');
       const secondSplit = firstSplit.map((el) => {
         return el.split(',')
@@ -84,15 +104,50 @@ const MyRoutes = () => {
     }
   }, [map, currentRoute])
 
+
+
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+      backgroundColor: theme.palette.background.paper,
+      display: 'flex',
+      height: '100vh'
+    },
+    tabs: {
+      borderRight: `1px solid ${theme.palette.divider}`,
+    },
+  }));
+
+  const classes = useStyles();
+
+
   return (
     <>
-      {routes && routes.map(({ id }) => {
+      {/* {routes && routes.map(({ id }) => {
         return <MyRoutesNav key={id} id={id} />
-      })}
-      <div>
-        <div className='sidebarStyle'>
+      })} */}
+      <div className='my-routes-container'>
+        <div className={classes.root}>
+          <Tabs
+            orientation="vertical"
+            variant="scrollable"
+            value={selectedTab}
+            // onChange={handleChange}
+            aria-label="Vertical tabs example"
+            className={classes.tabs}
+          >
+            {routes && routes.map(({ id }) => {
+              return <MyRoutesNav key={id} id={id} setSelectedTab={setSelectedTab} />
+            })}
+
+          </Tabs>
+          <div className='map-area'>
+            <div>
+              <div ref={el => mapContainer = el} className='mapContainer' />
+            </div>
+            <div className='directions'></div>
+          </div>
         </div>
-        <div ref={el => mapContainer = el} className='mapContainer' />
       </div>
     </>
   );
