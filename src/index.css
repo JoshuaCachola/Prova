@@ -1,10 +1,6 @@
 /* TODO Add site wide styles */
 
-.mapContainer {
-  position: absolute;
-  height: 900px;
-  width: 900px;
-}
+
 
 .info-box {
   height: 100px;
@@ -22,4 +18,25 @@
 
 .create-route-button {
   margin-left: 1000px;
+}
+
+.my-routes-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.map-area {
+  display: grid;
+  grid-template-columns: 1fr 200px;
+}
+
+.mapContainer {
+  grid-column: 0 / 1;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.directions {
+  grid-column: 1 / 2;
 }
