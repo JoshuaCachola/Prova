@@ -27,7 +27,7 @@ function App() {
 					<PrivateRoute path="/external-api" exact component={ExternalApi} />
 					<Route path="/" exact={true} component={LandingPage} />
 					<Route path="/create-route" exact={true} component={CreateRoute} />
-					<Route path="/home" exact={true} component={HomePage} />
+					<PrivateRoute path="/home" exact={true} component={HomePage} />
 					<Route path="/my-routes" exact={true} component={MyRoutes} />
 					<Route path="/my-stats" exact={true} component={MyStats} />
 				</Switch>

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import mapboxgl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import { createRoute } from '../../store/routes';
@@ -15,6 +15,9 @@ const CreateRoute = () => {
 	});
 
 	const { user } = useAuth0();
+
+	const [ coordState, setCoordState ] = useState(null);
+	const [ distanceState, setDistanceState ] = useState(null);
 
 	let mapContainer = useRef(null);
 
@@ -160,16 +163,18 @@ const CreateRoute = () => {
 
 					if (!res.ok) throw res;
 					res = await res.json();
+
 					// add later to display estimated time and distance
-					// const distance = res.routes[0].distance * 0.001;
+					const distance = res.routes[0].distance * 0.001 / 1.609;
 					// const duration = res.routes[0].duration / 60;
 
 					const coords = res.routes[0].geometry;
-					console.log(coords.coordinates);
+					console.log(coords);
 					addRoute(coords);
 					const stringCoords = coords.coordinates.join(';');
-					console.log(user);
-					createRoute(100.0, 0, 0, stringCoords, 1);
+
+					setCoordState(stringCoords);
+					setDistanceState(distance);
 				} catch (err) {
 					console.error(err);
 				}
@@ -186,15 +191,24 @@ const CreateRoute = () => {
 		createMB();
 	}, []);
 
+	const createRouteClick = () => {
+		createRoute(distanceState, null, null, coordState, user.userId);
+	};
+
 	return (
-		<div>
-			<div className="sidebarStyle">
-				<div>
-					Longitude: {mapState.lng} | Latitude: {mapState.lat} | Zoom: {mapState.zoom}
+		<React.Fragment>
+			<div>
+				<div className="sidebarStyle">
+					<div>
+						Longitude: {mapState.lng} | Latitude: {mapState.lat} | Zoom: {mapState.zoom}
+					</div>
 				</div>
+				<div ref={(el) => (mapContainer = el)} className="mapContainer" />
 			</div>
-			<div ref={(el) => (mapContainer = el)} className="mapContainer" />
-		</div>
+			<button onClick={createRouteClick} className="create-route-button">
+				Save Route
+			</button>
+		</React.Fragment>
 	);
 };
 
