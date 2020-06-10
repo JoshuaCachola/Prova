@@ -1,7 +1,5 @@
 import { baseUrl } from '../config/config';
 
-
-
 export const getMyRoutesActionCreator = routes => ({ type: 'GET_MY_ROUTES', routes });
 export const currentRouteActionCreator = route => ({ type: 'CURRENT_ROUTE', route })
 
@@ -10,14 +8,13 @@ export const currentRouteActionCreator = route => ({ type: 'CURRENT_ROUTE', rout
 export const getMyRoutes = userId => async (dispatch, getState) => {
     const res = await fetch(`${baseUrl}/users/${userId}/routes`)
 
-
     const parsedRes = await res.json();
 
-
-    dispatch(getMyRoutesActionCreator(parsedRes))
-}
+	dispatch(getMyRoutesActionCreator(parsedRes));
+};
 
 export const createRoute = (distance, averageTime, bestTime, coordinates, userId) => async (dispatch, getState) => {
+
     const res = await fetch(`${baseUrl}/routes`, {
         method: 'POST',
         body: JSON.stringify({ distance, averageTime, bestTime, coordinates, creatorId: userId }),
@@ -54,4 +51,5 @@ export default function reducer(state = {}, action) {
         default:
             return state
     }
+
 }
