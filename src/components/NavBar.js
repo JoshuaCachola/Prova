@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useAuth0 } from '../react-auth0-spa';
+import { getUser } from '../store/authorization';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -54,9 +56,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavBar = (props) => {
-	const { isAuthenticated, loginWithRedirect, logout, user, loading } = useAuth0();
+	const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
+
 	const [ anchorEl, setAnchorEl ] = useState(null);
 	const open = Boolean(anchorEl);
+
+	const dispatch = useDispatch();
+
+	const currentUser = useSelector((state) => state.authorization.currentUser);
+	console.log('currentUser: ', currentUser);
 
 	const handleMenu = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -67,11 +75,19 @@ const NavBar = (props) => {
 	};
 	const preventDefault = (event) => event.preventDefault();
 
+	useEffect(
+		() => {
+			dispatch(getUser(user));
+			// eslint-disable-next-line
+		},
+		[ user, dispatch ]
+	);
+
 	const classes = useStyles();
 
-	if (loading || !user) {
-		return <div>Loading...</div>;
-	}
+	// if (loading || !user) {
+	// 	return <div>Loading...</div>;
+	// }
 
 	return (
 		<React.Fragment>
@@ -103,7 +119,7 @@ const NavBar = (props) => {
 										onClick={handleMenu}
 										color="inherit"
 									>
-										<Avatar alt={user.nickname} src={user.picture} />
+										<Avatar alt={currentUser.nickname} src={currentUser.picture} />
 									</IconButton>
 									<Menu
 										id="menu-appbar"
