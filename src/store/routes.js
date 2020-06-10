@@ -1,12 +1,15 @@
 import { baseUrl } from '../config/config';
 
 
+
 export const getMyRoutesActionCreator = routes => ({ type: 'GET_MY_ROUTES', routes });
 
 export const getMyRoutes = userId => async (dispatch, getState) => {
     const res = await fetch(`${baseUrl}/users/${userId}/routes`)
 
-    const parsedRes = await res.json()
+
+	const parsedRes = await res.json();
+
 
     dispatch(getMyRoutesActionCreator(parsedRes))
 }

@@ -7,11 +7,11 @@ const DEFAULT_REDIRECT_CALLBACK = () => window.history.replaceState({}, document
 export const Auth0Context = React.createContext();
 export const useAuth0 = () => useContext(Auth0Context);
 export const Auth0Provider = ({ children, onRedirectCallback = DEFAULT_REDIRECT_CALLBACK, ...initOptions }) => {
-	const [ isAuthenticated, setIsAuthenticated ] = useState();
-	const [ user, setUser ] = useState();
-	const [ auth0Client, setAuth0 ] = useState();
-	const [ loading, setLoading ] = useState(true);
-	const [ popupOpen, setPopupOpen ] = useState(false);
+	const [isAuthenticated, setIsAuthenticated] = useState();
+	const [user, setUser] = useState();
+	const [auth0Client, setAuth0] = useState();
+	const [loading, setLoading] = useState(true);
+	const [popupOpen, setPopupOpen] = useState(false);
 
 	useEffect(() => {
 		const initAuth0 = async () => {
@@ -29,7 +29,6 @@ export const Auth0Provider = ({ children, onRedirectCallback = DEFAULT_REDIRECT_
 
 			if (isAuthenticated) {
 				const user = await auth0FromHook.getUser();
-				console.log(user);
 				let token = await auth0FromHook.getTokenSilently();
 				const res = await fetch(`${baseUrl}/users`, {
 					method: 'POST',
@@ -40,13 +39,11 @@ export const Auth0Provider = ({ children, onRedirectCallback = DEFAULT_REDIRECT_
 					}
 				});
 				const response = await res.json();
-				console.log('response: ', response);
 				if (response) {
 					setUser({ ...user, userId: response.userId });
 				} else {
 					setUser({ ...user, userId: response.userId });
 				}
-				// setUser(user);
 			}
 
 			setLoading(false);
