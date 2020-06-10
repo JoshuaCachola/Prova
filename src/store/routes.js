@@ -3,12 +3,15 @@ import { baseUrl } from '../config/config';
 
 
 export const getMyRoutesActionCreator = routes => ({ type: 'GET_MY_ROUTES', routes });
+export const currentRouteActionCreator = route => ({ type: 'CURRENT_ROUTE', route })
+
+
 
 export const getMyRoutes = userId => async (dispatch, getState) => {
     const res = await fetch(`${baseUrl}/users/${userId}/routes`)
 
 
-	const parsedRes = await res.json();
+    const parsedRes = await res.json();
 
 
     dispatch(getMyRoutesActionCreator(parsedRes))
@@ -28,22 +31,10 @@ export const createRoute = (distance, averageTime, bestTime, coordinates, userId
 
 export const displayRoute = routeId => async (dispatch, getState) => {
 
-    const res = await fetch(`${baseUrl}/routes/1`)
+    const res = await fetch(`${baseUrl}/routes/${routeId}`)
     const parsedRes = await res.json()
-    const firstSplit = parsedRes.coordinates.split(';');
-    const secondSplit = firstSplit.map((el) => {
-        return el.split(',')
-    })
 
-    const finalArr = secondSplit.map(subArr => {
-        return subArr.map(stringNum => {
-            return Number(stringNum)
-        })
-    })
-
-    // const coords = { coordinates: finalArr, type: 'LineString' }
-    // console.log(coords)
-    return finalArr
+    dispatch(currentRouteActionCreator(parsedRes))
 }
 
 export default function reducer(state = {}, action) {
@@ -52,6 +43,12 @@ export default function reducer(state = {}, action) {
             return {
                 ...state,
                 routes: action.routes
+            }
+        }
+        case 'CURRENT_ROUTE': {
+            return {
+                ...state,
+                currentRoute: action.route
             }
         }
         default:

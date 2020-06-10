@@ -28,7 +28,7 @@ function App() {
 					<Route path="/" exact={true} component={LandingPage} />
 					<Route path="/create-route" exact={true} component={CreateRoute} />
 					<PrivateRoute path="/home" exact={true} component={HomePage} />
-					<Route path="/my-routes" exact={true} component={MyRoutes} />
+					<Route path="/my-routes" exact={false} component={MyRoutes} />
 					<Route path="/my-stats" exact={true} component={MyStats} />
 				</Switch>
 			</Router>
