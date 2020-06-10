@@ -25,7 +25,25 @@ export const createRoute = async (distance, averageTime, bestTime, coordinates, 
 
 }
 
+export const displayRoute = async (routeId) => {
 
+    const res = await fetch(`${baseUrl}/routes/1`)
+    const parsedRes = await res.json()
+    const firstSplit = parsedRes.coordinates.split(';');
+    const secondSplit = firstSplit.map((el) => {
+        return el.split(',')
+    })
+
+    const finalArr = secondSplit.map(subArr => {
+        return subArr.map(stringNum => {
+            return Number(stringNum)
+        })
+    })
+
+    // const coords = { coordinates: finalArr, type: 'LineString' }
+    // console.log(coords)
+    return finalArr
+}
 
 // export default function reducer(state = {}, action) {
 //     switch (action.type) {
