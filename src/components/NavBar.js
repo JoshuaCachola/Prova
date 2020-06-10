@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useAuth0 } from '../react-auth0-spa';
+import { getUser } from '../store/authorization';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -55,11 +56,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavBar = (props) => {
-	const { isAuthenticated, loginWithRedirect, logout, loading } = useAuth0();
+	const { isAuthenticated, loginWithRedirect, logout, loading, user } = useAuth0();
 
 	const [ anchorEl, setAnchorEl ] = useState(null);
 	const open = Boolean(anchorEl);
 
+	const dispatch = useDispatch();
 	const currentUser = useSelector((state) => state.authorization.currentUser);
 
 	const handleMenu = (event) => {
@@ -70,13 +72,13 @@ const NavBar = (props) => {
 		setAnchorEl(null);
 	};
 
-	// useEffect(
-	// 	() => {
-	// 		dispatch(getUser(user));
-	// 		// eslint-disable-next-line
-	// 	},
-	// 	[ user, dispatch ]
-	// );
+	useEffect(
+		() => {
+			dispatch(getUser(user));
+			// eslint-disable-next-line
+		},
+		[ user, dispatch ]
+	);
 
 	const classes = useStyles();
 
