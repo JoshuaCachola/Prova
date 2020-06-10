@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import { createRoute } from '../../store/routes';
@@ -8,16 +9,17 @@ const CreateRoute = () => {
 	mapboxgl.accessToken =
 		'pk.eyJ1IjoibWFya2ptNjEwIiwiYSI6ImNrYjFjeTBoMzAzb3UyeXF1YTE3Y25wdDMifQ.K9r926HKVv0u8RQzpdXleg';
 
-	const [ mapState, setMapState ] = useState({
+	const [mapState, setMapState] = useState({
 		lng: -122,
 		lat: 37,
 		zoom: 2
 	});
 
 	const { user } = useAuth0();
+	const dispatch = useDispatch();
 
-	const [ coordState, setCoordState ] = useState(null);
-	const [ distanceState, setDistanceState ] = useState(null);
+	const [coordState, setCoordState] = useState(null);
+	const [distanceState, setDistanceState] = useState(null);
 
 	let mapContainer = useRef(null);
 
@@ -27,7 +29,7 @@ const CreateRoute = () => {
 		const mapObj = new mapboxgl.Map({
 			container: mapContainer, // container id
 			style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
-			center: [ -122.675246, 45.529431 ], // starting position
+			center: [-122.675246, 45.529431], // starting position
 			zoom: 13, // starting zoom
 			minZoom: 11 // keep it local
 		});
@@ -45,14 +47,14 @@ const CreateRoute = () => {
 					{
 						id: 'gl-draw-line',
 						type: 'line',
-						filter: [ 'all', [ '==', '$type', 'LineString' ], [ '!=', 'mode', 'static' ] ],
+						filter: ['all', ['==', '$type', 'LineString'], ['!=', 'mode', 'static']],
 						layout: {
 							'line-cap': 'round',
 							'line-join': 'round'
 						},
 						paint: {
 							'line-color': '#3b9ddd',
-							'line-dasharray': [ 0.2, 2 ],
+							'line-dasharray': [0.2, 2],
 							'line-width': 4,
 							'line-opacity': 0.7
 						}
@@ -63,9 +65,9 @@ const CreateRoute = () => {
 						type: 'circle',
 						filter: [
 							'all',
-							[ '==', 'meta', 'vertex' ],
-							[ '==', '$type', 'Point' ],
-							[ '!=', 'mode', 'static' ]
+							['==', 'meta', 'vertex'],
+							['==', '$type', 'Point'],
+							['!=', 'mode', 'static']
 						],
 						paint: {
 							'circle-radius': 10,
@@ -78,9 +80,9 @@ const CreateRoute = () => {
 						type: 'circle',
 						filter: [
 							'all',
-							[ '==', 'meta', 'vertex' ],
-							[ '==', '$type', 'Point' ],
-							[ '!=', 'mode', 'static' ]
+							['==', 'meta', 'vertex'],
+							['==', '$type', 'Point'],
+							['!=', 'mode', 'static']
 						],
 						paint: {
 							'circle-radius': 6,
@@ -169,7 +171,7 @@ const CreateRoute = () => {
 					// const duration = res.routes[0].duration / 60;
 
 					const coords = res.routes[0].geometry;
-					console.log(coords);
+
 					addRoute(coords);
 					const stringCoords = coords.coordinates.join(';');
 
@@ -192,7 +194,7 @@ const CreateRoute = () => {
 	}, []);
 
 	const createRouteClick = () => {
-		createRoute(distanceState, null, null, coordState, user.userId);
+		dispatch(createRoute(distanceState, null, null, coordState, user.userId));
 	};
 
 	return (
