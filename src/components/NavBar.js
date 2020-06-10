@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useAuth0 } from '../react-auth0-spa';
 
 import AppBar from '@material-ui/core/AppBar';
@@ -54,10 +55,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavBar = (props) => {
-	const { isAuthenticated, loginWithRedirect, logout, user, loading } = useAuth0();
+	const { isAuthenticated, loginWithRedirect, logout, loading } = useAuth0();
 
 	const [ anchorEl, setAnchorEl ] = useState(null);
 	const open = Boolean(anchorEl);
+
+	const currentUser = useSelector((state) => state.authorization.currentUser);
 
 	const handleMenu = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -66,7 +69,6 @@ const NavBar = (props) => {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
-	const preventDefault = (event) => event.preventDefault();
 
 	// useEffect(
 	// 	() => {
@@ -78,7 +80,7 @@ const NavBar = (props) => {
 
 	const classes = useStyles();
 
-	if (loading || !user) {
+	if (loading || !currentUser) {
 		return <div>Loading...</div>;
 	}
 
@@ -88,7 +90,7 @@ const NavBar = (props) => {
 				<AppBar position="static" className={classes.appBar}>
 					<Toolbar>
 						<Typography variant="h6" className={classes.title}>
-							<Link href="/home" onClick={preventDefault} className={classes.linkStyle} underline="none">
+							<Link href="/home" className={classes.linkStyle} underline="none">
 								PROVA
 							</Link>
 						</Typography>
@@ -103,7 +105,8 @@ const NavBar = (props) => {
 									Log in or Sign Up
 								</Button>
 							)}
-							{isAuthenticated && (
+							{isAuthenticated &&
+							currentUser && (
 								<React.Fragment>
 									<IconButton
 										aria-label="account of current user"
@@ -112,7 +115,7 @@ const NavBar = (props) => {
 										onClick={handleMenu}
 										color="inherit"
 									>
-										<Avatar alt={user.nickname} src={user.picture} />
+										<Avatar alt={currentUser.nickname} src={currentUser.picture} />
 									</IconButton>
 									<Menu
 										id="menu-appbar"
@@ -130,12 +133,7 @@ const NavBar = (props) => {
 										onClose={handleClose}
 									>
 										<MenuItem onClick={handleClose}>
-											<Link
-												href="/profile"
-												onClick={preventDefault}
-												className={classes.linkStyle}
-												underline="none"
-											>
+											<Link href="/profile" className={classes.linkStyle} underline="none">
 												Profile
 											</Link>
 										</MenuItem>
