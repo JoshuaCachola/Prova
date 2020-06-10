@@ -16,7 +16,7 @@ const RunDetails = ({ run }) => {
             Monday Morning Run
           </Box>
           <Box>
-            {run.distance} {run.time / run.distance} {run.time}
+            {run.distance} miles {(run.time / run.distance).toFixed(2)} min/mile {run.time} min
           </Box>
         </Box>
       </Box>
