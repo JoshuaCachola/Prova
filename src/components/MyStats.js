@@ -7,13 +7,21 @@ import RunDetails from './stats/RunDetails';
 
 const useStyles = makeStyles({
   nav: {
-    maxHeight: "100%",
-    maxWidth: "20%",
-    overflowY: "scroll"
+    maxHeight: '100%',
+    maxWidth: '25%',
+    overflowY: 'scroll',
+    overflowX: 'hidden',
+    position: 'absolute'
   },
   list: {
-    listStyleType: "none"
-  }
+    listStyleType: 'none',
+    borderBottom: '1px solid #e6e6e6'
+  },
+  calendarContainer: {
+    width: '100px',
+    height: '500px',
+    minWidth: "50%"
+  },
 });
 
 const MyStats = () => {
@@ -158,8 +166,13 @@ const MyStats = () => {
           })}
         </ul>
       </Box>
-      <Box width='1000px' height='500px'>
-        <Calendar myRuns={calData} />
+      <Box>
+
+      </Box>
+      <Box display="flex" justifyContent="center">
+        <Box className={classes.calendarContainer} justifyContent="center">
+          <Calendar myRuns={calData} />
+        </Box>
       </Box>
     </>
   );
