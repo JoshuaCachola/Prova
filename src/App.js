@@ -13,28 +13,30 @@ import Profile from './components/Profile';
 import history from './utils/history';
 import PrivateRoute from './components/PrivateRoute';
 import ExternalApi from './views/ExternalApi';
+import { CssBaseline } from '@material-ui/core';
 
 function App() {
 
-	return (
-		<div className="App">
-			{/* Don't forget to include the history module */}
-			<Router history={history}>
-				{/* <header>
+  return (
+    <div className="App">
+      <CssBaseline />
+      {/* Don't forget to include the history module */}
+      <Router history={history}>
+        {/* <header>
 					<NavBar />
 				</header> */}
-				<Switch>
-					<PrivateRoute path="/profile" exact component={Profile} />
-					<PrivateRoute path="/external-api" exact component={ExternalApi} />
-					<Route path="/" exact={true} component={LandingPage} />
-					<Route path="/create-route" exact={true} component={CreateRoute} />
-					<Route path="/home" exact={true} component={HomePage} />
-					<Route path="/my-routes" exact={true} component={MyRoutes} />
-					<Route path="/my-stats" exact={true} component={MyStats} />
-				</Switch>
-			</Router>
-		</div>
-	);
+        <Switch>
+          <PrivateRoute path="/profile" exact component={Profile} />
+          <PrivateRoute path="/external-api" exact component={ExternalApi} />
+          <Route path="/" exact={true} component={LandingPage} />
+          <Route path="/create-route" exact={true} component={CreateRoute} />
+          <Route path="/home" exact={true} component={HomePage} />
+          <Route path="/my-routes" exact={true} component={MyRoutes} />
+          <Route path="/my-stats" exact={true} component={MyStats} />
+        </Switch>
+      </Router>
+    </div>
+  );
 }
 
 export default App;
