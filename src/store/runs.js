@@ -9,7 +9,7 @@ export const getMyRuns = runs => {
   };
 };
 
-export const getRuns = () => async (dispatch, useState) => {
+export const getRuns = (userId) => async (dispatch, useState) => {
   // const userId = useState().id;
   try {
     let res = await fetch(`${baseUrl}/users/${userId}/runs`);
