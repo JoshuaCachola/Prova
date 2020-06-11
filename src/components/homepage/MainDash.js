@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import mapboxgl from 'mapbox-gl';
-import { getMyRoutes } from '../../store/routes';
+import { getLatestRoute } from '../../store/routes';
 
 import { Card, CardContent, Divider, CardMedia, Typography, Button, Grid } from '@material-ui/core';
 import ExploreIcon from '@material-ui/icons/Explore';
@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
 	linkStyle: {
 		textDecoration: 'none',
 		color: 'inherit'
+	},
+	textCenter: {
+		textAlign: 'center'
 	}
 }));
 
@@ -46,13 +49,12 @@ const MainDash = () => {
 	let mapContainer = useRef(null);
 	const dispatch = useDispatch();
 	const currentUser = useSelector((state) => state.authorization.currentUser);
-	const routes = useSelector((state) => state.routes.routes);
-	const currentRoute = useSelector((state) => state.routes.currentRoute);
+	const latestRoute = useSelector((state) => state.routes.latestRoute);
 
 	useEffect(
 		() => {
 			if (currentUser) {
-				dispatch(getMyRoutes(currentUser.userId));
+				dispatch(getLatestRoute(currentUser.userId));
 			}
 		},
 		// eslint-disable-next-line
@@ -64,7 +66,7 @@ const MainDash = () => {
 			container: mapContainer, // container id
 			style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
 			center: [ -122.675246, 45.529431 ], // starting position
-			zoom: 13, // starting zoom
+			zoom: 12, // starting zoom
 			minZoom: 11 // keep it local
 		});
 		setMap(mapObj);
@@ -72,13 +74,13 @@ const MainDash = () => {
 
 	useEffect(
 		() => {
-			if (map && currentRoute) {
+			if (map && latestRoute) {
 				if (map.getSource('route')) {
 					map.removeLayer('route');
 					map.removeSource('route');
 				}
 
-				const firstSplit = currentRoute.coordinates.split(';');
+				const firstSplit = latestRoute.coordinates.split(';');
 				const secondSplit = firstSplit.map((el) => {
 					return el.split(',');
 				});
@@ -116,7 +118,7 @@ const MainDash = () => {
 				});
 			}
 		},
-		[ map, currentRoute ]
+		[ map, latestRoute ]
 	);
 
 	const classes = useStyles();
@@ -164,18 +166,22 @@ const MainDash = () => {
 					<Grid item xs={12}>
 						<div ref={(el) => (mapContainer = el)} className="homeMapContainer" />
 					</Grid>
-					<Grid item xs={4} sm={4}>
-						<Typography variant="body2">Time</Typography>
-						<p>some kind of text</p>
-					</Grid>
-					<Grid item xs={4} sm={4}>
-						<Typography variant="body2">Distance</Typography>
-						<p>some kind of text</p>
-					</Grid>
-					<Grid item xs={4} sm={4}>
-						<Typography variant="body2">Calories</Typography>
-						<p>some kind of text</p>
-					</Grid>
+					{latestRoute && (
+						<React.Fragment>
+							<Grid item xs={4} sm={4} className={classes.textCenter}>
+								<Typography variant="body2">Distance</Typography>
+								<p>{parseFloat(latestRoute.distance).toFixed(2)} miles</p>
+							</Grid>
+							<Grid item xs={4} sm={4} className={classes.textCenter}>
+								<Typography variant="body2">Average Time</Typography>
+								<p>{!latestRoute.average_time ? '- -' : latestRoute.average_time}</p>
+							</Grid>
+							<Grid item xs={4} sm={4} className={classes.textCenter}>
+								<Typography variant="body2">Best Time</Typography>
+								<p>{!latestRoute.best_time ? '- -' : latestRoute.best_time}</p>
+							</Grid>
+						</React.Fragment>
+					)}
 				</Grid>
 			</Card>
 		</React.Fragment>

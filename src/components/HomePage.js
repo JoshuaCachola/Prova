@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MainDash from './homepage/MainDash';
 import SideBar from './homepage/SideBar';
 
@@ -20,6 +20,10 @@ const useStyles = makeStyles((theme) => ({
 
 const HomePage = () => {
 	const classes = useStyles();
+
+	useEffect(() => {
+		document.title = 'Prova - Home';
+	}, []);
 
 	return (
 		<Container className={classes.root} maxWidth="md">
