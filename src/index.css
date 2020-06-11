@@ -61,8 +61,6 @@
 }
 
 .homeMapContainer {
-	/* grid-column: 0 / 1;
-	position: absolute; */
-	height: 30vh;
+	height: 400px;
 	width: 100%;
 }
