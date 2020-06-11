@@ -25,6 +25,7 @@ const useStyles = makeStyles(theme => ({
 	input: {
 		marginLeft: theme.spacing(1),
 		flex: 1,
+		backgroudColor: 'yellow'
 	},
 	iconButton: {
 		padding: 10,
@@ -52,7 +53,8 @@ const CreateRoute = () => {
 	const dispatch = useDispatch();
 
 	const [coordState, setCoordState] = useState(null);
-	const [distanceState, setDistanceState] = useState(null);
+	const [distanceState, setDistanceState] = useState(0.00);
+	const [durationState, setDurationState] = useState(0.00);
 	const [searchInput, setSearch] = useState('');
 	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
 
@@ -201,7 +203,8 @@ const CreateRoute = () => {
 					if (!res.ok) throw res;
 					res = await res.json();
 
-					const duration = Math.floor(res.routes[0].duration / 60); // in minutes;
+					console.log(res);
+					setDurationState(Math.floor(res.routes[0].duration / 60)); // in minutes;
 
 					const instructionSteps = res.routes[0].legs;
 					const runInstructions = [];
@@ -213,10 +216,11 @@ const CreateRoute = () => {
 						}
 					}
 
-					console.log(runInstructions, duration);
+					console.log(runInstructions);
 
 					// add later to display estimated time and distance
 					const distance = res.routes[0].distance * 0.001 / 1.609;
+
 					// const duration = res.routes[0].duration / 60;
 
 					const coords = res.routes[0].geometry;
@@ -267,11 +271,11 @@ const CreateRoute = () => {
 	const classes = useStyles();
 	return (
 		<>
-			<Box className={classes.root} display="flex">
-				<Box className={classes.sideMenu}>
-					Side bar
-				</Box>
-				<Box display="column" justifyContent="flex-end">
+			<Grid container>
+				<Grid item xs={2} sm={2}>
+					<div className={classes.sideMenu}>Side bar</div>
+				</Grid>
+				<Grid item xs={10} sm={10}>
 					<Paper component="form" className={classes.root}>
 						<IconButton className={classes.iconButton} aria-label="menu">
 							<MenuIcon />
@@ -302,17 +306,34 @@ const CreateRoute = () => {
 							color="secondary"
 							size="small"
 							className={classes.button}
-							startIcon={<Icon className="fas fa-running" color="white" />}
+							endIcon={<Icon className="fas fa-running" color="white" />}
 						>
 							Save
 						</Button>
 					</Paper>
 					<div ref={(el) => (mapContainer = el)} className='mapContainer' />
-				</Box>
-			</Box>
-			{/* <button onClick={createRouteClick} className="create-route-button">
-				Save Route
-			</button> */}
+				</Grid>
+				<Grid item xs={12} s={12}>
+					<Box display="flex" justifyContent="space-evenly">
+						<Box flexDirection="column">
+							<Box>
+								Distance
+							</Box>
+							<Box>
+								{distanceState.toFixed(2)} mi
+							</Box>
+						</Box>
+						<Box flexDirection="column">
+							<Box>
+								Est. route duration
+							</Box>
+							<Box>
+								{durationState} min
+							</Box>
+						</Box>
+					</Box>
+				</Grid>
+			</Grid>
 		</>
 	);
 };

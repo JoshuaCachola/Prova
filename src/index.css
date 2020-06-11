@@ -31,8 +31,8 @@
 .mapContainer {
   /* /* grid-column: 0 / */
   /* position: absolute; */
-  height: 75vh;
-  width: 75vw;
+  height: 80vh;
+  width: 100%;
 }
 
 .directions {
