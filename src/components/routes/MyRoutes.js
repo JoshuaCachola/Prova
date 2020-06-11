@@ -17,6 +17,7 @@ const MyRoutes = () => {
 
   const { user } = useAuth0()
 
+  console.log(user);
   const dispatch = useDispatch()
 
   const routes = useSelector(state => state.routes.routes)

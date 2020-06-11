@@ -70,7 +70,7 @@ const CreateRoute = () => {
 			minZoom: 11 // keep it local
 		});
 
-		// Maybe instantiate directions in updateRoute and give it the data then so it goes based on 
+		// Maybe instantiate directions in updateRoute and give it the data then so it goes based on
 		// path drawn instead of clicking
 
 
@@ -192,7 +192,6 @@ const CreateRoute = () => {
 					'?geometries=geojson&steps=true&&access_token=' +
 					mapboxgl.accessToken;
 
-
 				try {
 					let res = await fetch(url);
 
@@ -266,7 +265,6 @@ const CreateRoute = () => {
 
 	const classes = useStyles();
 	return (
-<<<<<<< HEAD
 		<>
 			<Grid container>
 				<Grid item xs={2} sm={2}>
@@ -332,21 +330,6 @@ const CreateRoute = () => {
 				</Grid>
 			</Grid>
 		</>
-=======
-		<React.Fragment>
-			<div>
-				{/* <div className="sidebarStyle">
-					<div>
-						Longitude: {mapState.lng} | Latitude: {mapState.lat} | Zoom: {mapState.zoom}
-					</div>
-				</div> */}
-				<div ref={(el) => (mapContainer = el)} className="mapContainer" />
-			</div>
-			<button onClick={createRouteClick} className="create-route-button">
-				Save Route
-			</button>
-		</React.Fragment>
->>>>>>> master
 	);
 };
 

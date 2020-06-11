@@ -30,12 +30,6 @@
   grid-template-columns: 1fr 400px;
 }
 
-.mapContainer {
-  /* /* grid-column: 0 / */
-  /* position: absolute; */
-  height: 80vh;
-}
-
 .map-grid-container {
   /* grid-column: 0 / 1; */
   height: 100vh;
@@ -55,7 +49,6 @@
 }
 
 .mapContainer {
-  position: absolute;
-  height: 900px;
-  width: 900px;
+  height: 90vh;
+  width: 100%;
 }
