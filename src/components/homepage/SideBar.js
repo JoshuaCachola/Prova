@@ -46,9 +46,16 @@ const SideBar = () => {
 							<Typography align="center" variant="h6">
 								{currentUser.nickname}
 							</Typography>
-							<Link to="/my-stats" className={classes.linkStyle}>
-								My Stats
-							</Link>
+							<div>
+								<Link to="/my-stats" className={classes.linkStyle}>
+									My Stats
+								</Link>
+							</div>
+							<div>
+								<Link to="/my-routes" className={classes.linkStyle}>
+									My Routes
+								</Link>
+							</div>
 						</CardContent>
 					</Card>
 				</React.Fragment>
