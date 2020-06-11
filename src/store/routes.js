@@ -2,7 +2,7 @@ import { baseUrl } from '../config/config';
 
 export const getMyRoutesActionCreator = routes => ({ type: 'GET_MY_ROUTES', routes });
 export const currentRouteActionCreator = route => ({ type: 'CURRENT_ROUTE', route })
-
+export const currentRoutePersonalInfoActionCreator = info => ({ type: 'ROUTE_PERSONAL_INFO', info })
 
 
 export const getMyRoutes = userId => async (dispatch, getState) => {
@@ -10,14 +10,14 @@ export const getMyRoutes = userId => async (dispatch, getState) => {
 
     const parsedRes = await res.json();
 
-	dispatch(getMyRoutesActionCreator(parsedRes));
+    dispatch(getMyRoutesActionCreator(parsedRes));
 };
 
-export const createRoute = (distance, averageTime, bestTime, coordinates, userId) => async (dispatch, getState) => {
+export const createRoute = (distance, coordinates, userId) => async (dispatch, getState) => {
 
     const res = await fetch(`${baseUrl}/routes`, {
         method: 'POST',
-        body: JSON.stringify({ distance, averageTime, bestTime, coordinates, creatorId: userId }),
+        body: JSON.stringify({ distance, coordinates, creatorId: userId }),
         headers: {
             "Content-Type": 'application/json',
         }
@@ -26,12 +26,20 @@ export const createRoute = (distance, averageTime, bestTime, coordinates, userId
     console.log(parsedRes)
 }
 
-export const displayRoute = routeId => async (dispatch, getState) => {
+export const displayRoute = (routeId, userId) => async (dispatch, getState) => {
 
-    const res = await fetch(`${baseUrl}/routes/${routeId}`)
+    const res = await fetch(`${baseUrl}/routes/${routeId}`, {
+        method: 'PUT',
+        body: JSON.stringify({ userId }),
+        headers: {
+            "Content-Type": 'application/json',
+        }
+    })
     const parsedRes = await res.json()
-
-    dispatch(currentRouteActionCreator(parsedRes))
+    const routeInfo = parsedRes[0]
+    const routePersonalInfo = parsedRes[1]
+    dispatch(currentRouteActionCreator(routeInfo))
+    dispatch(currentRoutePersonalInfoActionCreator(routePersonalInfo))
 }
 
 export default function reducer(state = {}, action) {
@@ -46,6 +54,12 @@ export default function reducer(state = {}, action) {
             return {
                 ...state,
                 currentRoute: action.route
+            }
+        }
+        case 'ROUTE_PERSONAL_INFO': {
+            return {
+                ...state,
+                routePersonalInfo: action.info
             }
         }
         default:

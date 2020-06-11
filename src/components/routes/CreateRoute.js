@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
-import Directions from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
 import { createRoute } from '../../store/routes';
 import { useAuth0 } from '../../react-auth0-spa';
 
@@ -15,7 +14,6 @@ const CreateRoute = () => {
 		lat: 37,
 		zoom: 2
 	});
-	const [currentDirections, setCurrentDirections] = useState(null)
 	const { user } = useAuth0();
 	const dispatch = useDispatch();
 
@@ -37,12 +35,6 @@ const CreateRoute = () => {
 
 		// Maybe instantiate directions in updateRoute and give it the data then so it goes based on 
 		// path drawn instead of clicking
-		const directions = new Directions({
-			accessToken: mapboxgl.accessToken,
-			unit: 'metric',
-			profile: 'mapbox/walking'
-		});
-
 
 
 		mapObj.on('load', () => {
@@ -106,10 +98,7 @@ const CreateRoute = () => {
 			const updateRoute = () => {
 				// Maybe add directions here
 				removeRoute();
-				// console.log(directions)
-				setCurrentDirections(directions)
 				const data = drawObj.getAll();
-				console.log(data)
 
 				// add route information here
 				// var answer = document.getElementById('calculated-line');
@@ -188,7 +177,7 @@ const CreateRoute = () => {
 					console.error(err);
 				}
 			};
-			mapObj.addControl(directions, 'top-left');
+
 			mapObj.addControl(drawObj);
 			mapObj.on('draw.create', updateRoute);
 			mapObj.on('draw.update', updateRoute);
@@ -201,7 +190,7 @@ const CreateRoute = () => {
 	}, []);
 
 	const createRouteClick = () => {
-		dispatch(createRoute(distanceState, null, null, coordState, user.userId));
+		dispatch(createRoute(distanceState, coordState, user.userId));
 	};
 
 	return (
@@ -217,7 +206,6 @@ const CreateRoute = () => {
 			<button onClick={createRouteClick} className="create-route-button">
 				Save Route
 			</button>
-			{/* {currentDirections && <div className='create-route-button'>{currentDirections.container.outerText}</div>} */}
 		</React.Fragment>
 	);
 };
