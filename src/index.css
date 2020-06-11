@@ -1,7 +1,5 @@
 /* TODO Add site wide styles */
 
-
-
 .info-box {
   height: 100px;
   width: 150px;
@@ -32,6 +30,12 @@
   grid-template-columns: 1fr 400px;
 }
 
+.mapContainer {
+  /* /* grid-column: 0 / */
+  /* position: absolute; */
+  height: 80vh;
+}
+
 .map-grid-container {
   /* grid-column: 0 / 1; */
   height: 100vh;
@@ -39,7 +43,6 @@
 }
 
 .my-routes-map-container {
-  
   /* position: relative; */
   height: 100vh;
   width: 100%;
