@@ -1,7 +1,5 @@
 /* TODO Add site wide styles */
 
-
-
 .info-box {
   height: 100px;
   width: 150px;
@@ -31,10 +29,10 @@
 }
 
 .mapContainer {
-  grid-column: 0 / 1;
-  position: absolute;
-  height: 100%;
-  width: 100%;
+  /* /* grid-column: 0 / */
+  /* position: absolute; */
+  height: 75vh;
+  width: 75vw;
 }
 
 .directions {

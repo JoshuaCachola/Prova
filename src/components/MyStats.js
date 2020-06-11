@@ -9,9 +9,9 @@ import LineGraph from './stats/LineGraph';
 const useStyles = makeStyles({
   nav: {
     maxHeight: '100vh',
-    maxWidth: '25%',
-    overflowY: 'scroll',
-    overflowX: 'hidden',
+    maxWidth: '40vw',
+    // overflowY: 'scroll',
+    // overflowX: 'hidden',
     position: 'absolute'
   },
   list: {
