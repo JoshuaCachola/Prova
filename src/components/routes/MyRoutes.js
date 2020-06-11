@@ -1,11 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
-import { getMyRoutes } from '../../store/routes';
-import { useAuth0 } from '../../react-auth0-spa';
+import { getMyRoutes, displayRoute } from '../../store/routes';
 import MyRoutesNav from './MyRoutesNav';
 import Tabs from '@material-ui/core/Tabs';
 import { makeStyles } from '@material-ui/core/styles';
+import DisplayedRouteInfo from './DisplayedRouteInfo';
 
 const MyRoutes = () => {
 	mapboxgl.accessToken =
@@ -13,14 +13,16 @@ const MyRoutes = () => {
 
 	let mapContainer = useRef(null);
 
-	const { user } = useAuth0();
+	const currentUser = useSelector((state) => state.authorization.currentUser);
 
 	const dispatch = useDispatch();
+
+	const [ mapCenter, setMapCenter ] = useState([ -122.675246, 45.529431 ]);
 
 	const routes = useSelector((state) => state.routes.routes);
 
 	const currentRoute = useSelector((state) => state.routes.currentRoute);
-	console.log(currentRoute);
+
 	const routePersonalInfo = useSelector((state) => state.routes.routePersonalInfo);
 
 	const [ map, setMap ] = useState(null);
@@ -28,18 +30,18 @@ const MyRoutes = () => {
 
 	useEffect(
 		() => {
-			if (user) {
-				dispatch(getMyRoutes(user.userId));
+			if (currentUser) {
+				dispatch(getMyRoutes(currentUser.userId));
 			}
 		},
-		[ user ]
+		[ currentUser ]
 	);
 
 	useEffect(() => {
 		const mapObj = new mapboxgl.Map({
 			container: mapContainer, // container id
 			style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
-			center: [ -122.675246, 45.529431 ], // starting position
+			center: mapCenter, // starting position
 			zoom: 13, // starting zoom
 			minZoom: 11 // keep it local
 		});
@@ -66,6 +68,10 @@ const MyRoutes = () => {
 				});
 
 				const coords = finalArr;
+
+				map.flyTo({
+					center: coords[0]
+				});
 
 				// const directions = new Directions({
 				//   accessToken: mapboxgl.accessToken,
@@ -112,6 +118,15 @@ const MyRoutes = () => {
 		[ map, currentRoute ]
 	);
 
+	useEffect(
+		() => {
+			if (routes && currentUser) {
+				dispatch(displayRoute(routes[0].id, currentUser.userId));
+			}
+		},
+		[ currentUser, routes ]
+	);
+
 	const useStyles = makeStyles((theme) => ({
 		root: {
 			flexGrow: 1,
@@ -127,47 +142,33 @@ const MyRoutes = () => {
 	const classes = useStyles();
 
 	return (
-		<React.Fragment>
-			{/* {routes && routes.map(({ id }) => {
-        return <MyRoutesNav key={id} id={id} />
-      })} */}
-			<div className="my-routes-container">
-				<div className={classes.root}>
-					<Tabs
-						orientation="vertical"
-						variant="scrollable"
-						value={selectedTab}
-						// onChange={handleChange}
-						aria-label="Vertical tabs example"
-						className={classes.tabs}
-					>
-						{routes &&
-							routes.map(({ id }) => {
-								return <MyRoutesNav key={id} id={id} setSelectedTab={setSelectedTab} />;
-							})}
-					</Tabs>
-					<div className="map-area">
-						<div className="map-grid-container">
-							<div ref={(el) => (mapContainer = el)} className="my-routes-map-container" />
-						</div>
-						{currentRoute && routePersonalInfo ? (
-							<div className="directions">
-								<h1>Route Details</h1>
-								<div>Distance: {currentRoute.distance} miles</div>
-								<div>Best Time: {currentRoute.best_time}</div>
-								<div>Average Time: {currentRoute.average_time}</div>
-								<div>Total Number of Runs: {currentRoute.total_number_of_runs}</div>
-								<div>Personal Best Time: {routePersonalInfo.best_time}</div>
-								<div>Personal Average Time: {routePersonalInfo.average_time}</div>
-								<div>Personal Number of Runs: {routePersonalInfo.number_of_runs}</div>
-							</div>
-						) : (
-							<h1>No Route Selected</h1>
-						)}
+		<div className="my-routes-container">
+			<div className={classes.root}>
+				<Tabs
+					orientation="vertical"
+					variant="scrollable"
+					value={selectedTab}
+					// onChange={handleChange}
+					aria-label="Vertical tabs example"
+					className={classes.tabs}
+				>
+					{routes &&
+						routes.map(({ id }, i) => {
+							return <MyRoutesNav index={i} key={id} id={id} setSelectedTab={setSelectedTab} />;
+						})}
+				</Tabs>
+				<div className="map-area">
+					<div className="map-grid-container">
+						<div ref={(el) => (mapContainer = el)} className="my-routes-map-container" />
 					</div>
+					{/* {currentRoute && routePersonalInfo
+            ? */}
+					{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
+					{/* :
+            <h1>No Route Selected</h1>} */}
 				</div>
 			</div>
-		</React.Fragment>
+		</div>
 	);
 };
 
