@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
+import Directions from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
 import { getMyRoutes } from '../../store/routes';
 import { useAuth0 } from '../../react-auth0-spa';
 import MyRoutesNav from './MyRoutesNav';
@@ -11,12 +12,6 @@ import VerticalTabs from './VerticalTabs';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-
-
-
-
-
-
 
 
 const MyRoutes = () => {
@@ -60,6 +55,7 @@ const MyRoutes = () => {
 
   useEffect(() => {
     if (map && currentRoute) {
+      console.log(currentRoute)
       if (map.getSource('route')) {
         map.removeLayer('route');
         map.removeSource('route');
@@ -77,6 +73,23 @@ const MyRoutes = () => {
       })
 
       const coords = finalArr;
+
+      // const directions = new Directions({
+      //   accessToken: mapboxgl.accessToken,
+      //   unit: 'metric',
+      //   profile: 'mapbox/walking'
+      // });
+
+      // directions.setOrigin(finalArr[0])
+      // directions.setDestination(finalArr[finalArr.length - 1])
+      // finalArr.forEach((coord, i) => {
+      //   if (!(i === 0 || i === finalArr.length - 1)) {
+      //     directions.addWaypoint(i, coord)
+      //   }
+
+      // })
+      // console.log(finalArr)
+      // map.addControl(directions, 'top-left');
 
       const coordsObj = { coordinates: coords, type: 'LineString' }
       // map.removeLayer()
@@ -142,10 +155,19 @@ const MyRoutes = () => {
 
           </Tabs>
           <div className='map-area'>
-            <div>
-              <div ref={el => mapContainer = el} className='mapContainer' />
+            <div className='map-grid-container'>
+              <div ref={el => mapContainer = el} className='my-routes-map-container' />
             </div>
-            <div className='directions'></div>
+            {currentRoute
+              ?
+              <div className='directions'>
+                <h1>Route Details</h1>
+                <div>Distance: {currentRoute.distance} miles</div>
+                <div>{currentRoute.best_time}</div>
+                <div>{currentRoute.average_time}</div>
+              </div>
+              :
+              <h1>No Route Selected</h1>}
           </div>
         </div>
       </div>

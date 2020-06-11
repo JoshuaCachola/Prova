@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
+import Directions from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
 import { createRoute } from '../../store/routes';
 import { useAuth0 } from '../../react-auth0-spa';
 
@@ -14,7 +15,7 @@ const CreateRoute = () => {
 		lat: 37,
 		zoom: 2
 	});
-
+	const [currentDirections, setCurrentDirections] = useState(null)
 	const { user } = useAuth0();
 	const dispatch = useDispatch();
 
@@ -33,6 +34,16 @@ const CreateRoute = () => {
 			zoom: 13, // starting zoom
 			minZoom: 11 // keep it local
 		});
+
+		// Maybe instantiate directions in updateRoute and give it the data then so it goes based on 
+		// path drawn instead of clicking
+		const directions = new Directions({
+			accessToken: mapboxgl.accessToken,
+			unit: 'metric',
+			profile: 'mapbox/walking'
+		});
+
+
 
 		mapObj.on('load', () => {
 			const drawObj = new MapboxDraw({
@@ -93,9 +104,13 @@ const CreateRoute = () => {
 			});
 
 			const updateRoute = () => {
+				// Maybe add directions here
 				removeRoute();
-
+				// console.log(directions)
+				setCurrentDirections(directions)
 				const data = drawObj.getAll();
+				console.log(data)
+
 				// add route information here
 				// var answer = document.getElementById('calculated-line');
 
@@ -151,14 +166,6 @@ const CreateRoute = () => {
 					'?geometries=geojson&steps=true&&access_token=' +
 					mapboxgl.accessToken;
 
-				// const coords = {
-				//   coordinates: [[-122.661659, 45.548309],
-				//   [-122.661659, 45.548267],
-				//   [-122.650406, 45.548237],
-				//   [-122.650406, 45.548309],
-				//   [-122.650444, 45.542088],
-				//   [-122.658813, 45.542107]]
-				// };
 
 				try {
 					let res = await fetch(url);
@@ -181,7 +188,7 @@ const CreateRoute = () => {
 					console.error(err);
 				}
 			};
-
+			mapObj.addControl(directions, 'top-left');
 			mapObj.addControl(drawObj);
 			mapObj.on('draw.create', updateRoute);
 			mapObj.on('draw.update', updateRoute);
@@ -200,16 +207,17 @@ const CreateRoute = () => {
 	return (
 		<React.Fragment>
 			<div>
-				<div className="sidebarStyle">
+				{/* <div className="sidebarStyle">
 					<div>
 						Longitude: {mapState.lng} | Latitude: {mapState.lat} | Zoom: {mapState.zoom}
 					</div>
-				</div>
+				</div> */}
 				<div ref={(el) => (mapContainer = el)} className="mapContainer" />
 			</div>
 			<button onClick={createRouteClick} className="create-route-button">
 				Save Route
 			</button>
+			{/* {currentDirections && <div className='create-route-button'>{currentDirections.container.outerText}</div>} */}
 		</React.Fragment>
 	);
 };
