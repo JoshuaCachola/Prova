@@ -5,17 +5,7 @@ import { getMyRoutes } from '../../store/routes';
 import { useAuth0 } from '../../react-auth0-spa';
 import MyRoutesNav from './MyRoutesNav';
 import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import { makeStyles } from '@material-ui/core/styles';
-import VerticalTabs from './VerticalTabs';
-import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-
-
-
-
-
 
 
 
@@ -32,12 +22,14 @@ const MyRoutes = () => {
   const routes = useSelector(state => state.routes.routes)
 
   const currentRoute = useSelector(state => state.routes.currentRoute)
+  console.log(currentRoute)
+  const routePersonalInfo = useSelector(state => state.routes.routePersonalInfo)
+
 
   const [map, setMap] = useState(null)
   const [selectedTab, setSelectedTab] = useState(0)
 
   useEffect(() => {
-    // getMyRoutes(user.userId)
     if (user) {
       dispatch(getMyRoutes(user.userId))
     }
@@ -60,6 +52,7 @@ const MyRoutes = () => {
 
   useEffect(() => {
     if (map && currentRoute) {
+
       if (map.getSource('route')) {
         map.removeLayer('route');
         map.removeSource('route');
@@ -77,6 +70,23 @@ const MyRoutes = () => {
       })
 
       const coords = finalArr;
+
+      // const directions = new Directions({
+      //   accessToken: mapboxgl.accessToken,
+      //   unit: 'metric',
+      //   profile: 'mapbox/walking'
+      // });
+
+      // directions.setOrigin(finalArr[0])
+      // directions.setDestination(finalArr[finalArr.length - 1])
+      // finalArr.forEach((coord, i) => {
+      //   if (!(i === 0 || i === finalArr.length - 1)) {
+      //     directions.addWaypoint(i, coord)
+      //   }
+
+      // })
+      // console.log(finalArr)
+      // map.addControl(directions, 'top-left');
 
       const coordsObj = { coordinates: coords, type: 'LineString' }
       // map.removeLayer()
@@ -142,10 +152,23 @@ const MyRoutes = () => {
 
           </Tabs>
           <div className='map-area'>
-            <div>
-              <div ref={el => mapContainer = el} className='mapContainer' />
+            <div className='map-grid-container'>
+              <div ref={el => mapContainer = el} className='my-routes-map-container' />
             </div>
-            <div className='directions'></div>
+            {currentRoute && routePersonalInfo
+              ?
+              <div className='directions'>
+                <h1>Route Details</h1>
+                <div>Distance: {currentRoute.distance} miles</div>
+                <div>Best Time: {currentRoute.best_time}</div>
+                <div>Average Time: {currentRoute.average_time}</div>
+                <div>Total Number of Runs: {currentRoute.total_number_of_runs}</div>
+                <div>Personal Best Time: {routePersonalInfo.best_time}</div>
+                <div>Personal Average Time: {routePersonalInfo.average_time}</div>
+                <div>Personal Number of Runs: {routePersonalInfo.number_of_runs}</div>
+              </div>
+              :
+              <h1>No Route Selected</h1>}
           </div>
         </div>
       </div>

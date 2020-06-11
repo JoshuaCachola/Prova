@@ -48,7 +48,6 @@ const CreateRoute = () => {
 		lat: 37,
 		zoom: 2
 	});
-
 	const { user } = useAuth0();
 	const dispatch = useDispatch();
 
@@ -70,6 +69,10 @@ const CreateRoute = () => {
 			zoom: 13, // starting zoom
 			minZoom: 11 // keep it local
 		});
+
+		// Maybe instantiate directions in updateRoute and give it the data then so it goes based on 
+		// path drawn instead of clicking
+
 
 		mapObj.on('load', () => {
 			const drawObj = new MapboxDraw({
@@ -130,9 +133,10 @@ const CreateRoute = () => {
 			});
 
 			const updateRoute = () => {
+				// Maybe add directions here
 				removeRoute();
-
 				const data = drawObj.getAll();
+
 				// add route information here
 				// var answer = document.getElementById('calculated-line');
 
@@ -188,14 +192,6 @@ const CreateRoute = () => {
 					'?geometries=geojson&steps=true&&access_token=' +
 					mapboxgl.accessToken;
 
-				// const coords = {
-				//   coordinates: [[-122.661659, 45.548309],
-				//   [-122.661659, 45.548267],
-				//   [-122.650406, 45.548237],
-				//   [-122.650406, 45.548309],
-				//   [-122.650444, 45.542088],
-				//   [-122.658813, 45.542107]]
-				// };
 
 				try {
 					let res = await fetch(url);
@@ -249,7 +245,7 @@ const CreateRoute = () => {
 	}, [mapCenter, setMapCenter]);
 
 	const createRouteClick = () => {
-		dispatch(createRoute(distanceState, null, null, coordState, user.userId));
+		dispatch(createRoute(distanceState, coordState, user.userId));
 	};
 
 	const handleLocSearch = async e => {
@@ -270,6 +266,7 @@ const CreateRoute = () => {
 
 	const classes = useStyles();
 	return (
+<<<<<<< HEAD
 		<>
 			<Grid container>
 				<Grid item xs={2} sm={2}>
@@ -335,6 +332,21 @@ const CreateRoute = () => {
 				</Grid>
 			</Grid>
 		</>
+=======
+		<React.Fragment>
+			<div>
+				{/* <div className="sidebarStyle">
+					<div>
+						Longitude: {mapState.lng} | Latitude: {mapState.lat} | Zoom: {mapState.zoom}
+					</div>
+				</div> */}
+				<div ref={(el) => (mapContainer = el)} className="mapContainer" />
+			</div>
+			<button onClick={createRouteClick} className="create-route-button">
+				Save Route
+			</button>
+		</React.Fragment>
+>>>>>>> master
 	);
 };
 
