@@ -9,12 +9,10 @@
 //   };
 // };
 
-
-export const getRuns = (userId) => async (dispatch, useState) => {
-  // const userId = useState().id;
-  try {
-    let res = await fetch(`${baseUrl}/users/${userId}/runs`);
-
+// export const getRuns = (userId) => async (dispatch, useState) => {
+//   // const userId = useState().id;
+//   try {
+//     let res = await fetch(`${baseUrl}/users/${userId}/runs`);
 
 //     if (!res.ok) throw res;
 
