@@ -7,6 +7,7 @@ export const currentRouteRunsActionCreator = runs => ({ type: 'RUNS_FOR_ROUTE', 
 
 
 export const getMyRoutes = userId => async (dispatch, getState) => {
+
     const res = await fetch(`${baseUrl}/users/${userId}/routes`)
 
     const parsedRes = await res.json();
@@ -24,7 +25,6 @@ export const createRoute = (distance, coordinates, userId) => async (dispatch, g
         }
     })
     const parsedRes = await res.json()
-    console.log(parsedRes)
 }
 
 export const displayRoute = (routeId, userId) => async (dispatch, getState) => {
