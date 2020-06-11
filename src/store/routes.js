@@ -3,6 +3,7 @@ import { baseUrl } from '../config/config';
 export const getMyRoutesActionCreator = routes => ({ type: 'GET_MY_ROUTES', routes });
 export const currentRouteActionCreator = route => ({ type: 'CURRENT_ROUTE', route })
 export const currentRoutePersonalInfoActionCreator = info => ({ type: 'ROUTE_PERSONAL_INFO', info })
+export const currentRouteRunsActionCreator = runs => ({ type: 'RUNS_FOR_ROUTE', runs })
 
 
 export const getMyRoutes = userId => async (dispatch, getState) => {
@@ -38,8 +39,11 @@ export const displayRoute = (routeId, userId) => async (dispatch, getState) => {
     const parsedRes = await res.json()
     const routeInfo = parsedRes[0]
     const routePersonalInfo = parsedRes[1]
+    const runsForRoute = parsedRes[2]
     dispatch(currentRouteActionCreator(routeInfo))
     dispatch(currentRoutePersonalInfoActionCreator(routePersonalInfo))
+    dispatch(currentRouteRunsActionCreator(runsForRoute))
+
 }
 
 export default function reducer(state = {}, action) {
@@ -60,6 +64,12 @@ export default function reducer(state = {}, action) {
             return {
                 ...state,
                 routePersonalInfo: action.info
+            }
+        }
+        case 'RUNS_FOR_ROUTE': {
+            return {
+                ...state,
+                runsForRoute: action.runs
             }
         }
         default:
