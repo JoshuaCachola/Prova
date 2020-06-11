@@ -37,9 +37,10 @@ function a11yProps(index) {
 const MyRoutesNav = ({ id, setSelectedTab }) => {
     const classes = useStyles();
     const dispatch = useDispatch()
+    const currentUser = useSelector(state => state.authorization.currentUser)
     const routeClickHandler = () => {
-        setSelectedTab(id - 1)
-        dispatch(displayRoute(id))
+        // setSelectedTab(id - 1)
+        dispatch(displayRoute(id, currentUser.userId))
     }
 
     return (

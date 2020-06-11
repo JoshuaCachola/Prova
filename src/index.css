@@ -25,13 +25,38 @@
 
 .map-area {
 	display: grid;
-	grid-template-columns: 1fr 200px;
+	height: 100vh;
+	width: 100%;
+	grid-template-columns: 1fr 400px;
 }
 
 .mapContainer {
-	grid-column: 0 / 1;
+	/* /* grid-column: 0 / */
+	/* position: absolute; */
+	height: 80vh;
+}
+
+.map-grid-container {
+	/* grid-column: 0 / 1; */
+	height: 100vh;
+	width: 100%;
+}
+
+.my-routes-map-container {
+	/* position: relative; */
+	height: 100vh;
+	width: 100%;
+}
+
+.directions {
+	/* grid-column: 1 / 2; */
+	height: 100vh;
+	width: 100%;
+}
+
+.mapContainer {
 	position: absolute;
-	height: 100%;
+	height: 900px;
 	width: 900px;
 }
 
@@ -40,8 +65,4 @@
 	position: absolute; */
 	height: 60vh;
 	width: 100%;
-}
-
-.directions {
-	grid-column: 1 / 2;
 }

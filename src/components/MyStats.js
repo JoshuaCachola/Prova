@@ -9,9 +9,9 @@ import LineGraph from './stats/LineGraph';
 const useStyles = makeStyles({
   nav: {
     maxHeight: '100vh',
-    maxWidth: '25%',
-    overflowY: 'scroll',
-    overflowX: 'hidden',
+    maxWidth: '40vw',
+    // overflowY: 'scroll',
+    // overflowX: 'hidden',
     position: 'absolute'
   },
   list: {
@@ -42,7 +42,7 @@ const MyStats = () => {
   const [caloriesData, setCaloriesData] = useState([]);
   const [showCal, setShowCal] = useState(false);
   const [showDistance, setShowDistance] = useState(false);
-  const [showCalories, setShowCalories] = useState(true);
+  const [showCalories, setShowCalories] = useState(false);
 
   const lineGraph = (type) => {
     const sortedRuns = myRuns.sort((a, b) => new Date(a.date.split(', ').join('-')) - new Date(b.date.split(', ').join('-')));
@@ -173,8 +173,6 @@ const MyStats = () => {
       filtered_runs.push(fRun);
     });
 
-
-
     setMyRuns(runs);
 
     setDistanceData(lineGraph('distance'));
@@ -187,8 +185,22 @@ const MyStats = () => {
     console.log("clicked!");
   };
 
-  const handleShowGraph = () => {
-    // setShowCal(!showCal);
+  const handleShowCalGraph = () => {
+    setShowCalories(false);
+    setShowDistance(false);
+    setShowCal(!showCal);
+  };
+
+  const handleShowDistGraph = () => {
+    setShowCalories(false);
+    setShowCal(false);
+    setShowDistance(!showDistance);
+  };
+
+  const handleShowCalorGraph = () => {
+    setShowCal(false);
+    setShowDistance(false);
+    setShowCalories(!showCalories);
   };
 
   const classes = useStyles();
@@ -232,14 +244,32 @@ const MyStats = () => {
       <Box display="flex" justifyContent="center">
         <Box className={classes.calendarContainer}>
           <Box className={classes.graphNav} display="flex" justifyContent="space-around">
-            <Box className={classes.graphLinks} onClick={handleShowGraph}>
-              <h3>Calendar</h3>
+            <Box className={
+              showCal
+                ? classes.base
+                : classes.selected
+            }
+              onClick={handleShowCalGraph}
+            >
+              <span>Calendar <i class="fas fa-calendar-alt"></i></span>
             </Box>
-            <Box className={classes.graphLinks} onClick={handleShowGraph}>
-              <h3>Routes</h3>
+            <Box className={
+              showDistance
+                ? classes.base
+                : classes.selected
+            }
+              onClick={handleShowDistGraph}
+            >
+              <span>Distance <i class="fas fa-running"></i></span>
             </Box>
-            <Box className={classes.graphLinks}>
-              <h3>Calories</h3>
+            <Box className={
+              showCalories
+                ? classes.base
+                : classes.selected
+            }
+              onClick={handleShowCalorGraph}
+            >
+              <span>Calories <i class="fas fa-fire"></i></span>
             </Box>
           </Box>
           {showCal &&
