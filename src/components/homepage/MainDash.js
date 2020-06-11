@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import mapboxgl from 'mapbox-gl';
 import { getMyRoutes } from '../../store/routes';
 
@@ -29,6 +30,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 	cardSize: {
 		maxHeight: '500px'
+	},
+	linkStyle: {
+		textDecoration: 'none',
+		color: 'inherit'
 	}
 }));
 
@@ -118,7 +123,6 @@ const MainDash = () => {
 
 	return (
 		<React.Fragment>
-			<h1>Main Dash</h1>
 			<Card variant="outlined">
 				<CardMedia
 					image={require('../../images/runner.jpg')}
@@ -146,8 +150,10 @@ const MainDash = () => {
 								Create your first route to run today. Complete the run and add your stats to see if laid
 								out neatly
 							</Typography>
-							<Button variant="contained" color="secondary" href="/create-route">
-								Create Route
+							<Button variant="contained" color="secondary">
+								<Link to="/create-route" className={classes.linkStyle}>
+									Create Route
+								</Link>
 							</Button>
 						</Grid>
 					</Grid>
