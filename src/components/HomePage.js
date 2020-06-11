@@ -1,5 +1,6 @@
 import React from 'react';
 import MainDash from './homepage/MainDash';
+import SideBar from './homepage/SideBar';
 
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
@@ -26,13 +27,8 @@ const HomePage = () => {
 	return (
 		<Container className={classes.root} maxWidth="md">
 			<Grid container justify="center" spacing={3}>
-				{/* <Grid item xs={12}>
-					<Typography align="center" variant="h4">
-						Welcome Back
-					</Typography>
-				</Grid> */}
 				<Grid item xs={12} sm={3}>
-					<h1>Sidebard</h1>
+					<SideBar />
 				</Grid>
 				<Grid item xs={12} sm={9}>
 					<MainDash />
