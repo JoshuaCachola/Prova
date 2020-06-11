@@ -243,7 +243,8 @@ const CreateRoute = () => {
 		createMB();
 	}, [mapCenter, setMapCenter]);
 
-	const createRouteClick = () => {
+	const createRouteClick = e => {
+		e.preventDefault();
 		dispatch(createRoute(distanceState, coordState, user.userId));
 	};
 
@@ -297,10 +298,12 @@ const CreateRoute = () => {
 						<DirectionsIcon />
 					</IconButton> */}
 						<Button
+							type="submit"
 							variant="contained"
 							color="secondary"
 							size="small"
 							className={classes.button}
+							onClick={createRouteClick}
 							endIcon={<Icon className="fas fa-running" color="white" />}
 						>
 							Save
