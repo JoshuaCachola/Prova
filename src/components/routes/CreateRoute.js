@@ -267,7 +267,6 @@ const CreateRoute = () => {
 
 	const classes = useStyles();
 	return (
-<<<<<<< HEAD
 		<>
 			<Grid container>
 				<Grid item xs={2} sm={2}>
@@ -333,21 +332,6 @@ const CreateRoute = () => {
 				</Grid>
 			</Grid>
 		</>
-=======
-		<React.Fragment>
-			<div>
-				{/* <div className="sidebarStyle">
-					<div>
-						Longitude: {mapState.lng} | Latitude: {mapState.lat} | Zoom: {mapState.zoom}
-					</div>
-				</div> */}
-				<div ref={(el) => (mapContainer = el)} className="mapContainer" />
-			</div>
-			<button onClick={createRouteClick} className="create-route-button">
-				Save Route
-			</button>
-		</React.Fragment>
->>>>>>> master
 	);
 };
 
