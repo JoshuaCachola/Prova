@@ -75,46 +75,48 @@ const MainDash = () => {
 	useEffect(
 		() => {
 			if (map && latestRoute) {
-				if (map.getSource('route')) {
-					map.removeLayer('route');
-					map.removeSource('route');
-				}
-
-				const firstSplit = latestRoute.coordinates.split(';');
-				const secondSplit = firstSplit.map((el) => {
-					return el.split(',');
-				});
-
-				const finalArr = secondSplit.map((subArr) => {
-					return subArr.map((stringNum) => {
-						return Number(stringNum);
-					});
-				});
-
-				const coords = finalArr;
-
-				const coordsObj = { coordinates: coords, type: 'LineString' };
-				// map.removeLayer()
-				map.addLayer({
-					id: 'route',
-					type: 'line',
-					source: {
-						type: 'geojson',
-						data: {
-							type: 'Feature',
-							properties: {},
-							geometry: coordsObj
-						}
-					},
-					layout: {
-						'line-join': 'round',
-						'line-cap': 'round'
-					},
-					paint: {
-						'line-color': '#3b9ddd',
-						'line-width': 8,
-						'line-opacity': 0.8
+				map.on('load', () => {
+					if (map.getSource('route')) {
+						map.removeLayer('route');
+						map.removeSource('route');
 					}
+
+					const firstSplit = latestRoute.coordinates.split(';');
+					const secondSplit = firstSplit.map((el) => {
+						return el.split(',');
+					});
+
+					const finalArr = secondSplit.map((subArr) => {
+						return subArr.map((stringNum) => {
+							return Number(stringNum);
+						});
+					});
+
+					const coords = finalArr;
+
+					const coordsObj = { coordinates: coords, type: 'LineString' };
+					// map.removeLayer()
+					map.addLayer({
+						id: 'route',
+						type: 'line',
+						source: {
+							type: 'geojson',
+							data: {
+								type: 'Feature',
+								properties: {},
+								geometry: coordsObj
+							}
+						},
+						layout: {
+							'line-join': 'round',
+							'line-cap': 'round'
+						},
+						paint: {
+							'line-color': '#3b9ddd',
+							'line-width': 8,
+							'line-opacity': 0.8
+						}
+					});
 				});
 			}
 		},
