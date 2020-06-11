@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 import { getMyRoutes } from '../../store/routes';
 
-import { Card, CardContent, Divider, CardMedia, Typography, CardHeader, Button, Grid, Icon } from '@material-ui/core';
+import { Card, CardContent, Divider, CardMedia, Typography, Button, Grid } from '@material-ui/core';
 import ExploreIcon from '@material-ui/icons/Explore';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
