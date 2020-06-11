@@ -29,9 +29,16 @@
 }
 
 .mapContainer {
+	grid-column: 0 / 1;
+	position: absolute;
+	height: 100%;
+	width: 900px;
+}
+
+.homeMapContainer {
 	/* grid-column: 0 / 1;
 	position: absolute; */
-	height: 100vh;
+	height: 60vh;
 	width: 100%;
 }
 

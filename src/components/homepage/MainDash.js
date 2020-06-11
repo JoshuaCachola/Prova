@@ -3,6 +3,31 @@ import { useDispatch, useSelector } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 import { getMyRoutes } from '../../store/routes';
 
+import { Card, CardContent, Divider, CardMedia, Typography, CardHeader, Button, Grid, Icon } from '@material-ui/core';
+import ExploreIcon from '@material-ui/icons/Explore';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+	root: {
+		flexGrow: 1
+	},
+	media: {
+		height: 0,
+		paddingTop: '20.25%'
+	},
+	largeIcon: {
+		width: 60,
+		height: 60
+	},
+	mainDashIcon: {
+		display: 'flex',
+		justifyContent: 'center'
+	},
+	marginSpacing: {
+		marginTop: 15
+	}
+}));
+
 const MainDash = () => {
 	const [ map, setMap ] = useState(null);
 
@@ -84,11 +109,50 @@ const MainDash = () => {
 		},
 		[ map, currentRoute ]
 	);
+
+	const classes = useStyles();
+
 	return (
-		<div>
+		<React.Fragment>
 			<h1>Main Dash</h1>
-			<div ref={(el) => (mapContainer = el)} className="mapContainer" />
-		</div>
+			<Card variant="outlined">
+				<CardMedia
+					image={require('../../images/runner.jpg')}
+					title="stock photo from unsplash"
+					className={classes.media}
+				/>
+				<CardContent>
+					<Typography variant="h5">Getting Started</Typography>
+					<Typography variant="body1">
+						We've listed a couple of steps to help you get started on Prova.
+					</Typography>
+					<Divider />
+					<Grid
+						container
+						justify="center"
+						alignContent="center"
+						alignItems="center"
+						className={classes.marginSpacing}
+					>
+						<Grid item md={3} className={classes.mainDashIcon}>
+							<ExploreIcon className={classes.largeIcon} />
+						</Grid>
+						<Grid item md={9}>
+							<Typography variant="body1">
+								Create your first route to run today. Complete the run and add your stats to see if laid
+								out neatly
+							</Typography>
+							<Button variant="contained" color="secondary" href="/create-route">
+								Create Route
+							</Button>
+						</Grid>
+					</Grid>
+				</CardContent>
+			</Card>
+			<Card variant="outlined" className={classes.marginSpacing}>
+				<div ref={(el) => (mapContainer = el)} className="homeMapContainer" />
+			</Card>
+		</React.Fragment>
 	);
 };
 
