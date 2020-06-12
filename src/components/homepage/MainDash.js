@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainDash = () => {
-	const [ map, setMap ] = useState(null);
+	const [map, setMap] = useState(null);
 
 	mapboxgl.accessToken =
 		'pk.eyJ1IjoibWFya2ptNjEwIiwiYSI6ImNrYjFjeTBoMzAzb3UyeXF1YTE3Y25wdDMifQ.K9r926HKVv0u8RQzpdXleg';
@@ -58,14 +58,14 @@ const MainDash = () => {
 			}
 		},
 		// eslint-disable-next-line
-		[ currentUser ]
+		[currentUser]
 	);
 
 	useEffect(() => {
 		const mapObj = new mapboxgl.Map({
 			container: mapContainer, // container id
 			style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
-			center: [ -122.675246, 45.529431 ], // starting position
+			center: [-122.675246, 45.529431], // starting position
 			zoom: 12, // starting zoom
 			minZoom: 11 // keep it local
 		});
@@ -94,6 +94,10 @@ const MainDash = () => {
 
 					const coords = finalArr;
 
+					map.flyTo({
+						center: coords[0]
+					});
+
 					const coordsObj = { coordinates: coords, type: 'LineString' };
 					// map.removeLayer()
 					map.addLayer({
@@ -120,7 +124,7 @@ const MainDash = () => {
 				});
 			}
 		},
-		[ map, latestRoute ]
+		[map, latestRoute]
 	);
 
 	const classes = useStyles();
