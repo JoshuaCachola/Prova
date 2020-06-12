@@ -1,179 +1,221 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
-import { getMyRoutes } from '../../store/routes';
-import { useAuth0 } from '../../react-auth0-spa';
+import { getMyRoutes, displayRoute } from '../../store/routes';
 import MyRoutesNav from './MyRoutesNav';
 import Tabs from '@material-ui/core/Tabs';
 import { makeStyles } from '@material-ui/core/styles';
-
-
+import DisplayedRouteInfo from './DisplayedRouteInfo';
 
 const MyRoutes = () => {
+	mapboxgl.accessToken =
+		'pk.eyJ1IjoibWFya2ptNjEwIiwiYSI6ImNrYjFjeTBoMzAzb3UyeXF1YTE3Y25wdDMifQ.K9r926HKVv0u8RQzpdXleg';
 
-  mapboxgl.accessToken = 'pk.eyJ1IjoibWFya2ptNjEwIiwiYSI6ImNrYjFjeTBoMzAzb3UyeXF1YTE3Y25wdDMifQ.K9r926HKVv0u8RQzpdXleg';
+	let mapContainer = useRef(null);
 
-  let mapContainer = useRef(null);
+	const currentUser = useSelector((state) => state.authorization.currentUser);
 
-  const { user } = useAuth0()
+	const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
+	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
 
-  const routes = useSelector(state => state.routes.routes)
+	const routes = useSelector((state) => state.routes.routes);
 
-  const currentRoute = useSelector(state => state.routes.currentRoute)
-  console.log(currentRoute)
-  const routePersonalInfo = useSelector(state => state.routes.routePersonalInfo)
+	const currentRoute = useSelector((state) => state.routes.currentRoute);
 
+	const routePersonalInfo = useSelector((state) => state.routes.routePersonalInfo);
 
-  const [map, setMap] = useState(null)
-  const [selectedTab, setSelectedTab] = useState(0)
-
-  useEffect(() => {
-    if (user) {
-      dispatch(getMyRoutes(user.userId))
-    }
-
-  }, [user])
-
-  useEffect(() => {
-
-    const mapObj = new mapboxgl.Map({
-      container: mapContainer, // container id
-      style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
-      center: [-122.675246, 45.529431], // starting position
-      zoom: 13, // starting zoom
-      minZoom: 11 // keep it local
-    })
-    setMap(mapObj)
+	const [map, setMap] = useState(null);
+	const [selectedTab, setSelectedTab] = useState(0);
+	const [hasLoaded, setHasLoaded] = useState(false)
 
 
-  }, [])
+	useEffect(
+		() => {
+			if (currentUser) {
+				dispatch(getMyRoutes(currentUser.userId));
+			}
+		},
+		[currentUser]
+	);
 
-  useEffect(() => {
-    if (map && currentRoute) {
+	useEffect(() => {
+		const mapObj = new mapboxgl.Map({
+			container: mapContainer, // container id
+			style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
+			center: mapCenter, // starting position
+			zoom: 13, // starting zoom
+			minZoom: 11 // keep it local
+		});
+		setMap(mapObj);
+	}, []);
 
-      if (map.getSource('route')) {
-        map.removeLayer('route');
-        map.removeSource('route');
-      }
+	useEffect(
+		() => {
+			if (map && currentRoute) {
+				if (!hasLoaded) {
+					map.on('load', () => {
+						if (map.getSource('route')) {
+							map.removeLayer('route');
+							map.removeSource('route');
+						}
 
-      const firstSplit = currentRoute.coordinates.split(';');
-      const secondSplit = firstSplit.map((el) => {
-        return el.split(',')
-      })
+						const firstSplit = currentRoute.coordinates.split(';');
+						const secondSplit = firstSplit.map((el) => {
+							return el.split(',');
+						});
 
-      const finalArr = secondSplit.map(subArr => {
-        return subArr.map(stringNum => {
-          return Number(stringNum)
-        })
-      })
+						const finalArr = secondSplit.map((subArr) => {
+							return subArr.map((stringNum) => {
+								return Number(stringNum);
+							});
+						});
 
-      const coords = finalArr;
+						const coords = finalArr;
 
-      // const directions = new Directions({
-      //   accessToken: mapboxgl.accessToken,
-      //   unit: 'metric',
-      //   profile: 'mapbox/walking'
-      // });
-
-      // directions.setOrigin(finalArr[0])
-      // directions.setDestination(finalArr[finalArr.length - 1])
-      // finalArr.forEach((coord, i) => {
-      //   if (!(i === 0 || i === finalArr.length - 1)) {
-      //     directions.addWaypoint(i, coord)
-      //   }
-
-      // })
-      // console.log(finalArr)
-      // map.addControl(directions, 'top-left');
-
-      const coordsObj = { coordinates: coords, type: 'LineString' }
-      // map.removeLayer()
-      map.addLayer({
-        "id": "route",
-        "type": "line",
-        "source": {
-          "type": "geojson",
-          "data": {
-            "type": "Feature",
-            "properties": {},
-            "geometry": coordsObj
-          }
-        },
-        "layout": {
-          "line-join": "round",
-          "line-cap": "round"
-        },
-        "paint": {
-          "line-color": "#3b9ddd",
-          "line-width": 8,
-          "line-opacity": 0.8
-        }
-      });
-    }
-  }, [map, currentRoute])
+						map.flyTo({
+							center: coords[0]
+						});
 
 
 
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      flexGrow: 1,
-      backgroundColor: theme.palette.background.paper,
-      display: 'flex',
-      height: '100vh'
-    },
-    tabs: {
-      borderRight: `1px solid ${theme.palette.divider}`,
-    },
-  }));
+						const coordsObj = { coordinates: coords, type: 'LineString' };
+						// map.removeLayer()
+						map.addLayer({
+							id: 'route',
+							type: 'line',
+							source: {
+								type: 'geojson',
+								data: {
+									type: 'Feature',
+									properties: {},
+									geometry: coordsObj
+								}
+							},
+							layout: {
+								'line-join': 'round',
+								'line-cap': 'round'
+							},
+							paint: {
+								'line-color': '#3b9ddd',
+								'line-width': 8,
+								'line-opacity': 0.8
+							}
+						});
+						setHasLoaded(true)
+					})
 
-  const classes = useStyles();
+				} else {
+					if (map.getSource('route')) {
+						map.removeLayer('route');
+						map.removeSource('route');
+					}
+
+					const firstSplit = currentRoute.coordinates.split(';');
+					const secondSplit = firstSplit.map((el) => {
+						return el.split(',');
+					});
+
+					const finalArr = secondSplit.map((subArr) => {
+						return subArr.map((stringNum) => {
+							return Number(stringNum);
+						});
+					});
+
+					const coords = finalArr;
+
+					map.flyTo({
+						center: coords[0]
+					});
 
 
-  return (
-    <>
-      {/* {routes && routes.map(({ id }) => {
-        return <MyRoutesNav key={id} id={id} />
-      })} */}
-      <div className='my-routes-container'>
-        <div className={classes.root}>
-          <Tabs
-            orientation="vertical"
-            variant="scrollable"
-            value={selectedTab}
-            // onChange={handleChange}
-            aria-label="Vertical tabs example"
-            className={classes.tabs}
-          >
-            {routes && routes.map(({ id }) => {
-              return <MyRoutesNav key={id} id={id} setSelectedTab={setSelectedTab} />
-            })}
 
-          </Tabs>
-          <div className='map-area'>
-            <div className='map-grid-container'>
-              <div ref={el => mapContainer = el} className='my-routes-map-container' />
-            </div>
-            {currentRoute && routePersonalInfo
-              ?
-              <div className='directions'>
-                <h1>Route Details</h1>
-                <div>Distance: {currentRoute.distance} miles</div>
-                <div>Best Time: {currentRoute.best_time}</div>
-                <div>Average Time: {currentRoute.average_time}</div>
-                <div>Total Number of Runs: {currentRoute.total_number_of_runs}</div>
-                <div>Personal Best Time: {routePersonalInfo.best_time}</div>
-                <div>Personal Average Time: {routePersonalInfo.average_time}</div>
-                <div>Personal Number of Runs: {routePersonalInfo.number_of_runs}</div>
-              </div>
-              :
-              <h1>No Route Selected</h1>}
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
+					const coordsObj = { coordinates: coords, type: 'LineString' };
+					// map.removeLayer()
+					map.addLayer({
+						id: 'route',
+						type: 'line',
+						source: {
+							type: 'geojson',
+							data: {
+								type: 'Feature',
+								properties: {},
+								geometry: coordsObj
+							}
+						},
+						layout: {
+							'line-join': 'round',
+							'line-cap': 'round'
+						},
+						paint: {
+							'line-color': '#3b9ddd',
+							'line-width': 8,
+							'line-opacity': 0.8
+						}
+					});
+				}
+
+
+
+
+
+			}
+		},
+		[map, currentRoute]
+	);
+
+	useEffect(
+		() => {
+			if (routes && currentUser) {
+				dispatch(displayRoute(routes[0].id, currentUser.userId));
+			}
+		},
+		[currentUser, routes]
+	);
+
+	const useStyles = makeStyles((theme) => ({
+		root: {
+			flexGrow: 1,
+			backgroundColor: theme.palette.background.paper,
+			display: 'flex',
+			height: '100vh'
+		},
+		tabs: {
+			borderRight: `1px solid ${theme.palette.divider}`
+		}
+	}));
+
+	const classes = useStyles();
+
+	return (
+		<div className="my-routes-container">
+			<div className={classes.root}>
+				<Tabs
+					orientation="vertical"
+					variant="scrollable"
+					value={selectedTab}
+					// onChange={handleChange}
+					aria-label="Vertical tabs example"
+					className={classes.tabs}
+				>
+					{routes &&
+						routes.map(({ id }, i) => {
+							return <MyRoutesNav index={i} key={id} id={id} setSelectedTab={setSelectedTab} />;
+						})}
+				</Tabs>
+				<div className="map-area">
+					<div className="map-grid-container">
+						<div ref={(el) => (mapContainer = el)} className="my-routes-map-container" />
+					</div>
+					{/* {currentRoute && routePersonalInfo
+            ? */}
+					{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
+					{/* :
+            <h1>No Route Selected</h1>} */}
+				</div>
+			</div>
+		</div>
+	);
+};
 
 export default MyRoutes;

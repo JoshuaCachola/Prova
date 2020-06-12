@@ -9,6 +9,7 @@
 //   };
 // };
 
+<<<<<<< HEAD
 // export const getRuns = () => async (dispatch, getState) => {
 //   try {
 //     // const {
@@ -16,6 +17,11 @@
 
 //     //   }
 //     // } = getState();
+=======
+// export const getRuns = (userId) => async (dispatch, useState) => {
+//   // const userId = useState().id;
+//   try {
+>>>>>>> 63bc046de11d691f1de08c4fc356256bb88e6e01
 //     let res = await fetch(`${baseUrl}/users/${userId}/runs`);
 
 //     if (!res.ok) throw res;

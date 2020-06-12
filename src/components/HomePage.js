@@ -1,23 +1,42 @@
-import React from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { useAuth0 } from '../react-auth0-spa';
-// import { getUser } from '../store/authorization';
+import React, { useEffect } from 'react';
+import MainDash from './homepage/MainDash';
+import SideBar from './homepage/SideBar';
+
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+	root: {
+		flexGrow: 1,
+		marginTop: theme.spacing(8)
+	},
+	paper: {
+		padding: theme.spacing(2),
+		textAlign: 'center',
+		color: theme.palette.text.secondary
+	}
+}));
 
 const HomePage = () => {
-	// const { user } = useAuth0();
+	const classes = useStyles();
 
-	// const dispatch = useDispatch();
+	useEffect(() => {
+		document.title = 'Prova - Home';
+	}, []);
 
-	// const currentUser = useSelector((state) => state.authorization.currentUser);
-
-	// useEffect(
-	// 	() => {
-	// 		dispatch(getUser(user));
-	// 	},
-	// 	[ user, dispatch ]
-	// );
-
-	return <h1>Home Page</h1>;
+	return (
+		<Container className={classes.root} maxWidth="md">
+			<Grid container justify="center" spacing={3}>
+				<Grid item xs={12} sm={3}>
+					<SideBar />
+				</Grid>
+				<Grid item xs={12} sm={9}>
+					<MainDash />
+				</Grid>
+			</Grid>
+		</Container>
+	);
 };
 
 export default HomePage;

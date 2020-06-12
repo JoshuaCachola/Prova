@@ -15,12 +15,12 @@ import SearchIcon from '@material-ui/icons/Search';
 // import DirectionsIcon from '@material-ui/icons/Directions';
 import SaveIcon from '@material-ui/icons/Save';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	root: {
 		padding: '2px 4px',
 		display: 'flex',
 		alignItems: 'center',
-		width: '100%',
+		width: '100%'
 	},
 	input: {
 		marginLeft: theme.spacing(1),
@@ -28,11 +28,11 @@ const useStyles = makeStyles(theme => ({
 		backgroudColor: 'yellow'
 	},
 	iconButton: {
-		padding: 10,
+		padding: 10
 	},
 	divider: {
 		height: 28,
-		margin: 4,
+		margin: 4
 	},
 	sideMenu: {
 		width: '25vh'
@@ -43,7 +43,7 @@ const CreateRoute = () => {
 	mapboxgl.accessToken =
 		'pk.eyJ1IjoibWFya2ptNjEwIiwiYSI6ImNrYjFjeTBoMzAzb3UyeXF1YTE3Y25wdDMifQ.K9r926HKVv0u8RQzpdXleg';
 
-	const [mapState, setMapState] = useState({
+	const [ mapState, setMapState ] = useState({
 		lng: -122,
 		lat: 37,
 		zoom: 2
@@ -51,11 +51,11 @@ const CreateRoute = () => {
 	const { user } = useAuth0();
 	const dispatch = useDispatch();
 
-	const [coordState, setCoordState] = useState(null);
-	const [distanceState, setDistanceState] = useState(0.00);
-	const [durationState, setDurationState] = useState(0.00);
-	const [searchInput, setSearch] = useState('');
-	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
+	const [ coordState, setCoordState ] = useState(null);
+	const [ distanceState, setDistanceState ] = useState(0.0);
+	const [ durationState, setDurationState ] = useState(0.0);
+	const [ searchInput, setSearch ] = useState('');
+	const [ mapCenter, setMapCenter ] = useState([ -122.675246, 45.529431 ]);
 
 	let mapContainer = useRef(null);
 
@@ -70,9 +70,8 @@ const CreateRoute = () => {
 			minZoom: 11 // keep it local
 		});
 
-		// Maybe instantiate directions in updateRoute and give it the data then so it goes based on 
+		// Maybe instantiate directions in updateRoute and give it the data then so it goes based on
 		// path drawn instead of clicking
-
 
 		mapObj.on('load', () => {
 			const drawObj = new MapboxDraw({
@@ -87,14 +86,14 @@ const CreateRoute = () => {
 					{
 						id: 'gl-draw-line',
 						type: 'line',
-						filter: ['all', ['==', '$type', 'LineString'], ['!=', 'mode', 'static']],
+						filter: [ 'all', [ '==', '$type', 'LineString' ], [ '!=', 'mode', 'static' ] ],
 						layout: {
 							'line-cap': 'round',
 							'line-join': 'round'
 						},
 						paint: {
 							'line-color': '#3b9ddd',
-							'line-dasharray': [0.2, 2],
+							'line-dasharray': [ 0.2, 2 ],
 							'line-width': 4,
 							'line-opacity': 0.7
 						}
@@ -105,9 +104,9 @@ const CreateRoute = () => {
 						type: 'circle',
 						filter: [
 							'all',
-							['==', 'meta', 'vertex'],
-							['==', '$type', 'Point'],
-							['!=', 'mode', 'static']
+							[ '==', 'meta', 'vertex' ],
+							[ '==', '$type', 'Point' ],
+							[ '!=', 'mode', 'static' ]
 						],
 						paint: {
 							'circle-radius': 10,
@@ -120,9 +119,9 @@ const CreateRoute = () => {
 						type: 'circle',
 						filter: [
 							'all',
-							['==', 'meta', 'vertex'],
-							['==', '$type', 'Point'],
-							['!=', 'mode', 'static']
+							[ '==', 'meta', 'vertex' ],
+							[ '==', '$type', 'Point' ],
+							[ '!=', 'mode', 'static' ]
 						],
 						paint: {
 							'circle-radius': 6,
@@ -192,7 +191,6 @@ const CreateRoute = () => {
 					'?geometries=geojson&steps=true&&access_token=' +
 					mapboxgl.accessToken;
 
-
 				try {
 					let res = await fetch(url);
 
@@ -239,17 +237,18 @@ const CreateRoute = () => {
 		});
 	};
 
-	useEffect(() => {
-
-		createMB();
-	}, [mapCenter, setMapCenter]);
+	useEffect(
+		() => {
+			createMB();
+		},
+		[ mapCenter, setMapCenter ]
+	);
 
 	const createRouteClick = () => {
 		dispatch(createRoute(distanceState, coordState, user.userId));
-
 	};
 
-	const handleLocSearch = async e => {
+	const handleLocSearch = async (e) => {
 		e.preventDefault();
 		const search = encodeURI(searchInput);
 		const url = `
@@ -258,17 +257,15 @@ const CreateRoute = () => {
 		let res = await fetch(url);
 		res = await res.json();
 		setMapCenter(res.features[0].center);
-
 	};
 
-	const handleSearchInput = e => {
+	const handleSearchInput = (e) => {
 		setSearch(e.target.value);
 	};
 
 	const classes = useStyles();
 	return (
-<<<<<<< HEAD
-		<>
+		<React.Fragment>
 			<Grid container>
 				<Grid item xs={2} sm={2}>
 					<div className={classes.sideMenu}>Side bar</div>
@@ -288,7 +285,8 @@ const CreateRoute = () => {
 							type="submit"
 							className={classes.iconButton}
 							aria-label="search"
-							onClick={handleLocSearch}>
+							onClick={handleLocSearch}
+						>
 							<SearchIcon />
 						</IconButton>
 						<Divider className={classes.divider} orientation="vertical" />
@@ -305,49 +303,27 @@ const CreateRoute = () => {
 							size="small"
 							className={classes.button}
 							endIcon={<Icon className="fas fa-running" color="white" />}
+							onClick={createRouteClick}
 						>
 							Save
 						</Button>
 					</Paper>
-					<div ref={(el) => (mapContainer = el)} className='mapContainer' />
+					<div ref={(el) => (mapContainer = el)} className="mapContainer" />
 				</Grid>
 				<Grid item xs={12} s={12}>
 					<Box display="flex" justifyContent="space-evenly">
 						<Box flexDirection="column">
-							<Box>
-								Distance
-							</Box>
-							<Box>
-								{distanceState.toFixed(2)} mi
-							</Box>
+							<Box>Distance</Box>
+							<Box>{distanceState.toFixed(2)} mi</Box>
 						</Box>
 						<Box flexDirection="column">
-							<Box>
-								Est. route duration
-							</Box>
-							<Box>
-								{durationState} min
-							</Box>
+							<Box>Est. route duration</Box>
+							<Box>{durationState} min</Box>
 						</Box>
 					</Box>
 				</Grid>
 			</Grid>
-		</>
-=======
-		<React.Fragment>
-			<div>
-				{/* <div className="sidebarStyle">
-					<div>
-						Longitude: {mapState.lng} | Latitude: {mapState.lat} | Zoom: {mapState.zoom}
-					</div>
-				</div> */}
-				<div ref={(el) => (mapContainer = el)} className="mapContainer" />
-			</div>
-			<button onClick={createRouteClick} className="create-route-button">
-				Save Route
-			</button>
 		</React.Fragment>
->>>>>>> master
 	);
 };
 
