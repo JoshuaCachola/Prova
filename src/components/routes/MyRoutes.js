@@ -17,7 +17,7 @@ const MyRoutes = () => {
 
 	const dispatch = useDispatch();
 
-	const [ mapCenter, setMapCenter ] = useState([ -122.675246, 45.529431 ]);
+	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
 
 	const routes = useSelector((state) => state.routes.routes);
 
@@ -25,8 +25,10 @@ const MyRoutes = () => {
 
 	const routePersonalInfo = useSelector((state) => state.routes.routePersonalInfo);
 
-	const [ map, setMap ] = useState(null);
-	const [ selectedTab, setSelectedTab ] = useState(0);
+	const [map, setMap] = useState(null);
+	const [selectedTab, setSelectedTab] = useState(0);
+	const [hasLoaded, setHasLoaded] = useState(false)
+
 
 	useEffect(
 		() => {
@@ -34,7 +36,7 @@ const MyRoutes = () => {
 				dispatch(getMyRoutes(currentUser.userId));
 			}
 		},
-		[ currentUser ]
+		[currentUser]
 	);
 
 	useEffect(() => {
@@ -51,7 +53,59 @@ const MyRoutes = () => {
 	useEffect(
 		() => {
 			if (map && currentRoute) {
-				map.on('load', () => {
+				if (!hasLoaded) {
+					map.on('load', () => {
+						if (map.getSource('route')) {
+							map.removeLayer('route');
+							map.removeSource('route');
+						}
+
+						const firstSplit = currentRoute.coordinates.split(';');
+						const secondSplit = firstSplit.map((el) => {
+							return el.split(',');
+						});
+
+						const finalArr = secondSplit.map((subArr) => {
+							return subArr.map((stringNum) => {
+								return Number(stringNum);
+							});
+						});
+
+						const coords = finalArr;
+
+						map.flyTo({
+							center: coords[0]
+						});
+
+
+
+						const coordsObj = { coordinates: coords, type: 'LineString' };
+						// map.removeLayer()
+						map.addLayer({
+							id: 'route',
+							type: 'line',
+							source: {
+								type: 'geojson',
+								data: {
+									type: 'Feature',
+									properties: {},
+									geometry: coordsObj
+								}
+							},
+							layout: {
+								'line-join': 'round',
+								'line-cap': 'round'
+							},
+							paint: {
+								'line-color': '#3b9ddd',
+								'line-width': 8,
+								'line-opacity': 0.8
+							}
+						});
+						setHasLoaded(true)
+					})
+
+				} else {
 					if (map.getSource('route')) {
 						map.removeLayer('route');
 						map.removeSource('route');
@@ -74,22 +128,7 @@ const MyRoutes = () => {
 						center: coords[0]
 					});
 
-					// const directions = new Directions({
-					//   accessToken: mapboxgl.accessToken,
-					//   unit: 'metric',
-					//   profile: 'mapbox/walking'
-					// });
 
-					// directions.setOrigin(finalArr[0])
-					// directions.setDestination(finalArr[finalArr.length - 1])
-					// finalArr.forEach((coord, i) => {
-					//   if (!(i === 0 || i === finalArr.length - 1)) {
-					//     directions.addWaypoint(i, coord)
-					//   }
-
-					// })
-					// console.log(finalArr)
-					// map.addControl(directions, 'top-left');
 
 					const coordsObj = { coordinates: coords, type: 'LineString' };
 					// map.removeLayer()
@@ -114,10 +153,15 @@ const MyRoutes = () => {
 							'line-opacity': 0.8
 						}
 					});
-				});
+				}
+
+
+
+
+
 			}
 		},
-		[ map, currentRoute ]
+		[map, currentRoute]
 	);
 
 	useEffect(
@@ -126,7 +170,7 @@ const MyRoutes = () => {
 				dispatch(displayRoute(routes[0].id, currentUser.userId));
 			}
 		},
-		[ currentUser, routes ]
+		[currentUser, routes]
 	);
 
 	const useStyles = makeStyles((theme) => ({
