@@ -55,6 +55,7 @@ const CreateRoute = ({ history }) => {
 	const [durationState, setDurationState] = useState(0.00);
 	const [searchInput, setSearch] = useState('');
 	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
+	const [directionState, setDirectionState] = useState(null);
 
 	let mapContainer = useRef(null);
 
@@ -210,6 +211,8 @@ const CreateRoute = ({ history }) => {
 					}
 
 					console.log(runInstructions);
+					const directionString = runInstructions.join(';')
+					setDirectionState(directionString)
 
 					// add later to display estimated time and distance
 					const distance = res.routes[0].distance * 0.001 / 1.609;
@@ -244,7 +247,7 @@ const CreateRoute = ({ history }) => {
 
 	const createRouteClick = e => {
 		e.preventDefault();
-		dispatch(createRoute(distanceState, coordState, user.userId));
+		dispatch(createRoute(distanceState, coordState, user.userId, directionState));
 		history.push('/my-routes');
 	};
 
