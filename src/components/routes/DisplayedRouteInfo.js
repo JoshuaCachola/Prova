@@ -8,7 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
+import DirectionsList from './DirectionsList';
 
 const useStyles = makeStyles({
     table: {
@@ -40,8 +40,17 @@ const DisplayedRouteInfo = () => {
         createData('Best Time', currentRoute.best_time),
     ]
 
+
+    const directionsArr = currentRoute.directions.split(';')
+
+
+
     return (
+
         <div className='route-info'>
+            <div className='directions'>
+                <DirectionsList />
+            </div>
             <div className='personal-table'>
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="simple table">

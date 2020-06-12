@@ -55,3 +55,12 @@
   height: 90vh;
   width: 100%;
 }
+
+.route-nav-tab:hover {
+  color: red;
+}
+
+.directions-container {
+  height: 390px;
+  overflow-y: scroll;
+}
