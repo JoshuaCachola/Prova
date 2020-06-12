@@ -7,36 +7,49 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  makeStyles
+  makeStyles,
+  FormControl,
+  Select,
+  InputLabel,
+  MenuItem
 } from '@material-ui/core';
-// import DateFnsUtils from '@date-io/date-fns';
-// import {
-//   MuiPickersUtilsProvider,
-//   KeyboardTimePicker,
-//   KeyboardDatePicker,
-// } from '@material-ui/pickers';
+import { useDispatch, useSelector } from 'react-redux';
+import { baseUrl } from '../../config/config';
+import { getMyRoutes } from '../../store/routes';
 
 const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
   },
+  formControl: {
+    width: "100%",
+  },
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: 200,
   },
 }));
 
 const AddRunForm = () => {
-  const [distance, setDistance] = useState(0.00), //default should be the distance that comes from the route
-    [time, setTime] = useState(0),
-    [date, setDate] = useState(Date.now().toString()),
-    [open, setOpen] = useState(true);
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.authorization.currentUser);
+  const routes = useSelector((state) => state.routes.routes);
+  const [distance, setDistance] = useState(null), //default should be the distance that comes from the route
+    [date, setDate] = useState(null),
+    [open, setOpen] = useState(true),
+    [route, setRoute] = useState(null),
+    [time, setTime] = useState(null),
+    [calories, setCalories] = useState(null);
 
-  useEffect(() => {
-
-  }, []);
+  useEffect(
+    () => {
+      if (currentUser) {
+        dispatch(getMyRoutes(currentUser.userId));
+      }
+    },
+    [currentUser]
+  );
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -46,9 +59,35 @@ const AddRunForm = () => {
     setOpen(false);
   };
 
-  const handleDateChange = date => {
-    setDate(date);
-  };
+  const handleChange = e => {
+    setRoute(e.target.value);
+    console.log(e.target);
+    setDistance(routes[e.target.name]);
+  }
+
+  const handleSubmit = async e => {
+    console.log(date, distance, route, time, calories);
+    try {
+      const res = await fetch(`${baseUrl}/users/${currentUser.userId}/runs`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          date,
+          distance,
+          routeId: route,
+          time,
+          calories,
+        })
+      });
+
+      if (!res.ok) throw res;
+
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   const classes = useStyles();
   return (
@@ -60,12 +99,26 @@ const AddRunForm = () => {
             To subscribe to this website, please enter your email address here. We will send updates
             occasionally.
           </DialogContentText> */}
+          <FormControl className={classes.formControl}>
+            <InputLabel id="routes-input">Routes</InputLabel>
+            <Select
+              labelId="routes"
+              id="routes-select"
+              value={route}
+              onChange={handleChange}
+            >
+              {routes &&
+                routes.map(({ id }, i) => <MenuItem key={id} value={id}>Route {id}</MenuItem>)}
+            </Select>
+          </FormControl>
           <TextField
             autoFocus
             margin="dense"
             id="distance"
             label="Distance"
             type="text"
+            onChange={e => setDistance(e.target.value)}
+            placeholder="X.XX"
             fullWidth
           />
           <TextField
@@ -74,24 +127,37 @@ const AddRunForm = () => {
             id="run_duration"
             label="Run duration"
             type="text"
+            onChange={e => setTime(e.target.value)}
+            placeholder="X'XX"
+            fullWidth
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="calories"
+            label="Calories"
+            type="text"
+            onChange={e => setCalories(e.target.value)}
+            placeholder="X.XX"
             fullWidth
           />
           <TextField
             id="datetime-local"
-            label="Next appointment"
+            label="Date and time"
             type="datetime-local"
-            defaultValue="2017-05-24T10:30"
-            className={classes.textField}
-            InputLabelProps={{
-              shrink: true,
-            }}
+            defaultValue={new Date().toISOString().slice(0, 16)}
+            onChange={e => setDate(e.target.value)}
+            fullWidth
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button
+            type="submit"
+            onClick={handleSubmit}
+            color="primary">
             Run it!
           </Button>
         </DialogActions>

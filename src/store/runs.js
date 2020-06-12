@@ -1,6 +1,7 @@
 import { baseUrl } from '../config/config';
 
 export const GET_RUNS = 'GET_RUNS';
+// export const ADD_RUN = 'ADD_RUN';
 
 export const getMyRuns = runs => {
   return {
@@ -8,6 +9,13 @@ export const getMyRuns = runs => {
     runs
   };
 };
+
+// export const addRun = run => {
+//   return {
+//     type: ADD_RUN,
+//     run
+//   };
+// };
 
 export const getRuns = userId => async dispatch => {
   try {
@@ -20,7 +28,11 @@ export const getRuns = userId => async dispatch => {
   } catch (err) {
     console.error(err);
   }
-}
+};
+
+// export const createRun = run => async dispatch => {
+
+// };
 
 export default function reducer(state = {}, action) {
   switch (action.type) {

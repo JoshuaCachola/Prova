@@ -14,8 +14,8 @@ const useStyles = makeStyles({
   nav: {
     maxHeight: '100vh',
     maxWidth: '40vw',
-    // overflowY: 'scroll',
-    // overflowX: 'hidden',
+    overflowY: 'scroll',
+    overflowX: 'hidden',
     position: 'absolute'
   },
   list: {
@@ -55,7 +55,7 @@ const MyStats = () => {
     const sortedRuns = myRuns.sort((a, b) => new Date(a.date.split(', ').join('-')) - new Date(b.date.split(', ').join('-')));
     const graphData = {
       id: "runs",
-      color: "hsl(286, 70%, 50%)",
+      color: "#FF6600",
       data: []
     };
 
@@ -221,7 +221,7 @@ const MyStats = () => {
   const classes = useStyles();
   return (
     <>
-      {/* <Box className={classes.nav}>
+      <Box className={classes.nav}>
         <ul>
           {myRuns.map(run => {
             return (
@@ -235,8 +235,8 @@ const MyStats = () => {
             );
           })}
         </ul>
-      </Box> */}
-      <Tabs
+      </Box>
+      {/* <Tabs
         orientation='vertical'
         variant='scrollable'
         aria-label='Vertial runs tabs'
@@ -255,7 +255,7 @@ const MyStats = () => {
             );
           })}
         </ul>
-      </Tabs>
+      </Tabs> */}
       <Box display="flex" justifyContent="center">
         <Box className={classes.calendarContainer}>
           <Box className={classes.graphNav} display="flex" justifyContent="space-around">
