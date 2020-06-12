@@ -35,24 +35,19 @@ const MyRoutes = () => {
 				dispatch(getMyRoutes(currentUser.userId));
 			}
 		},
-		// eslint-disable-next-line
 		[ currentUser ]
 	);
 
-	useEffect(
-		() => {
-			const mapObj = new mapboxgl.Map({
-				container: mapContainer, // container id
-				style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
-				center: mapCenter, // starting position
-				zoom: 13, // starting zoom
-				minZoom: 11 // keep it local
-			});
-			setMap(mapObj);
-		},
-		// eslint-disable-next-line
-		[]
-	);
+	useEffect(() => {
+		const mapObj = new mapboxgl.Map({
+			container: mapContainer, // container id
+			style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
+			center: mapCenter, // starting position
+			zoom: 13, // starting zoom
+			minZoom: 11 // keep it local
+		});
+		setMap(mapObj);
+	}, []);
 
 	useEffect(
 		() => {
@@ -161,10 +156,11 @@ const MyRoutes = () => {
 	useEffect(
 		() => {
 			if (routes && currentUser) {
-				dispatch(displayRoute(routes[0].id, currentUser.userId));
+				if (routes.length !== 0) {
+					dispatch(displayRoute(routes[0].id, currentUser.userId));
+				}
 			}
 		},
-		// eslint-disable-next-line
 		[ currentUser, routes ]
 	);
 

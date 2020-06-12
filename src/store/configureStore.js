@@ -9,7 +9,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const reducer = combineReducers({
     authorization,
     routes,
-    // runs
+    runs
 });
 
 const configureStore = (initialState) => {

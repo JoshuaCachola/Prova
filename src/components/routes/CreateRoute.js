@@ -45,16 +45,17 @@ const CreateRoute = ({ history }) => {
 
 	const { user } = useAuth0();
 	const dispatch = useDispatch();
-	const [mapState, setMapState] = useState({
+	const [ mapState, setMapState ] = useState({
 		lng: -122,
 		lat: 37,
 		zoom: 2
 	});
-	const [coordState, setCoordState] = useState(null);
-	const [distanceState, setDistanceState] = useState(0.00);
-	const [durationState, setDurationState] = useState(0.00);
-	const [searchInput, setSearch] = useState('');
-	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
+	const [ coordState, setCoordState ] = useState(null);
+	const [ distanceState, setDistanceState ] = useState(0.0);
+	const [ durationState, setDurationState ] = useState(0.0);
+	const [ searchInput, setSearch ] = useState('');
+	const [ mapCenter, setMapCenter ] = useState([ -122.675246, 45.529431 ]);
+	const [ directionState, setDirectionState ] = useState(null);
 
 	let mapContainer = useRef(null);
 
@@ -85,14 +86,14 @@ const CreateRoute = ({ history }) => {
 					{
 						id: 'gl-draw-line',
 						type: 'line',
-						filter: ['all', ['==', '$type', 'LineString'], ['!=', 'mode', 'static']],
+						filter: [ 'all', [ '==', '$type', 'LineString' ], [ '!=', 'mode', 'static' ] ],
 						layout: {
 							'line-cap': 'round',
 							'line-join': 'round'
 						},
 						paint: {
 							'line-color': '#3b9ddd',
-							'line-dasharray': [0.2, 2],
+							'line-dasharray': [ 0.2, 2 ],
 							'line-width': 4,
 							'line-opacity': 0.7
 						}
@@ -103,9 +104,9 @@ const CreateRoute = ({ history }) => {
 						type: 'circle',
 						filter: [
 							'all',
-							['==', 'meta', 'vertex'],
-							['==', '$type', 'Point'],
-							['!=', 'mode', 'static']
+							[ '==', 'meta', 'vertex' ],
+							[ '==', '$type', 'Point' ],
+							[ '!=', 'mode', 'static' ]
 						],
 						paint: {
 							'circle-radius': 10,
@@ -118,9 +119,9 @@ const CreateRoute = ({ history }) => {
 						type: 'circle',
 						filter: [
 							'all',
-							['==', 'meta', 'vertex'],
-							['==', '$type', 'Point'],
-							['!=', 'mode', 'static']
+							[ '==', 'meta', 'vertex' ],
+							[ '==', '$type', 'Point' ],
+							[ '!=', 'mode', 'static' ]
 						],
 						paint: {
 							'circle-radius': 6,
@@ -210,6 +211,8 @@ const CreateRoute = ({ history }) => {
 					}
 
 					console.log(runInstructions);
+					const directionString = runInstructions.join(';');
+					setDirectionState(directionString);
 
 					// add later to display estimated time and distance
 					const distance = res.routes[0].distance * 0.001 / 1.609;
@@ -239,12 +242,12 @@ const CreateRoute = ({ history }) => {
 		() => {
 			createMB();
 		},
-		[mapCenter, setMapCenter]
+		[ mapCenter, setMapCenter ]
 	);
 
-	const createRouteClick = e => {
+	const createRouteClick = (e) => {
 		e.preventDefault();
-		dispatch(createRoute(distanceState, coordState, user.userId));
+		dispatch(createRoute(distanceState, coordState, user.userId, directionState));
 		history.push('/my-routes');
 	};
 
@@ -265,7 +268,7 @@ const CreateRoute = ({ history }) => {
 
 	const classes = useStyles();
 	return (
-		<>
+		<React.Fragment>
 			<Grid container>
 				<Grid item xs={2} sm={2}>
 					<div className={classes.sideMenu}>Side bar</div>
@@ -325,7 +328,7 @@ const CreateRoute = ({ history }) => {
 					</Box>
 				</Grid>
 			</Grid>
-		</>
+		</React.Fragment>
 	);
 };
 
