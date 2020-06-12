@@ -10,17 +10,17 @@ import { displayRoute } from '../../store/routes';
 
 
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
-        display: 'flex',
-        height: 224,
-    },
-    tabs: {
-        borderRight: `1px solid ${theme.palette.divider}`,
-    },
-}));
+// const useStyles = makeStyles((theme) => ({
+//     root: {
+//         flexGrow: 1,
+//         backgroundColor: theme.palette.background.paper,
+//         display: 'flex',
+//         height: 224,
+//     },
+//     tabs: {
+//         borderRight: `1px solid ${theme.palette.divider}`,
+//     },
+// }));
 
 
 function a11yProps(index) {
@@ -31,7 +31,7 @@ function a11yProps(index) {
 }
 
 const MyRoutesNav = ({ id, setSelectedTab, index }) => {
-    const classes = useStyles();
+
     const dispatch = useDispatch()
     const currentUser = useSelector(state => state.authorization.currentUser)
     const routeClickHandler = () => {
@@ -42,7 +42,7 @@ const MyRoutesNav = ({ id, setSelectedTab, index }) => {
     return (
         <>
             {/* <NavLink to={`/my-routes/${id}`} onClick={routeClickHandler}>Route {id}</NavLink> */}
-            <Tab label={`Route ${id}`} onClick={routeClickHandler} />
+            <Tab className='route-nav-tab' label={`Route ${id}`} onClick={routeClickHandler} />
         </>
     )
 }
