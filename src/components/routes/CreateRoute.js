@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
@@ -39,18 +39,17 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-const CreateRoute = () => {
+const CreateRoute = ({ history }) => {
 	mapboxgl.accessToken =
 		'pk.eyJ1IjoibWFya2ptNjEwIiwiYSI6ImNrYjFjeTBoMzAzb3UyeXF1YTE3Y25wdDMifQ.K9r926HKVv0u8RQzpdXleg';
 
+	const { user } = useAuth0();
+	const dispatch = useDispatch();
 	const [mapState, setMapState] = useState({
 		lng: -122,
 		lat: 37,
 		zoom: 2
 	});
-	const { user } = useAuth0();
-	const dispatch = useDispatch();
-
 	const [coordState, setCoordState] = useState(null);
 	const [distanceState, setDistanceState] = useState(0.00);
 	const [durationState, setDurationState] = useState(0.00);
@@ -215,7 +214,6 @@ const CreateRoute = () => {
 
 					// add later to display estimated time and distance
 					const distance = res.routes[0].distance * 0.001 / 1.609;
-
 					// const duration = res.routes[0].duration / 60;
 
 					const coords = res.routes[0].geometry;
@@ -246,6 +244,7 @@ const CreateRoute = () => {
 	const createRouteClick = e => {
 		e.preventDefault();
 		dispatch(createRoute(distanceState, coordState, user.userId));
+		history.push('/my-routes');
 	};
 
 	const handleLocSearch = async e => {
