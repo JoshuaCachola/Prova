@@ -61,8 +61,8 @@ const AddRunForm = () => {
 
   const handleChange = e => {
     setRoute(e.target.value);
-    console.log(e.target);
-    setDistance(routes[e.target.name]);
+    // console.log(e.target);
+    // setDistance(routes[e.target.name]);
   }
 
   const handleSubmit = async e => {
@@ -76,7 +76,7 @@ const AddRunForm = () => {
         body: JSON.stringify({
           date,
           distance,
-          routeId: route,
+          routeId: 2,
           time,
           calories,
         })
@@ -108,7 +108,7 @@ const AddRunForm = () => {
               onChange={handleChange}
             >
               {routes &&
-                routes.map(({ id }, i) => <MenuItem key={id} value={id}>Route {id}</MenuItem>)}
+                routes.map(({ id }) => <MenuItem key={id} value={id}>Route {id}</MenuItem>)}
             </Select>
           </FormControl>
           <TextField
