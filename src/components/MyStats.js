@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Tabs } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { useAuth0 } from '../react-auth0-spa';
+import { Box, Tabs, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { getRuns } from '../store/runs';
 
 import Calendar from './stats/Calendar';
 import RunDetails from './stats/RunDetails';
 import LineGraph from './stats/LineGraph';
+import AddRunForm from './stats/AddRunForm';
 
 const useStyles = makeStyles({
   nav: {
@@ -40,10 +44,13 @@ const MyStats = () => {
   const [calData, setCalData] = useState([]);
   const [distanceData, setDistanceData] = useState([]);
   const [caloriesData, setCaloriesData] = useState([]);
-  const [showCal, setShowCal] = useState(false);
+  const [showCal, setShowCal] = useState(true);
   const [showDistance, setShowDistance] = useState(false);
   const [showCalories, setShowCalories] = useState(false);
+  const [showRunForm, setRunForm] = useState(false);
+  const dispatch = useDispatch();
 
+  const { user } = useAuth0();
   const lineGraph = (type) => {
     const sortedRuns = myRuns.sort((a, b) => new Date(a.date.split(', ').join('-')) - new Date(b.date.split(', ').join('-')));
     const graphData = {
@@ -63,6 +70,8 @@ const MyStats = () => {
   };
 
   useEffect(() => {
+    if (user)
+      dispatch(getRuns(user.userId));
     const runs = [
       { 'id': 1, 'distance': 21.01, 'time': 222.71, 'date': '2020, 06, 30', 'user_id': 1, 'calories': 2383.36, 'route': 5 },
       { 'id': 2, 'distance': 21.36, 'time': 176.65, 'date': '2018, 05, 14', 'user_id': 1, 'calories': 2423.07, 'route': 6 },
@@ -179,7 +188,7 @@ const MyStats = () => {
     setCaloriesData(lineGraph('calories'));
     // needs to be sorted by date
     setCalData(filtered_runs);
-  }, [distanceData.length, caloriesData.length]);
+  }, [distanceData.length, caloriesData.length, user]);
 
   const handleRunDetails = e => {
     console.log("clicked!");
@@ -188,21 +197,27 @@ const MyStats = () => {
   const handleShowCalGraph = () => {
     setShowCalories(false);
     setShowDistance(false);
-    setShowCal(!showCal);
+    setShowCal(true);
   };
 
   const handleShowDistGraph = () => {
     setShowCalories(false);
     setShowCal(false);
-    setShowDistance(!showDistance);
+    setShowDistance(true);
   };
 
   const handleShowCalorGraph = () => {
     setShowCal(false);
     setShowDistance(false);
-    setShowCalories(!showCalories);
+    setShowCalories(true);
   };
 
+  const handleRunForm = () => {
+    setRunForm(!showRunForm);
+  };
+
+  // console.log(dispatch(getRuns()));
+  console.log(user);
   const classes = useStyles();
   return (
     <>
@@ -251,7 +266,7 @@ const MyStats = () => {
             }
               onClick={handleShowCalGraph}
             >
-              <span>Calendar <i class="fas fa-calendar-alt"></i></span>
+              <span>Calendar <i className="fas fa-calendar-alt"></i></span>
             </Box>
             <Box className={
               showDistance
@@ -260,7 +275,7 @@ const MyStats = () => {
             }
               onClick={handleShowDistGraph}
             >
-              <span>Distance <i class="fas fa-running"></i></span>
+              <span>Distance <i className="fas fa-running"></i></span>
             </Box>
             <Box className={
               showCalories
@@ -269,7 +284,7 @@ const MyStats = () => {
             }
               onClick={handleShowCalorGraph}
             >
-              <span>Calories <i class="fas fa-fire"></i></span>
+              <span>Calories <i className="fas fa-fire"></i></span>
             </Box>
           </Box>
           {showCal &&
@@ -281,7 +296,11 @@ const MyStats = () => {
           {showCalories &&
             <LineGraph runs={caloriesData} legend="Calories" />
           }
+          {showRunForm &&
+            <AddRunForm />
+          }
         </Box>
+        <Button color="secondary" onClick={handleRunForm}>Add Run</Button>
       </Box>
     </>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
@@ -39,23 +39,22 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const CreateRoute = () => {
+const CreateRoute = ({ history }) => {
 	mapboxgl.accessToken =
 		'pk.eyJ1IjoibWFya2ptNjEwIiwiYSI6ImNrYjFjeTBoMzAzb3UyeXF1YTE3Y25wdDMifQ.K9r926HKVv0u8RQzpdXleg';
 
-	const [ mapState, setMapState ] = useState({
+	const { user } = useAuth0();
+	const dispatch = useDispatch();
+	const [mapState, setMapState] = useState({
 		lng: -122,
 		lat: 37,
 		zoom: 2
 	});
-	const { user } = useAuth0();
-	const dispatch = useDispatch();
-
-	const [ coordState, setCoordState ] = useState(null);
-	const [ distanceState, setDistanceState ] = useState(0.0);
-	const [ durationState, setDurationState ] = useState(0.0);
-	const [ searchInput, setSearch ] = useState('');
-	const [ mapCenter, setMapCenter ] = useState([ -122.675246, 45.529431 ]);
+	const [coordState, setCoordState] = useState(null);
+	const [distanceState, setDistanceState] = useState(0.00);
+	const [durationState, setDurationState] = useState(0.00);
+	const [searchInput, setSearch] = useState('');
+	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
 
 	let mapContainer = useRef(null);
 
@@ -86,14 +85,14 @@ const CreateRoute = () => {
 					{
 						id: 'gl-draw-line',
 						type: 'line',
-						filter: [ 'all', [ '==', '$type', 'LineString' ], [ '!=', 'mode', 'static' ] ],
+						filter: ['all', ['==', '$type', 'LineString'], ['!=', 'mode', 'static']],
 						layout: {
 							'line-cap': 'round',
 							'line-join': 'round'
 						},
 						paint: {
 							'line-color': '#3b9ddd',
-							'line-dasharray': [ 0.2, 2 ],
+							'line-dasharray': [0.2, 2],
 							'line-width': 4,
 							'line-opacity': 0.7
 						}
@@ -104,9 +103,9 @@ const CreateRoute = () => {
 						type: 'circle',
 						filter: [
 							'all',
-							[ '==', 'meta', 'vertex' ],
-							[ '==', '$type', 'Point' ],
-							[ '!=', 'mode', 'static' ]
+							['==', 'meta', 'vertex'],
+							['==', '$type', 'Point'],
+							['!=', 'mode', 'static']
 						],
 						paint: {
 							'circle-radius': 10,
@@ -119,9 +118,9 @@ const CreateRoute = () => {
 						type: 'circle',
 						filter: [
 							'all',
-							[ '==', 'meta', 'vertex' ],
-							[ '==', '$type', 'Point' ],
-							[ '!=', 'mode', 'static' ]
+							['==', 'meta', 'vertex'],
+							['==', '$type', 'Point'],
+							['!=', 'mode', 'static']
 						],
 						paint: {
 							'circle-radius': 6,
@@ -214,7 +213,6 @@ const CreateRoute = () => {
 
 					// add later to display estimated time and distance
 					const distance = res.routes[0].distance * 0.001 / 1.609;
-
 					// const duration = res.routes[0].duration / 60;
 
 					const coords = res.routes[0].geometry;
@@ -241,11 +239,13 @@ const CreateRoute = () => {
 		() => {
 			createMB();
 		},
-		[ mapCenter, setMapCenter ]
+		[mapCenter, setMapCenter]
 	);
 
-	const createRouteClick = () => {
+	const createRouteClick = e => {
+		e.preventDefault();
 		dispatch(createRoute(distanceState, coordState, user.userId));
+		history.push('/my-routes');
 	};
 
 	const handleLocSearch = async (e) => {
@@ -265,7 +265,7 @@ const CreateRoute = () => {
 
 	const classes = useStyles();
 	return (
-		<React.Fragment>
+		<>
 			<Grid container>
 				<Grid item xs={2} sm={2}>
 					<div className={classes.sideMenu}>Side bar</div>
@@ -298,10 +298,12 @@ const CreateRoute = () => {
 						<DirectionsIcon />
 					</IconButton> */}
 						<Button
+							type="submit"
 							variant="contained"
 							color="secondary"
 							size="small"
 							className={classes.button}
+							onClick={createRouteClick}
 							endIcon={<Icon className="fas fa-running" color="white" />}
 							onClick={createRouteClick}
 						>
@@ -323,7 +325,7 @@ const CreateRoute = () => {
 					</Box>
 				</Grid>
 			</Grid>
-		</React.Fragment>
+		</>
 	);
 };
 
