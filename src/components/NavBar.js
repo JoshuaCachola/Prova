@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useAuth0 } from '../react-auth0-spa';
 import { getUser } from '../store/authorization';
@@ -11,7 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Avatar from '@material-ui/core/Avatar';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -92,7 +93,7 @@ const NavBar = (props) => {
 				<AppBar position="static" className={classes.appBar}>
 					<Toolbar>
 						<Typography variant="h6" className={classes.title}>
-							<Link href="/home" className={classes.linkStyle} underline="none">
+							<Link to="/home" className={classes.linkStyle} underline="none">
 								PROVA
 							</Link>
 						</Typography>
@@ -135,7 +136,7 @@ const NavBar = (props) => {
 											onClose={handleClose}
 										>
 											<MenuItem onClick={handleClose}>
-												<Link href="/profile" className={classes.linkStyle} underline="none">
+												<Link to="/profile" className={classes.linkStyle} underline="none">
 													Profile
 											</Link>
 											</MenuItem>

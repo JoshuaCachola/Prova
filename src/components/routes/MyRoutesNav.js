@@ -1,12 +1,8 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 import { displayRoute } from '../../store/routes';
 
 
@@ -34,12 +30,12 @@ function a11yProps(index) {
     };
 }
 
-const MyRoutesNav = ({ id, setSelectedTab }) => {
+const MyRoutesNav = ({ id, setSelectedTab, index }) => {
     const classes = useStyles();
     const dispatch = useDispatch()
     const currentUser = useSelector(state => state.authorization.currentUser)
     const routeClickHandler = () => {
-        // setSelectedTab(id - 1)
+        setSelectedTab(index)
         dispatch(displayRoute(id, currentUser.userId))
     }
 

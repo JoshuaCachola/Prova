@@ -15,12 +15,12 @@ import SearchIcon from '@material-ui/icons/Search';
 // import DirectionsIcon from '@material-ui/icons/Directions';
 import SaveIcon from '@material-ui/icons/Save';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	root: {
 		padding: '2px 4px',
 		display: 'flex',
 		alignItems: 'center',
-		width: '100%',
+		width: '100%'
 	},
 	input: {
 		marginLeft: theme.spacing(1),
@@ -28,11 +28,11 @@ const useStyles = makeStyles(theme => ({
 		backgroudColor: 'yellow'
 	},
 	iconButton: {
-		padding: 10,
+		padding: 10
 	},
 	divider: {
 		height: 28,
-		margin: 4,
+		margin: 4
 	},
 	sideMenu: {
 		width: '25vh'
@@ -71,7 +71,6 @@ const CreateRoute = ({ history }) => {
 
 		// Maybe instantiate directions in updateRoute and give it the data then so it goes based on
 		// path drawn instead of clicking
-
 
 		mapObj.on('load', () => {
 			const drawObj = new MapboxDraw({
@@ -236,10 +235,12 @@ const CreateRoute = ({ history }) => {
 		});
 	};
 
-	useEffect(() => {
-
-		createMB();
-	}, [mapCenter, setMapCenter]);
+	useEffect(
+		() => {
+			createMB();
+		},
+		[mapCenter, setMapCenter]
+	);
 
 	const createRouteClick = e => {
 		e.preventDefault();
@@ -247,7 +248,7 @@ const CreateRoute = ({ history }) => {
 		history.push('/my-routes');
 	};
 
-	const handleLocSearch = async e => {
+	const handleLocSearch = async (e) => {
 		e.preventDefault();
 		const search = encodeURI(searchInput);
 		const url = `
@@ -256,10 +257,9 @@ const CreateRoute = ({ history }) => {
 		let res = await fetch(url);
 		res = await res.json();
 		setMapCenter(res.features[0].center);
-
 	};
 
-	const handleSearchInput = e => {
+	const handleSearchInput = (e) => {
 		setSearch(e.target.value);
 	};
 
@@ -285,7 +285,8 @@ const CreateRoute = ({ history }) => {
 							type="submit"
 							className={classes.iconButton}
 							aria-label="search"
-							onClick={handleLocSearch}>
+							onClick={handleLocSearch}
+						>
 							<SearchIcon />
 						</IconButton>
 						<Divider className={classes.divider} orientation="vertical" />
@@ -304,29 +305,22 @@ const CreateRoute = ({ history }) => {
 							className={classes.button}
 							onClick={createRouteClick}
 							endIcon={<Icon className="fas fa-running" color="white" />}
+							onClick={createRouteClick}
 						>
 							Save
 						</Button>
 					</Paper>
-					<div ref={(el) => (mapContainer = el)} className='mapContainer' />
+					<div ref={(el) => (mapContainer = el)} className="mapContainer" />
 				</Grid>
 				<Grid item xs={12} s={12}>
 					<Box display="flex" justifyContent="space-evenly">
 						<Box flexDirection="column">
-							<Box>
-								Distance
-							</Box>
-							<Box>
-								{distanceState.toFixed(2)} mi
-							</Box>
+							<Box>Distance</Box>
+							<Box>{distanceState.toFixed(2)} mi</Box>
 						</Box>
 						<Box flexDirection="column">
-							<Box>
-								Est. route duration
-							</Box>
-							<Box>
-								{durationState} min
-							</Box>
+							<Box>Est. route duration</Box>
+							<Box>{durationState} min</Box>
 						</Box>
 					</Box>
 				</Grid>
