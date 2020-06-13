@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 import { getMyRoutes, displayRoute } from '../../store/routes';
 import MyRoutesNav from './MyRoutesNav';
-import Tabs from '@material-ui/core/Tabs';
+import { Tabs } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import DisplayedRouteInfo from './DisplayedRouteInfo';
+import NoRoutesFound from './NoRoutesFound';
 
 const MyRoutes = () => {
 	mapboxgl.accessToken =
@@ -19,7 +20,7 @@ const MyRoutes = () => {
 
 	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
 
-	const routes = useSelector((state) => state.routes.routes);
+	let routes = useSelector((state) => state.routes.routes);
 
 	const currentRoute = useSelector((state) => state.routes.currentRoute);
 
@@ -34,8 +35,11 @@ const MyRoutes = () => {
 	useEffect(
 		() => {
 			if (currentUser) {
-				dispatch(getMyRoutes(currentUser.userId));
+				if ('userId' in currentUser) {
+					dispatch(getMyRoutes(currentUser.userId));
+				}
 			}
+
 		},
 		[currentUser]
 	);
@@ -81,7 +85,7 @@ const MyRoutes = () => {
 
 
 						const coordsObj = { coordinates: coords, type: 'LineString' };
-						// map.removeLayer()
+
 						map.addLayer({
 							id: 'route',
 							type: 'line',
@@ -132,7 +136,7 @@ const MyRoutes = () => {
 
 
 					const coordsObj = { coordinates: coords, type: 'LineString' };
-					// map.removeLayer()
+
 					map.addLayer({
 						id: 'route',
 						type: 'line',
@@ -168,7 +172,10 @@ const MyRoutes = () => {
 	useEffect(
 		() => {
 			if (routes && currentUser) {
-				dispatch(displayRoute(routes[0].id, currentUser.userId));
+				if (routes.length !== 0) {
+					dispatch(displayRoute(routes[0].id, currentUser.userId));
+				}
+
 			}
 		},
 		[currentUser, routes]
@@ -183,39 +190,41 @@ const MyRoutes = () => {
 		},
 		tabs: {
 			borderRight: `1px solid ${theme.palette.divider}`
-		}
+		},
 	}));
 
 	const classes = useStyles();
-
-	return (
-		<div className="my-routes-container">
-			<div className={classes.root}>
-				<Tabs
-					orientation="vertical"
-					variant="scrollable"
-					value={selectedTab}
-					// onChange={handleChange}
-					aria-label="Vertical tabs example"
-					className={classes.tabs}
-				>
-					{routes &&
-						routes.map(({ id }, i) => {
-							return <MyRoutesNav index={i} key={id} id={id} setSelectedTab={setSelectedTab} />;
-						})}
-				</Tabs>
-				<div className="map-area">
-					<div className="map-grid-container">
-						<div ref={(el) => (mapContainer = el)} className="my-routes-map-container" />
+	// routes = []
+	return (<>
+		{routes && routes.length === 0 ?
+			<>
+				<NoRoutesFound />
+				<div ref={(el) => (mapContainer = el)} />
+			</>
+			:
+			<div className="my-routes-container">
+				<div className={classes.root}>
+					<Tabs
+						orientation="vertical"
+						variant="scrollable"
+						value={selectedTab}
+						aria-label="Vertical tabs example"
+						className={classes.tabs}
+					>
+						{routes &&
+							routes.map(({ id }, i) => {
+								return <MyRoutesNav index={i} key={id} id={id} setSelectedTab={setSelectedTab} />;
+							})}
+					</Tabs>
+					<div className="map-area">
+						<div className="map-grid-container">
+							<div ref={(el) => (mapContainer = el)} className="my-routes-map-container" />
+						</div>
+						{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
 					</div>
-					{/* {currentRoute && routePersonalInfo
-            ? */}
-					{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
-					{/* :
-            <h1>No Route Selected</h1>} */}
 				</div>
-			</div>
-		</div>
+			</div>}
+	</>
 	);
 };
 
