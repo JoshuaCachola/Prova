@@ -14,6 +14,11 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 // import DirectionsIcon from '@material-ui/icons/Directions';
 import SaveIcon from '@material-ui/icons/Save';
+import api from "../../utils";
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import TextField from '@material-ui/core/TextField';
+
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -45,7 +50,7 @@ const CreateRoute = ({ history }) => {
 
 	const { user } = useAuth0();
 	const dispatch = useDispatch();
-	const [mapState, setMapState] = useState({
+	const [ mapState, setMapState ] = useState({
 		lng: -122,
 		lat: 37,
 		zoom: 2
@@ -56,6 +61,8 @@ const CreateRoute = ({ history }) => {
 	const [searchInput, setSearch] = useState('');
 	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
 	const [directionState, setDirectionState] = useState(null);
+	const [displayedDirections, setDisplayedDirections] = useState(null)
+	const [nameState, setNameState] = useState('')
 
 	let mapContainer = useRef(null);
 
@@ -86,14 +93,14 @@ const CreateRoute = ({ history }) => {
 					{
 						id: 'gl-draw-line',
 						type: 'line',
-						filter: ['all', ['==', '$type', 'LineString'], ['!=', 'mode', 'static']],
+						filter: [ 'all', [ '==', '$type', 'LineString' ], [ '!=', 'mode', 'static' ] ],
 						layout: {
 							'line-cap': 'round',
 							'line-join': 'round'
 						},
 						paint: {
 							'line-color': '#3b9ddd',
-							'line-dasharray': [0.2, 2],
+							'line-dasharray': [ 0.2, 2 ],
 							'line-width': 4,
 							'line-opacity': 0.7
 						}
@@ -104,9 +111,9 @@ const CreateRoute = ({ history }) => {
 						type: 'circle',
 						filter: [
 							'all',
-							['==', 'meta', 'vertex'],
-							['==', '$type', 'Point'],
-							['!=', 'mode', 'static']
+							[ '==', 'meta', 'vertex' ],
+							[ '==', '$type', 'Point' ],
+							[ '!=', 'mode', 'static' ]
 						],
 						paint: {
 							'circle-radius': 10,
@@ -119,9 +126,9 @@ const CreateRoute = ({ history }) => {
 						type: 'circle',
 						filter: [
 							'all',
-							['==', 'meta', 'vertex'],
-							['==', '$type', 'Point'],
-							['!=', 'mode', 'static']
+							[ '==', 'meta', 'vertex' ],
+							[ '==', '$type', 'Point' ],
+							[ '!=', 'mode', 'static' ]
 						],
 						paint: {
 							'circle-radius': 6,
@@ -210,6 +217,7 @@ const CreateRoute = ({ history }) => {
 						}
 					}
 
+					setDisplayedDirections(runInstructions)
 					console.log(runInstructions);
 					const directionString = runInstructions.join(';');
 					setDirectionState(directionString);
@@ -242,13 +250,24 @@ const CreateRoute = ({ history }) => {
 		() => {
 			createMB();
 		},
-		[mapCenter, setMapCenter]
+		// eslint-disable-next-line
+		[ mapCenter, setMapCenter ]
 	);
 
-	const createRouteClick = (e) => {
+	const createRouteClick = async (e) => {
 		e.preventDefault();
-		dispatch(createRoute(distanceState, coordState, user.userId, directionState));
-		history.push('/my-routes');
+		// dispatch(createRoute(distanceState, coordState, user.userId, directionState));
+		const res = await fetch(`${api.url}/routes`, {
+			method: 'POST',
+			body: JSON.stringify({ name: nameState, distance: distanceState, coordinates: coordState, creatorId: user.userId, directions: directionState, image: null }),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+		if (res.ok) {
+			history.push('/my-routes');
+		}
+
 	};
 
 	const handleLocSearch = async (e) => {
@@ -268,12 +287,37 @@ const CreateRoute = ({ history }) => {
 		setSearch(e.target.value);
 	};
 
+	const nameInputChange = e => {
+		setNameState(e.target.value)
+	}
+
 	const classes = useStyles();
 	return (
 		<React.Fragment>
 			<Grid container>
 				<Grid item xs={2} sm={2}>
-					<div className={classes.sideMenu}>Side bar</div>
+					<div className={classes.sideMenu}>
+						<TextField id="outlined-basic" label="Name Your Route" variant="outlined" value={nameState} onChange={nameInputChange} />
+						<div className={classes.root}>
+							<div className='directions'>
+								{displayedDirections &&
+									<React.Fragment>
+										<h2>Directions:</h2>
+										<div className='directions-container'>
+											{/* <FixedSizeList height={400} width={300} itemSize={46} itemCount={directionsArr.length}> */}
+											{displayedDirections && displayedDirections.map((direction, i) => {
+												return (
+													<ListItem key={i}>
+														<ListItemText primary={direction} />
+													</ListItem>
+												)
+											})}
+										</div>
+									</React.Fragment>}
+							</div>
+
+						</div>
+					</div>
 				</Grid>
 				<Grid item xs={10} sm={10}>
 					<Box component="form" className={classes.root}>
@@ -308,7 +352,6 @@ const CreateRoute = ({ history }) => {
 							color="secondary"
 							size="small"
 							className={classes.button}
-							onClick={createRouteClick}
 							endIcon={<Icon className="fas fa-running" color="white" />}
 							onClick={createRouteClick}
 						>

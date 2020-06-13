@@ -20,7 +20,7 @@ const MyRoutes = () => {
 
   const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
 
-  let routes = useSelector((state) => state.routes.routes);
+  const routes = useSelector((state) => state.routes.routes);
 
   const currentRoute = useSelector((state) => state.routes.currentRoute);
 
@@ -30,6 +30,10 @@ const MyRoutes = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [hasLoaded, setHasLoaded] = useState(false);
 
+  useEffect(() => {
+    document.title = 'Prova - My Routes';
+  }, []);
+
   useEffect(
     () => {
       if (currentUser) {
@@ -38,22 +42,27 @@ const MyRoutes = () => {
         }
       }
     },
+    // eslint-disable-next-line
     [currentUser]
   );
 
-  useEffect(() => {
-    if (routes && routes.length !== 0) {
-      const mapObj = new mapboxgl.Map({
-        container: mapContainer, // container id
-        style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
-        center: mapCenter, // starting position
-        zoom: 13, // starting zoom
-        minZoom: 11 // keep it local
-      });
-      setMap(mapObj);
-    }
-
-  }, [routes]);
+  useEffect(
+    () => {
+      if (routes && routes.length !== 0) {
+        const mapObj = new mapboxgl.Map({
+          container: mapContainer, // container id
+          style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
+          center: mapCenter, // starting position
+          zoom: 13, // starting zoom
+          minZoom: 11 // keep it local
+        });
+        setMap(mapObj);
+      }
+      // eslint-disable-next-line
+    },
+    // eslint-disable-next-line
+    [routes]
+  );
 
   useEffect(
     () => {
@@ -156,6 +165,7 @@ const MyRoutes = () => {
         }
       }
     },
+    // eslint-disable-next-line
     [map, currentRoute]
   );
 
@@ -167,6 +177,7 @@ const MyRoutes = () => {
         }
       }
     },
+    // eslint-disable-next-line
     [currentUser, routes]
   );
 
@@ -183,7 +194,6 @@ const MyRoutes = () => {
   }));
 
   const classes = useStyles();
-  // routes = []
   return (
     <React.Fragment>
       {routes && routes.length === 0 ? (
@@ -202,8 +212,8 @@ const MyRoutes = () => {
                 className={classes.tabs}
               >
                 {routes &&
-                  routes.map(({ id }, i) => {
-                    return <MyRoutesNav index={i} key={id} id={id} setSelectedTab={setSelectedTab} />;
+                  routes.map(({ id, name }, i) => {
+                    return <MyRoutesNav index={i} key={id} id={id} name={name} setSelectedTab={setSelectedTab} />;
                   })}
               </Tabs>
               <div className="map-area">
@@ -212,10 +222,12 @@ const MyRoutes = () => {
                 </div>
                 {currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
               </div>
+              {currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
             </div>
           </div>
-        )}
-    </React.Fragment>
+        )
+      }
+    </React.Fragment >
   );
 };
 
