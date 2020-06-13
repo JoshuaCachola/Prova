@@ -47,15 +47,18 @@ const MainDash = () => {
 		'pk.eyJ1IjoibWFya2ptNjEwIiwiYSI6ImNrYjFjeTBoMzAzb3UyeXF1YTE3Y25wdDMifQ.K9r926HKVv0u8RQzpdXleg';
 
 	let mapContainer = useRef(null);
+
 	const dispatch = useDispatch();
 	const currentUser = useSelector((state) => state.authorization.currentUser);
 	const latestRoute = useSelector((state) => state.routes.latestRoute);
+
 
 	useEffect(() => {
 		if (Object.keys(latestRoute).length > 0) {
 			setLatestRoute(true);
 		}
 	}, [Object.keys(latestRoute).length])
+
 	useEffect(
 		() => {
 			if (currentUser) {
@@ -63,14 +66,14 @@ const MainDash = () => {
 			}
 		},
 		// eslint-disable-next-line
-		[currentUser]
+		[ currentUser ]
 	);
 
 	useEffect(() => {
 		const mapObj = new mapboxgl.Map({
 			container: mapContainer, // container id
 			style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
-			center: [-122.675246, 45.529431], // starting position
+			center: [ -122.675246, 45.529431 ], // starting position
 			zoom: 12, // starting zoom
 			minZoom: 11 // keep it local
 		});
@@ -81,11 +84,6 @@ const MainDash = () => {
 		() => {
 			if (map && Object.keys(latestRoute).length) {
 				map.on('load', () => {
-					if (map.getSource('route')) {
-						map.removeLayer('route');
-						map.removeSource('route');
-					}
-
 					const firstSplit = latestRoute.coordinates.split(';');
 					const secondSplit = firstSplit.map((el) => {
 						return el.split(',');
@@ -129,7 +127,7 @@ const MainDash = () => {
 				});
 			}
 		},
-		[map, latestRoute]
+		[ map, latestRoute ]
 	);
 
 	const classes = useStyles();
@@ -160,8 +158,8 @@ const MainDash = () => {
 						</Grid>
 						<Grid item md={9}>
 							<Typography variant="body1">
-								Create your first route to run today. Complete the run and add your stats to see if laid
-								out neatly
+								Create your first route to run today. Complete the run and add your stats to see
+								everything laid out neatly!
 							</Typography>
 							<Button variant="contained" color="secondary">
 								<Link to="/create-route" className={classes.linkStyle}>
@@ -172,11 +170,42 @@ const MainDash = () => {
 					</Grid>
 				</CardContent>
 			</Card>
-			<Card variant="outlined" className={clsx(classes.marginSpacing, classes.cardSize)}>
-				<Grid container justify="center" alignItems="center" alignContent="center" spacing={3}>
-					<Grid item xs={12}>
-						<div ref={(el) => (mapContainer = el)} className="homeMapContainer" />
+			{latestRoute && (
+				<Card variant="outlined" className={clsx(classes.marginSpacing, classes.cardSize)}>
+					<Grid container justify="center" alignItems="center" alignContent="center" spacing={3}>
+						<Grid item xs={12}>
+							<div
+								ref={(el) => {
+									mapContainer = el;
+								}}
+								className="homeMapContainer"
+							/>
+						</Grid>
+						{latestRoute && (
+							<React.Fragment>
+								<Grid item xs={4} sm={4} className={classes.textCenter}>
+									<Typography variant="body2">Distance</Typography>
+									<p>
+										{!latestRoute.distance ? (
+											'- -'
+										) : (
+											parseFloat(latestRoute.distance).toFixed(2)
+										)}{' '}
+										miles
+									</p>
+								</Grid>
+								<Grid item xs={4} sm={4} className={classes.textCenter}>
+									<Typography variant="body2">Average Time</Typography>
+									<p>{!latestRoute.average_time ? '- -' : latestRoute.average_time}</p>
+								</Grid>
+								<Grid item xs={4} sm={4} className={classes.textCenter}>
+									<Typography variant="body2">Best Time</Typography>
+									<p>{!latestRoute.best_time ? '- -' : latestRoute.best_time}</p>
+								</Grid>
+							</React.Fragment>
+						)}
 					</Grid>
+
 					{isLatestRoute && (
 						<React.Fragment>
 							<Grid item xs={4} sm={4} className={classes.textCenter}>
@@ -195,6 +224,9 @@ const MainDash = () => {
 					)}
 				</Grid>
 			</Card>
+
+			)}
+
 		</React.Fragment>
 	);
 };
