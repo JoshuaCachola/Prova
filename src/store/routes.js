@@ -1,4 +1,4 @@
-import api from "../utils";
+import api from '../utils';
 
 export const getMyRoutesActionCreator = (routes) => ({ type: 'GET_MY_ROUTES', routes });
 export const currentRouteActionCreator = (route) => ({ type: 'CURRENT_ROUTE', route });
@@ -31,7 +31,6 @@ export const createRoute = (distance, coordinates, userId, directions) => async 
 		}
 	});
 	// const parsedRes = await res.json();
-
 };
 
 export const displayRoute = (routeId, userId) => async (dispatch, getState) => {
