@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, Button, Grid, Tabs, Tab } from '@material-ui/core';
+import {
+  Box,
+  Grid,
+  Tabs,
+  Tab,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { getRuns } from '../store/runs';
 
@@ -8,6 +13,7 @@ import Calendar from './stats/Calendar';
 import RunDetails from './stats/RunDetails';
 import LineGraph from './stats/LineGraph';
 import AddRunForm from './stats/AddRunForm';
+import TotalStats from './stats/TotalStats';
 
 const useStyles = makeStyles({
   nav: {
@@ -15,24 +21,29 @@ const useStyles = makeStyles({
     // // maxWidth: '40vw',
     overflowY: 'scroll',
     overflowX: 'hidden',
-    position: 'absolute',
     borderRight: `2px solid #e2e2e2`,
   },
   list: {
     listStyleType: 'none',
     borderBottom: '1px solid #e6e6e6',
   },
-  calendarContainer: {
-    width: '100px',
+  graphContainer: {
+    // width: '100px',
     height: '500px',
-    maxHeight: '100vh',
+    // maxHeight: '100vh',
     minWidth: '60vw',
-    marginTop: '20px'
+    marginTop: '5px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    flexGrow: 1,
   },
   graphNav: {
     borderBottom: '1px solid #e6e6e6',
-    margin: '20px',
-    width: '100%'
+    // margin: '20px',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-around'
   },
   graphLinks: {
     borderLeft: '1px solid #e6e6e6',
@@ -42,10 +53,14 @@ const useStyles = makeStyles({
   navText: {
     fontSize: '16px',
     fontWeight: 'bold'
+  },
+  calendarContainer: {
+    width: '100px'
   }
 });
 
 const MyStats = () => {
+  const [value, setValue] = useState(0);
   const [calData, setCalData] = useState([]);
   const [distanceData, setDistanceData] = useState([]);
   const [caloriesData, setCaloriesData] = useState([]);
@@ -57,9 +72,7 @@ const MyStats = () => {
   const currentUser = useSelector((state) => state.authorization.currentUser);
   const runs = useSelector(state => state.runs.runs);
 
-  // const { user } = useAuth0();
   const lineGraph = (type) => {
-    // const sortedRuns = myRuns.sort((a, b) => new Date(a.date.split(', ').join('-')) - new Date(b.date.split(', ').join('-')));
     const graphData = {
       id: "runs",
       color: "#FF6600",
@@ -85,36 +98,19 @@ const MyStats = () => {
 
   useEffect(() => {
     const calendarRuns = [];
-    runs.forEach(run => {
-      const cRun = {};
-      cRun.day = run.date;
-      cRun.value = run.distance;
-      calendarRuns.push(cRun);
-    });
+    if (runs.length) {
+      runs.forEach(run => {
+        const cRun = {};
+        cRun.day = run.date;
+        cRun.value = run.distance;
+        calendarRuns.push(cRun);
+      });
 
-    setDistanceData(lineGraph('distance'));
-    setCaloriesData(lineGraph('calories'));
-    setCalData(calendarRuns);
+      setDistanceData(lineGraph('distance'));
+      setCaloriesData(lineGraph('calories'));
+      setCalData(calendarRuns);
+    }
   }, [distanceData.length, caloriesData.length, runs.length]);
-
-  // const convertDate = date => {
-  //   const months = {
-  //     Jan: '01',
-  //     Feb: '02',
-  //     Mar: '03',
-  //     Apr: '04',
-  //     May: '05',
-  //     Jun: '06',
-  //     Jul: '07',
-  //     Aug: '08',
-  //     Sep: '09',
-  //     Oct: '10',
-  //     Nov: '11',
-  //     Dec: '12'
-  //   };
-
-  //   return `${date[3]}-${months[date[2]]}-${date[1]}`
-  // };
 
   const handleRunDetails = e => {
     console.log("clicked!");
@@ -142,15 +138,25 @@ const MyStats = () => {
     setRunForm(!showRunForm);
   };
 
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    if (newValue === 0) {
+      handleShowCalGraph();
+    } else if (newValue === 1) {
+      handleShowDistGraph();
+    } else {
+      handleShowCalorGraph();
+    }
+  };
+
   const classes = useStyles();
   return (
     <React.Fragment>
       <Grid container>
         <Grid item xs={3} sm={3}>
-          <Tabs
+          <Box
             orientation="vertical"
             variant="scrollable"
-            aria-label="Vertical tabs example"
             className={classes.nav}
           >
             {runs.map(run => {
@@ -164,38 +170,32 @@ const MyStats = () => {
                 </Box>
               );
             })}
-          </Tabs>
+          </Box>
         </Grid>
         <Grid item xs={9} sm={9}>
-          <Box className={classes.calendarContainer} alignContent="center">
-            <Box className={classes.graphNav} display="flex" justifyContent="space-around">
-              <Box className={
-                showCal
-                  ? classes.base
-                  : classes.selected
-              }
-                onClick={handleShowCalGraph}
+          <Box className={classes.graphContainer}>
+            <Box position="static" className={classes.naxText}>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label="graphs nav"
+                indicatorColor="secondary"
+                textColor="inherit"
+                centered
               >
-                <span className={classes.navText}>Calendar <i className="fas fa-calendar-alt"></i></span>
-              </Box>
-              <Box className={
-                showDistance
-                  ? classes.base
-                  : classes.selected
-              }
-                onClick={handleShowDistGraph}
-              >
-                <span className={classes.navText}>Distance <i className="fas fa-running"></i></span>
-              </Box>
-              <Box className={
-                showCalories
-                  ? classes.base
-                  : classes.selected
-              }
-                onClick={handleShowCalorGraph}
-              >
-                <span className={classes.navText}>Calories <i className="fas fa-fire"></i></span>
-              </Box>
+                <Tab
+                  label="Calendar"
+                  className={classes.navText}
+                />
+                <Tab
+                  label="Distance"
+                  className={classes.navText}
+                />
+                <Tab
+                  label="Calories"
+                  className={classes.navText}
+                />
+              </Tabs>
             </Box>
             {showCal &&
               <Calendar myRuns={calData} />
@@ -209,71 +209,17 @@ const MyStats = () => {
             {showRunForm &&
               <AddRunForm />
             }
+            <Grid
+              container
+              justify="center"
+            >
+              <Grid item xs={9} s={9}>
+                <TotalStats runs={runs} />
+              </Grid>
+            </Grid>
           </Box>
-          {/* <Button color="secondary" onClick={handleRunForm}>Add Run</Button> */}
         </Grid>
       </Grid>
-      {/* <Box className={classes.nav}>
-        <ul>
-          {runs.map(run => {
-            return (
-              <li
-                key={run.id}
-                className={classes.list}
-                onClick={handleRunDetails}
-              >
-                <RunDetails run={run} />
-              </li>
-            );
-          })}
-        </ul>
-      </Box>
-      <Box display="flex" justifyContent="center">
-        <Box className={classes.calendarContainer}>
-          <Box className={classes.graphNav} display="flex" justifyContent="space-around">
-            <Box className={
-              showCal
-                ? classes.base
-                : classes.selected
-            }
-              onClick={handleShowCalGraph}
-            >
-              <span>Calendar <i className="fas fa-calendar-alt"></i></span>
-            </Box>
-            <Box className={
-              showDistance
-                ? classes.base
-                : classes.selected
-            }
-              onClick={handleShowDistGraph}
-            >
-              <span>Distance <i className="fas fa-running"></i></span>
-            </Box>
-            <Box className={
-              showCalories
-                ? classes.base
-                : classes.selected
-            }
-              onClick={handleShowCalorGraph}
-            >
-              <span>Calories <i className="fas fa-fire"></i></span>
-            </Box>
-          </Box>
-          {showCal &&
-            <Calendar myRuns={calData} />
-          }
-          {showDistance &&
-            <LineGraph runs={distanceData} legend="Time in minutes" />
-          }
-          {showCalories &&
-            <LineGraph runs={caloriesData} legend="Calories" />
-          }
-          {showRunForm &&
-            <AddRunForm />
-          }
-        </Box>
-        <Button color="secondary" onClick={handleRunForm}>Add Run</Button>
-      </Box> */}
     </React.Fragment>
   );
 }

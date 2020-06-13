@@ -1,5 +1,5 @@
 import React from 'react';
-import { ResponsiveCalendar } from '@nivo/calendar';
+import { ResponsiveCalendarCanvas } from '@nivo/calendar';
 
 
 const Calendar = ({ myRuns }) => {
@@ -8,7 +8,7 @@ const Calendar = ({ myRuns }) => {
   // };
 
   return (
-    <ResponsiveCalendar
+    <ResponsiveCalendarCanvas
       data={myRuns}
       from="2018-01-01"
       to="2021-01-01"

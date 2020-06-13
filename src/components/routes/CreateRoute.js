@@ -276,7 +276,7 @@ const CreateRoute = ({ history }) => {
 					<div className={classes.sideMenu}>Side bar</div>
 				</Grid>
 				<Grid item xs={10} sm={10}>
-					<Paper component="form" className={classes.root}>
+					<Box component="form" className={classes.root}>
 						<IconButton className={classes.iconButton} aria-label="menu">
 							<MenuIcon />
 						</IconButton>
@@ -314,7 +314,7 @@ const CreateRoute = ({ history }) => {
 						>
 							Save
 						</Button>
-					</Paper>
+					</Box>
 					<div ref={(el) => (mapContainer = el)} className="mapContainer" />
 				</Grid>
 				<Grid item xs={12} s={12}>
