@@ -18,7 +18,7 @@ const MyRoutes = () => {
 
 	const dispatch = useDispatch();
 
-	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
+	const [ mapCenter, setMapCenter ] = useState([ -122.675246, 45.529431 ]);
 
 	let routes = useSelector((state) => state.routes.routes);
 
@@ -26,11 +26,9 @@ const MyRoutes = () => {
 
 	const routePersonalInfo = useSelector((state) => state.routes.routePersonalInfo);
 
-	const [map, setMap] = useState(null);
-	const [selectedTab, setSelectedTab] = useState(0);
-	const [hasLoaded, setHasLoaded] = useState(false)
-
-
+	const [ map, setMap ] = useState(null);
+	const [ selectedTab, setSelectedTab ] = useState(0);
+	const [ hasLoaded, setHasLoaded ] = useState(false);
 
 	useEffect(
 		() => {
@@ -39,9 +37,8 @@ const MyRoutes = () => {
 					dispatch(getMyRoutes(currentUser.userId));
 				}
 			}
-
 		},
-		[currentUser]
+		[ currentUser ]
 	);
 
 	useEffect(() => {
@@ -82,8 +79,6 @@ const MyRoutes = () => {
 							center: coords[0]
 						});
 
-
-
 						const coordsObj = { coordinates: coords, type: 'LineString' };
 
 						map.addLayer({
@@ -107,9 +102,8 @@ const MyRoutes = () => {
 								'line-opacity': 0.8
 							}
 						});
-						setHasLoaded(true)
-					})
-
+						setHasLoaded(true);
+					});
 				} else {
 					if (map.getSource('route')) {
 						map.removeLayer('route');
@@ -132,8 +126,6 @@ const MyRoutes = () => {
 					map.flyTo({
 						center: coords[0]
 					});
-
-
 
 					const coordsObj = { coordinates: coords, type: 'LineString' };
 
@@ -159,14 +151,9 @@ const MyRoutes = () => {
 						}
 					});
 				}
-
-
-
-
-
 			}
 		},
-		[map, currentRoute]
+		[ map, currentRoute ]
 	);
 
 	useEffect(
@@ -175,10 +162,9 @@ const MyRoutes = () => {
 				if (routes.length !== 0) {
 					dispatch(displayRoute(routes[0].id, currentUser.userId));
 				}
-
 			}
 		},
-		[currentUser, routes]
+		[ currentUser, routes ]
 	);
 
 	const useStyles = makeStyles((theme) => ({
@@ -190,41 +176,43 @@ const MyRoutes = () => {
 		},
 		tabs: {
 			borderRight: `1px solid ${theme.palette.divider}`
-		},
+		}
 	}));
 
 	const classes = useStyles();
 	// routes = []
-	return (<>
-		{routes && routes.length === 0 ?
-			<>
-				<NoRoutesFound />
-				<div ref={(el) => (mapContainer = el)} />
-			</>
-			:
-			<div className="my-routes-container">
-				<div className={classes.root}>
-					<Tabs
-						orientation="vertical"
-						variant="scrollable"
-						value={selectedTab}
-						aria-label="Vertical tabs example"
-						className={classes.tabs}
-					>
-						{routes &&
-							routes.map(({ id }, i) => {
-								return <MyRoutesNav index={i} key={id} id={id} setSelectedTab={setSelectedTab} />;
-							})}
-					</Tabs>
-					<div className="map-area">
-						<div className="map-grid-container">
-							<div ref={(el) => (mapContainer = el)} className="my-routes-map-container" />
+	return (
+		<React.Fragment>
+			{routes && routes.length === 0 ? (
+				<React.Fragment>
+					<NoRoutesFound />
+					<div ref={(el) => (mapContainer = el)} />
+				</React.Fragment>
+			) : (
+				<div className="my-routes-container">
+					<div className={classes.root}>
+						<Tabs
+							orientation="vertical"
+							variant="scrollable"
+							value={selectedTab}
+							aria-label="Vertical tabs example"
+							className={classes.tabs}
+						>
+							{routes &&
+								routes.map(({ id }, i) => {
+									return <MyRoutesNav index={i} key={id} id={id} setSelectedTab={setSelectedTab} />;
+								})}
+						</Tabs>
+						<div className="map-area">
+							<div className="map-grid-container">
+								<div ref={(el) => (mapContainer = el)} className="my-routes-map-container" />
+							</div>
+							{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
 						</div>
-						{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
 					</div>
 				</div>
-			</div>}
-	</>
+			)}
+		</React.Fragment>
 	);
 };
 

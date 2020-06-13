@@ -51,7 +51,7 @@ export const displayRoute = (routeId, userId) => async (dispatch, getState) => {
 	dispatch(currentRouteRunsActionCreator(runsForRoute));
 };
 
-export default function reducer(state = {}, action) {
+export default function reducer(state = { latestRoute: {} }, action) {
 	switch (action.type) {
 		case 'GET_MY_ROUTES': {
 			return {
