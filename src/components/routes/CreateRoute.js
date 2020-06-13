@@ -19,6 +19,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import TextField from '@material-ui/core/TextField';
 
+
 const useStyles = makeStyles((theme) => ({
 	root: {
 		padding: '2px 4px',
@@ -49,7 +50,7 @@ const CreateRoute = ({ history }) => {
 
 	const { user } = useAuth0();
 	const dispatch = useDispatch();
-	const [mapState, setMapState] = useState({
+	const [ mapState, setMapState ] = useState({
 		lng: -122,
 		lat: 37,
 		zoom: 2
@@ -62,8 +63,6 @@ const CreateRoute = ({ history }) => {
 	const [directionState, setDirectionState] = useState(null);
 	const [displayedDirections, setDisplayedDirections] = useState(null)
 	const [nameState, setNameState] = useState('')
-
-
 
 	let mapContainer = useRef(null);
 
@@ -94,14 +93,14 @@ const CreateRoute = ({ history }) => {
 					{
 						id: 'gl-draw-line',
 						type: 'line',
-						filter: ['all', ['==', '$type', 'LineString'], ['!=', 'mode', 'static']],
+						filter: [ 'all', [ '==', '$type', 'LineString' ], [ '!=', 'mode', 'static' ] ],
 						layout: {
 							'line-cap': 'round',
 							'line-join': 'round'
 						},
 						paint: {
 							'line-color': '#3b9ddd',
-							'line-dasharray': [0.2, 2],
+							'line-dasharray': [ 0.2, 2 ],
 							'line-width': 4,
 							'line-opacity': 0.7
 						}
@@ -112,9 +111,9 @@ const CreateRoute = ({ history }) => {
 						type: 'circle',
 						filter: [
 							'all',
-							['==', 'meta', 'vertex'],
-							['==', '$type', 'Point'],
-							['!=', 'mode', 'static']
+							[ '==', 'meta', 'vertex' ],
+							[ '==', '$type', 'Point' ],
+							[ '!=', 'mode', 'static' ]
 						],
 						paint: {
 							'circle-radius': 10,
@@ -127,9 +126,9 @@ const CreateRoute = ({ history }) => {
 						type: 'circle',
 						filter: [
 							'all',
-							['==', 'meta', 'vertex'],
-							['==', '$type', 'Point'],
-							['!=', 'mode', 'static']
+							[ '==', 'meta', 'vertex' ],
+							[ '==', '$type', 'Point' ],
+							[ '!=', 'mode', 'static' ]
 						],
 						paint: {
 							'circle-radius': 6,
@@ -251,7 +250,8 @@ const CreateRoute = ({ history }) => {
 		() => {
 			createMB();
 		},
-		[mapCenter, setMapCenter]
+		// eslint-disable-next-line
+		[ mapCenter, setMapCenter ]
 	);
 
 	const createRouteClick = async (e) => {
@@ -350,7 +350,6 @@ const CreateRoute = ({ history }) => {
 							color="secondary"
 							size="small"
 							className={classes.button}
-							onClick={createRouteClick}
 							endIcon={<Icon className="fas fa-running" color="white" />}
 							onClick={createRouteClick}
 						>

@@ -1,34 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Button,
-  TextField,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  makeStyles,
-  FormControl,
-  Select,
-  InputLabel,
-  MenuItem
+	Button,
+	TextField,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	// DialogContentText,
+	DialogTitle,
+	makeStyles,
+	FormControl,
+	Select,
+	InputLabel,
+	MenuItem
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../../utils';
 import { getMyRoutes } from '../../store/routes';
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  formControl: {
-    width: "100%",
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-  },
+	container: {
+		display: 'flex',
+		flexWrap: 'wrap'
+	},
+	formControl: {
+		width: '100%'
+	},
+	textField: {
+		marginLeft: theme.spacing(1),
+		marginRight: theme.spacing(1)
+	}
 }));
 
 const AddRunForm = () => {
@@ -42,28 +42,30 @@ const AddRunForm = () => {
     [time, setTime] = useState(""),
     [calories, setCalories] = useState("");
 
-  useEffect(
-    () => {
-      if (currentUser) {
-        dispatch(getMyRoutes(currentUser.userId));
-      }
-    },
-    [currentUser]
-  );
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+	useEffect(
+		() => {
+			if (currentUser) {
+				dispatch(getMyRoutes(currentUser.userId));
+			}
+		},
+		// eslint-disable-next-line
+		[ currentUser ]
+	);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
 
-  const handleChange = e => {
-    setRoute(e.target.value);
-    // console.log(e.target);
-    // setDistance(routes[e.target.name]);
-  }
+	const handleClose = () => {
+		setOpen(false);
+	};
+
+	const handleChange = (e) => {
+		setRoute(e.target.value);
+		// console.log(e.target);
+		// setDistance(routes[e.target.name]);
+	};
 
   const handleSubmit = async e => {
     console.log(date, distance, route, time, calories);
@@ -82,23 +84,23 @@ const AddRunForm = () => {
         })
       });
 
-      if (!res.ok) throw res;
+			if (!res.ok) throw res;
+		} catch (err) {
+			console.error(err);
+		}
+	};
 
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  const classes = useStyles();
-  return (
-    <div>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Add a run</DialogTitle>
-        <DialogContent>
-          {/* <DialogContentText>
+	const classes = useStyles();
+	return (
+		<div>
+			<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+				<DialogTitle id="form-dialog-title">Add a run</DialogTitle>
+				<DialogContent>
+					{/* <DialogContentText>
             To subscribe to this website, please enter your email address here. We will send updates
             occasionally.
           </DialogContentText> */}
+
           <FormControl className={classes.formControl}>
             <InputLabel id="routes-input">Routes</InputLabel>
             <Select

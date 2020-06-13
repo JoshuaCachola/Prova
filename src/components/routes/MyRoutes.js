@@ -18,7 +18,7 @@ const MyRoutes = () => {
 
 	const dispatch = useDispatch();
 
-	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
+	const [ mapCenter, setMapCenter ] = useState([ -122.675246, 45.529431 ]);
 
 	const routes = useSelector((state) => state.routes.routes);
 
@@ -26,9 +26,13 @@ const MyRoutes = () => {
 
 	const routePersonalInfo = useSelector((state) => state.routes.routePersonalInfo);
 
-	const [map, setMap] = useState(null);
-	const [selectedTab, setSelectedTab] = useState(0);
-	const [hasLoaded, setHasLoaded] = useState(false);
+	const [ map, setMap ] = useState(null);
+	const [ selectedTab, setSelectedTab ] = useState(0);
+	const [ hasLoaded, setHasLoaded ] = useState(false);
+
+	useEffect(() => {
+		document.title = 'Prova - My Routes';
+	}, []);
 
 	useEffect(
 		() => {
@@ -38,22 +42,27 @@ const MyRoutes = () => {
 				}
 			}
 		},
-		[currentUser]
+		// eslint-disable-next-line
+		[ currentUser ]
 	);
 
-	useEffect(() => {
-		if (routes && routes.length !== 0) {
-			const mapObj = new mapboxgl.Map({
-				container: mapContainer, // container id
-				style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
-				center: mapCenter, // starting position
-				zoom: 13, // starting zoom
-				minZoom: 11 // keep it local
-			});
-			setMap(mapObj);
-		}
-
-	}, [routes]);
+	useEffect(
+		() => {
+			if (routes && routes.length !== 0) {
+				const mapObj = new mapboxgl.Map({
+					container: mapContainer, // container id
+					style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
+					center: mapCenter, // starting position
+					zoom: 13, // starting zoom
+					minZoom: 11 // keep it local
+				});
+				setMap(mapObj);
+			}
+			// eslint-disable-next-line
+		},
+		// eslint-disable-next-line
+		[ routes ]
+	);
 
 	useEffect(
 		() => {
@@ -156,7 +165,8 @@ const MyRoutes = () => {
 				}
 			}
 		},
-		[map, currentRoute]
+		// eslint-disable-next-line
+		[ map, currentRoute ]
 	);
 
 	useEffect(
@@ -167,7 +177,8 @@ const MyRoutes = () => {
 				}
 			}
 		},
-		[currentUser, routes]
+		// eslint-disable-next-line
+		[ currentUser, routes ]
 	);
 
 	const useStyles = makeStyles((theme) => ({
@@ -192,6 +203,7 @@ const MyRoutes = () => {
 					{/* <div ref={(el) => (mapContainer = el)} /> */}
 				</React.Fragment>
 			) : (
+
 					<div className="my-routes-container">
 						<div className={classes.root}>
 							<Tabs
@@ -212,9 +224,11 @@ const MyRoutes = () => {
 								</div>
 								{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
 							</div>
+							{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
 						</div>
 					</div>
-				)}
+				</div>
+			)}
 		</React.Fragment>
 	);
 };

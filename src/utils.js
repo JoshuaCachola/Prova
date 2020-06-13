@@ -1,2 +1,2 @@
-import api from "./config/config";
+import api from './config/config';
 export default api;
