@@ -1,34 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
-import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { displayRoute } from '../../store/routes';
 
-
-
-
-
-
-// const useStyles = makeStyles((theme) => ({
-//     root: {
-//         flexGrow: 1,
-//         backgroundColor: theme.palette.background.paper,
-//         display: 'flex',
-//         height: 224,
-//     },
-//     tabs: {
-//         borderRight: `1px solid ${theme.palette.divider}`,
-//     },
-// }));
-
-
-function a11yProps(index) {
-    return {
-        id: `vertical-tab-${index}`,
-        'aria-controls': `vertical-tabpanel-${index}`,
-    };
-}
 
 const MyRoutesNav = ({ id, setSelectedTab, index }) => {
 
@@ -41,8 +15,7 @@ const MyRoutesNav = ({ id, setSelectedTab, index }) => {
 
     return (
         <>
-            {/* <NavLink to={`/my-routes/${id}`} onClick={routeClickHandler}>Route {id}</NavLink> */}
-            <Tab className='route-nav-tab' label={`Route ${id}`} onClick={routeClickHandler} />
+            <Tab className='route-nav-tab' label={`Route ${index + 1}`} onClick={routeClickHandler} />
         </>
     )
 }

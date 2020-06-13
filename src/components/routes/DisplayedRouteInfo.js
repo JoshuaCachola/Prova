@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -41,14 +41,16 @@ const DisplayedRouteInfo = () => {
     ]
 
 
-    const directionsArr = currentRoute.directions.split(';')
-
-
 
     return (
 
         <div className='route-info'>
+            <div className='distance'>
+                <h2>Distance:</h2>
+                {parseFloat(currentRoute.distance).toFixed(2)} mi
+            </div>
             <div className='directions'>
+                <h2>Directions:</h2>
                 <DirectionsList />
             </div>
             <div className='personal-table'>
@@ -58,9 +60,6 @@ const DisplayedRouteInfo = () => {
                             <TableRow>
                                 <TableCell>Personal</TableCell>
                                 <TableCell align="right"></TableCell>
-                                {/* <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                            <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -70,9 +69,6 @@ const DisplayedRouteInfo = () => {
                                         {row.category}
                                     </TableCell>
                                     <TableCell align="right">{row.value !== null ? row.value : 'N/A'}</TableCell>
-                                    {/* <TableCell align="right">{row.fat}</TableCell>
-                                <TableCell align="right">{row.carbs}</TableCell>
-                                <TableCell align="right">{row.protein}</TableCell> */}
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -86,9 +82,6 @@ const DisplayedRouteInfo = () => {
                             <TableRow>
                                 <TableCell>General</TableCell>
                                 <TableCell align="right"></TableCell>
-                                {/* <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                            <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -98,9 +91,6 @@ const DisplayedRouteInfo = () => {
                                         {row.category}
                                     </TableCell>
                                     <TableCell align="right">{row.value !== null ? row.value : 'N/A'}</TableCell>
-                                    {/* <TableCell align="right">{row.fat}</TableCell>
-                                <TableCell align="right">{row.carbs}</TableCell>
-                                <TableCell align="right">{row.protein}</TableCell> */}
                                 </TableRow>
                             ))}
                         </TableBody>
