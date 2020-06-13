@@ -17,7 +17,7 @@ const LandingPage = (props) => {
 
 	useEffect(() => {
 		document.title = 'Prova';
-	});
+	}, []);
 
 	if (isAuthenticated) {
 		props.history.push('/home');

@@ -46,6 +46,8 @@ const MainDash = () => {
 	mapboxgl.accessToken =
 		'pk.eyJ1IjoibWFya2ptNjEwIiwiYSI6ImNrYjFjeTBoMzAzb3UyeXF1YTE3Y25wdDMifQ.K9r926HKVv0u8RQzpdXleg';
 
+	// const element = document.createElement('div')
+
 	let mapContainer = useRef(null);
 
 	const dispatch = useDispatch();
@@ -53,11 +55,11 @@ const MainDash = () => {
 	const latestRoute = useSelector((state) => state.routes.latestRoute);
 
 
-	useEffect(() => {
-		if (Object.keys(latestRoute).length > 0) {
-			setLatestRoute(true);
-		}
-	}, [Object.keys(latestRoute).length])
+	// useEffect(() => {
+	// 	if (Object.keys(latestRoute).length > 0) {
+	// 		setLatestRoute(true);
+	// 	}
+	// }, [Object.keys(latestRoute).length])
 
 	useEffect(
 		() => {
@@ -66,24 +68,33 @@ const MainDash = () => {
 			}
 		},
 		// eslint-disable-next-line
-		[ currentUser ]
+		[currentUser]
 	);
 
 	useEffect(() => {
-		const mapObj = new mapboxgl.Map({
-			container: mapContainer, // container id
-			style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
-			center: [ -122.675246, 45.529431 ], // starting position
-			zoom: 12, // starting zoom
-			minZoom: 11 // keep it local
-		});
-		setMap(mapObj);
-	}, []);
+		if (latestRoute.coordinates) {
+			const mapObj = new mapboxgl.Map({
+				container: mapContainer, // container id
+				style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
+				center: [-122.675246, 45.529431], // starting position
+				zoom: 12, // starting zoom
+				minZoom: 11 // keep it local
+			});
+			setMap(mapObj);
+		}
+
+	}, [latestRoute]);
 
 	useEffect(
 		() => {
-			if (map && Object.keys(latestRoute).length) {
+			if (map && latestRoute.coordinates) {
 				map.on('load', () => {
+
+					if (map.getSource('route')) {
+						map.removeLayer('route');
+						map.removeSource('route');
+					}
+
 					const firstSplit = latestRoute.coordinates.split(';');
 					const secondSplit = firstSplit.map((el) => {
 						return el.split(',');
@@ -127,7 +138,7 @@ const MainDash = () => {
 				});
 			}
 		},
-		[ map, latestRoute ]
+		[map, latestRoute]
 	);
 
 	const classes = useStyles();
@@ -170,7 +181,7 @@ const MainDash = () => {
 					</Grid>
 				</CardContent>
 			</Card>
-			{latestRoute && (
+			{latestRoute.coordinates && (
 				<Card variant="outlined" className={clsx(classes.marginSpacing, classes.cardSize)}>
 					<Grid container justify="center" alignItems="center" alignContent="center" spacing={3}>
 						<Grid item xs={12}>
@@ -189,8 +200,8 @@ const MainDash = () => {
 										{!latestRoute.distance ? (
 											'- -'
 										) : (
-											parseFloat(latestRoute.distance).toFixed(2)
-										)}{' '}
+												parseFloat(latestRoute.distance).toFixed(2)
+											)}{' '}
 										miles
 									</p>
 								</Grid>
@@ -205,8 +216,7 @@ const MainDash = () => {
 							</React.Fragment>
 						)}
 					</Grid>
-
-					{isLatestRoute && (
+					{latestRoute && (
 						<React.Fragment>
 							<Grid item xs={4} sm={4} className={classes.textCenter}>
 								<Typography variant="body2">Distance</Typography>
@@ -222,11 +232,8 @@ const MainDash = () => {
 							</Grid>
 						</React.Fragment>
 					)}
-				</Grid>
-			</Card>
-
+				</Card>
 			)}
-
 		</React.Fragment>
 	);
 };
