@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import createAuth0Client from '@auth0/auth0-spa-js';
-import { baseUrl } from './config/config';
+import api from './utils';
 
 const DEFAULT_REDIRECT_CALLBACK = () => window.history.replaceState({}, document.title, window.location.pathname);
 
@@ -30,7 +30,7 @@ export const Auth0Provider = ({ children, onRedirectCallback = DEFAULT_REDIRECT_
 			if (isAuthenticated) {
 				const user = await auth0FromHook.getUser();
 				let token = await auth0FromHook.getTokenSilently();
-				const res = await fetch(`${baseUrl}/users`, {
+				const res = await fetch(`${api.url}/users`, {
 					method: 'POST',
 					body: JSON.stringify({ username: user.nickname, email: user.email }),
 					headers: {

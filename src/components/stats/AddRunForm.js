@@ -14,7 +14,7 @@ import {
   MenuItem
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { baseUrl } from '../../config/config';
+import api from '../../utils';
 import { getMyRoutes } from '../../store/routes';
 
 const useStyles = makeStyles((theme) => ({
@@ -35,12 +35,12 @@ const AddRunForm = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.authorization.currentUser);
   const routes = useSelector((state) => state.routes.routes);
-  const [distance, setDistance] = useState(null), //default should be the distance that comes from the route
-    [date, setDate] = useState(null),
+  const [distance, setDistance] = useState(""), //default should be the distance that comes from the route
+    [date, setDate] = useState(""),
     [open, setOpen] = useState(true),
-    [route, setRoute] = useState(null),
-    [time, setTime] = useState(null),
-    [calories, setCalories] = useState(null);
+    [route, setRoute] = useState(""),
+    [time, setTime] = useState(""),
+    [calories, setCalories] = useState("");
 
   useEffect(
     () => {
@@ -68,7 +68,7 @@ const AddRunForm = () => {
   const handleSubmit = async e => {
     console.log(date, distance, route, time, calories);
     try {
-      const res = await fetch(`${baseUrl}/users/${currentUser.userId}/runs`, {
+      const res = await fetch(`${api.url}/users/${currentUser.userId}/runs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

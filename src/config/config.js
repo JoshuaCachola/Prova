@@ -1,2 +1,8 @@
-export const baseUrl =
-	process.env.NODE_ENV === 'production' ? process.env.REACT_APP_PRODUCTION_URL : process.env.REACT_APP_BASEURL;
+const api = {
+	url:
+		process.env.NODE_ENV === "development"
+			? process.env.REACT_APP_DEV_API || "http://localhost:5000"
+			: process.env.REACT_APP_PROD_API || "https://prova-backend.herokuapp.com",
+};
+
+export default api;
