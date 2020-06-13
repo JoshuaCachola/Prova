@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { useAuth0 } from '../react-auth0-spa';
-import { baseUrl } from '../config/config';
+import api from '../utils';
 
 const ExternalApi = () => {
-	const [ showResult, setShowResult ] = useState(false);
-	const [ apiMessage, setApiMessage ] = useState('');
+	const [showResult, setShowResult] = useState(false);
+	const [apiMessage, setApiMessage] = useState('');
 	const { getTokenSilently } = useAuth0();
 
 	const callApi = async () => {
 		try {
 			const token = await getTokenSilently();
 
-			const response = await fetch(`${baseUrl}/api/public`, {
+			const response = await fetch(`${api.url}/api/public`, {
 				headers: {
 					Authorization: `Bearer ${token}`
 				}

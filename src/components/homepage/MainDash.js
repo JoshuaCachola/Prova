@@ -41,9 +41,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainDash = () => {
-	const [ map, setMap ] = useState(null);
-	// const [ isLatestRoute, setLatestRoute ] = useState(false);
-
+	const [map, setMap] = useState(null);
+	const [isLatestRoute, setLatestRoute] = useState(false);
 	mapboxgl.accessToken =
 		'pk.eyJ1IjoibWFya2ptNjEwIiwiYSI6ImNrYjFjeTBoMzAzb3UyeXF1YTE3Y25wdDMifQ.K9r926HKVv0u8RQzpdXleg';
 
@@ -53,14 +52,12 @@ const MainDash = () => {
 	const currentUser = useSelector((state) => state.authorization.currentUser);
 	const latestRoute = useSelector((state) => state.routes.latestRoute);
 
-	// useEffect(
-	// 	() => {
-	// 		if (Object.keys(latestRoute).length > 0) {
-	// 			setLatestRoute(true);
-	// 		}
-	// 	},
-	// 	[ latestRoute ]
-	// );
+
+	useEffect(() => {
+		if (Object.keys(latestRoute).length > 0) {
+			setLatestRoute(true);
+		}
+	}, [Object.keys(latestRoute).length])
 
 	useEffect(
 		() => {
@@ -208,8 +205,28 @@ const MainDash = () => {
 							</React.Fragment>
 						)}
 					</Grid>
-				</Card>
+
+					{isLatestRoute && (
+						<React.Fragment>
+							<Grid item xs={4} sm={4} className={classes.textCenter}>
+								<Typography variant="body2">Distance</Typography>
+								<p>{parseFloat(latestRoute.distance).toFixed(2)} miles</p>
+							</Grid>
+							<Grid item xs={4} sm={4} className={classes.textCenter}>
+								<Typography variant="body2">Average Time</Typography>
+								<p>{!latestRoute.average_time ? '- -' : latestRoute.average_time}</p>
+							</Grid>
+							<Grid item xs={4} sm={4} className={classes.textCenter}>
+								<Typography variant="body2">Best Time</Typography>
+								<p>{!latestRoute.best_time ? '- -' : latestRoute.best_time}</p>
+							</Grid>
+						</React.Fragment>
+					)}
+				</Grid>
+			</Card>
+
 			)}
+
 		</React.Fragment>
 	);
 };

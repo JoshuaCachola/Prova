@@ -1,4 +1,4 @@
-import { baseUrl } from '../config/config';
+import api from '../utils';
 
 export const GET_RUNS = 'GET_RUNS';
 // export const ADD_RUN = 'ADD_RUN';
@@ -20,7 +20,7 @@ export const getMyRuns = runs => {
 export const getRuns = userId => async dispatch => {
   try {
     console.log(userId);
-    let res = await fetch(`${baseUrl}/users/${userId}/runs`);
+    let res = await fetch(`${api.url}/users/${userId}/runs`);
 
     if (!res.ok) throw res;
 

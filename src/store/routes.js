@@ -1,4 +1,4 @@
-import { baseUrl } from '../config/config';
+import api from "../utils";
 
 export const getMyRoutesActionCreator = (routes) => ({ type: 'GET_MY_ROUTES', routes });
 export const currentRouteActionCreator = (route) => ({ type: 'CURRENT_ROUTE', route });
@@ -7,7 +7,7 @@ export const currentRouteRunsActionCreator = (runs) => ({ type: 'RUNS_FOR_ROUTE'
 export const latestRouteActionCreator = (latestRoute) => ({ type: 'LATEST_ROUTE', latestRoute });
 
 export const getMyRoutes = (userId) => async (dispatch, getState) => {
-	const res = await fetch(`${baseUrl}/users/${userId}/routes`);
+	const res = await fetch(`${api.url}/users/${userId}/routes`);
 
 	const parsedRes = await res.json();
 
@@ -15,7 +15,7 @@ export const getMyRoutes = (userId) => async (dispatch, getState) => {
 };
 
 export const getLatestRoute = (userId) => async (dispatch, getState) => {
-	const res = await fetch(`${baseUrl}/users/${userId}/latest_route`);
+	const res = await fetch(`${api.url}/users/${userId}/latest_route`);
 
 	const parsedRes = await res.json();
 
@@ -23,7 +23,7 @@ export const getLatestRoute = (userId) => async (dispatch, getState) => {
 };
 
 export const createRoute = (distance, coordinates, userId, directions) => async (dispatch, getState) => {
-	const res = await fetch(`${baseUrl}/routes`, {
+	const res = await fetch(`${api.url}/routes`, {
 		method: 'POST',
 		body: JSON.stringify({ distance, coordinates, creatorId: userId, directions }),
 		headers: {
@@ -35,7 +35,7 @@ export const createRoute = (distance, coordinates, userId, directions) => async 
 };
 
 export const displayRoute = (routeId, userId) => async (dispatch, getState) => {
-	const res = await fetch(`${baseUrl}/routes/${routeId}`, {
+	const res = await fetch(`${api.url}/routes/${routeId}`, {
 		method: 'PUT',
 		body: JSON.stringify({ userId }),
 		headers: {
