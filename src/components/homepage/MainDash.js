@@ -184,7 +184,7 @@ const MainDash = () => {
 								className="homeMapContainer"
 							/>
 						</Grid>
-						{latestRoute && (
+						{isLatestRoute && (
 							<React.Fragment>
 								<Grid item xs={4} sm={4} className={classes.textCenter}>
 									<Typography variant="body2">Distance</Typography>
