@@ -41,8 +41,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainDash = () => {
-	const [map, setMap] = useState(null);
-	const [isLatestRoute, setLatestRoute] = useState(false);
+	const [ map, setMap ] = useState(null);
+	const [ isLatestRoute, setLatestRoute ] = useState(false);
 	mapboxgl.accessToken =
 		'pk.eyJ1IjoibWFya2ptNjEwIiwiYSI6ImNrYjFjeTBoMzAzb3UyeXF1YTE3Y25wdDMifQ.K9r926HKVv0u8RQzpdXleg';
 
@@ -52,12 +52,14 @@ const MainDash = () => {
 	const currentUser = useSelector((state) => state.authorization.currentUser);
 	const latestRoute = useSelector((state) => state.routes.latestRoute);
 
-
-	useEffect(() => {
-		if (Object.keys(latestRoute).length > 0) {
-			setLatestRoute(true);
-		}
-	}, [Object.keys(latestRoute).length])
+	useEffect(
+		() => {
+			if (Object.keys(latestRoute).length > 0) {
+				setLatestRoute(true);
+			}
+		},
+		[ Object.keys(latestRoute).length ]
+	);
 
 	useEffect(
 		() => {
@@ -222,11 +224,8 @@ const MainDash = () => {
 							</Grid>
 						</React.Fragment>
 					)}
-				</Grid>
-			</Card>
-
+				</Card>
 			)}
-
 		</React.Fragment>
 	);
 };
