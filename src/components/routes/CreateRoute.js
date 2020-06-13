@@ -45,17 +45,17 @@ const CreateRoute = ({ history }) => {
 
 	const { user } = useAuth0();
 	const dispatch = useDispatch();
-	const [ mapState, setMapState ] = useState({
+	const [mapState, setMapState] = useState({
 		lng: -122,
 		lat: 37,
 		zoom: 2
 	});
-	const [ coordState, setCoordState ] = useState(null);
-	const [ distanceState, setDistanceState ] = useState(0.0);
-	const [ durationState, setDurationState ] = useState(0.0);
-	const [ searchInput, setSearch ] = useState('');
-	const [ mapCenter, setMapCenter ] = useState([ -122.675246, 45.529431 ]);
-	const [ directionState, setDirectionState ] = useState(null);
+	const [coordState, setCoordState] = useState(null);
+	const [distanceState, setDistanceState] = useState(0.0);
+	const [durationState, setDurationState] = useState(0.0);
+	const [searchInput, setSearch] = useState('');
+	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
+	const [directionState, setDirectionState] = useState(null);
 
 	let mapContainer = useRef(null);
 
@@ -86,14 +86,14 @@ const CreateRoute = ({ history }) => {
 					{
 						id: 'gl-draw-line',
 						type: 'line',
-						filter: [ 'all', [ '==', '$type', 'LineString' ], [ '!=', 'mode', 'static' ] ],
+						filter: ['all', ['==', '$type', 'LineString'], ['!=', 'mode', 'static']],
 						layout: {
 							'line-cap': 'round',
 							'line-join': 'round'
 						},
 						paint: {
 							'line-color': '#3b9ddd',
-							'line-dasharray': [ 0.2, 2 ],
+							'line-dasharray': [0.2, 2],
 							'line-width': 4,
 							'line-opacity': 0.7
 						}
@@ -104,9 +104,9 @@ const CreateRoute = ({ history }) => {
 						type: 'circle',
 						filter: [
 							'all',
-							[ '==', 'meta', 'vertex' ],
-							[ '==', '$type', 'Point' ],
-							[ '!=', 'mode', 'static' ]
+							['==', 'meta', 'vertex'],
+							['==', '$type', 'Point'],
+							['!=', 'mode', 'static']
 						],
 						paint: {
 							'circle-radius': 10,
@@ -119,9 +119,9 @@ const CreateRoute = ({ history }) => {
 						type: 'circle',
 						filter: [
 							'all',
-							[ '==', 'meta', 'vertex' ],
-							[ '==', '$type', 'Point' ],
-							[ '!=', 'mode', 'static' ]
+							['==', 'meta', 'vertex'],
+							['==', '$type', 'Point'],
+							['!=', 'mode', 'static']
 						],
 						paint: {
 							'circle-radius': 6,
@@ -242,7 +242,7 @@ const CreateRoute = ({ history }) => {
 		() => {
 			createMB();
 		},
-		[ mapCenter, setMapCenter ]
+		[mapCenter, setMapCenter]
 	);
 
 	const createRouteClick = (e) => {
@@ -259,7 +259,9 @@ const CreateRoute = ({ history }) => {
 
 		let res = await fetch(url);
 		res = await res.json();
-		setMapCenter(res.features[0].center);
+		if (res.features.length) {
+			setMapCenter(res.features[0].center);
+		}
 	};
 
 	const handleSearchInput = (e) => {

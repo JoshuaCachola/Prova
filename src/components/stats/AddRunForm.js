@@ -66,7 +66,6 @@ const AddRunForm = () => {
   }
 
   const handleSubmit = async e => {
-    console.log(date, distance, route, time, calories);
     try {
       const res = await fetch(`${api.url}/users/${currentUser.userId}/runs`, {
         method: 'POST',
@@ -76,7 +75,7 @@ const AddRunForm = () => {
         body: JSON.stringify({
           date,
           distance,
-          routeId: 2,
+          routeId: route,
           time,
           calories,
         })

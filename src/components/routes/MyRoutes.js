@@ -20,7 +20,7 @@ const MyRoutes = () => {
 
   const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
 
-  const routes = useSelector((state) => state.routes.routes);
+  let routes = useSelector((state) => state.routes.routes);
 
   const currentRoute = useSelector((state) => state.routes.currentRoute);
 
@@ -28,14 +28,14 @@ const MyRoutes = () => {
 
   const [map, setMap] = useState(null);
   const [selectedTab, setSelectedTab] = useState(0);
-  const [hasLoaded, setHasLoaded] = useState(false)
-
-
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   useEffect(
     () => {
       if (currentUser) {
-        dispatch(getMyRoutes(currentUser.userId));
+        if ('userId' in currentUser) {
+          dispatch(getMyRoutes(currentUser.userId));
+        }
       }
     },
     [currentUser]
@@ -79,10 +79,8 @@ const MyRoutes = () => {
               center: coords[0]
             });
 
-
-
             const coordsObj = { coordinates: coords, type: 'LineString' };
-            // map.removeLayer()
+
             map.addLayer({
               id: 'route',
               type: 'line',
@@ -104,9 +102,8 @@ const MyRoutes = () => {
                 'line-opacity': 0.8
               }
             });
-            setHasLoaded(true)
-          })
-
+            setHasLoaded(true);
+          });
         } else {
           if (map.getSource('route')) {
             map.removeLayer('route');
@@ -130,10 +127,8 @@ const MyRoutes = () => {
             center: coords[0]
           });
 
-
-
           const coordsObj = { coordinates: coords, type: 'LineString' };
-          // map.removeLayer()
+
           map.addLayer({
             id: 'route',
             type: 'line',
@@ -156,11 +151,6 @@ const MyRoutes = () => {
             }
           });
         }
-
-
-
-
-
       }
     },
     [map, currentRoute]
@@ -169,7 +159,9 @@ const MyRoutes = () => {
   useEffect(
     () => {
       if (routes && currentUser) {
-        dispatch(displayRoute(routes[0].id, currentUser.userId));
+        if (routes.length !== 0) {
+          dispatch(displayRoute(routes[0].id, currentUser.userId));
+        }
       }
     },
     [currentUser, routes]
@@ -188,35 +180,39 @@ const MyRoutes = () => {
   }));
 
   const classes = useStyles();
-
+  // routes = []
   return (
-    <div className="my-routes-container">
-      <div className={classes.root}>
-        <Tabs
-          orientation="vertical"
-          variant="scrollable"
-          value={selectedTab}
-          // onChange={handleChange}
-          aria-label="Vertical tabs example"
-          className={classes.tabs}
-        >
-          {routes &&
-            routes.map(({ id }, i) => {
-              return <MyRoutesNav index={i} key={id} id={id} setSelectedTab={setSelectedTab} />;
-            })}
-        </Tabs>
-        <div className="map-area">
-          <div className="map-grid-container">
-            <div ref={(el) => (mapContainer = el)} className="my-routes-map-container" />
+    <React.Fragment>
+      {routes && routes.length === 0 ? (
+        <React.Fragment>
+          <NoRoutesFound />
+          <div ref={(el) => (mapContainer = el)} />
+        </React.Fragment>
+      ) : (
+          <div className="my-routes-container">
+            <div className={classes.root}>
+              <Tabs
+                orientation="vertical"
+                variant="scrollable"
+                value={selectedTab}
+                aria-label="Vertical tabs example"
+                className={classes.tabs}
+              >
+                {routes &&
+                  routes.map(({ id }, i) => {
+                    return <MyRoutesNav index={i} key={id} id={id} setSelectedTab={setSelectedTab} />;
+                  })}
+              </Tabs>
+              <div className="map-area">
+                <div className="map-grid-container">
+                  <div ref={(el) => (mapContainer = el)} className="my-routes-map-container" />
+                </div>
+                {currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
+              </div>
+            </div>
           </div>
-          {/* {currentRoute && routePersonalInfo
-            ? */}
-          {currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
-          {/* :
-            <h1>No Route Selected</h1>} */}
-        </div>
-      </div>
-    </div>
+        )}
+    </React.Fragment>
   );
 };
 

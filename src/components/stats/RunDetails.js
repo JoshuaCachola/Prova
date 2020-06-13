@@ -26,17 +26,25 @@ const useStyles = makeStyles({
 
 const RunDetails = ({ run }) => {
   const convertDate = date => {
-    const dateArr = date.split(', ');
+    const dateArr = date.split('-');
 
-    return `${dateArr[1]}/${dateArr[2]}/${dateArr[0].slice(2)}`;
+    return `${dateArr[1]}/${dateArr[2]}/${dateArr[0]}`;
   };
 
-  const convertDateToDay = date => {
-    const day = new Date(date);
+  const convertDateToDay = () => {
     const timeOfDay = ['morning', 'afternoon', 'evening'];
-    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const hour = run.timeOfDay.split(':')[0];
+    let num;
 
-    return `${daysOfWeek[day.getDay()]} ${timeOfDay[Math.floor(Math.random() * timeOfDay.length)]} run`;
+    if (hour >= 5 && hour < 12) {
+      num = 0;
+    } else if (hour >= 12 && hour <= 18) {
+      num = 1;
+    } else {
+      num = 2;
+    }
+
+    return `${run.day} ${timeOfDay[num]} run`;
   };
 
   const classes = useStyles();
@@ -55,8 +63,8 @@ const RunDetails = ({ run }) => {
           </Box>
           <Box display='flex' justifyContent='space-between'>
             <Box className={classes.grey} pr={5} flexBasis="auto">{run.distance} mi</Box>
-            <Box className={classes.grey} pr={5} flexBasis="auto"> {(run.time / run.distance).toFixed(2)}''/mi</Box>
-            <Box className={classes.grey} flexBasis="auto">{run.time}</Box>
+            <Box className={classes.grey} pr={5} flexBasis="auto"> {((run.time / 60) / run.distance).toFixed(2)}''/mi</Box>
+            <Box className={classes.grey} flexBasis="auto">{run.time / 60} min</Box>
           </Box>
         </Box>
       </Box>
