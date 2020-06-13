@@ -54,10 +54,11 @@ const MainDash = () => {
 	const latestRoute = useSelector((state) => state.routes.latestRoute);
 
 	useEffect(() => {
-		if (Object.keys(latestRoute).length > 0) {
+		if (Object.keys(latestRoute).length) {
 			setLatestRoute(true);
 		}
-	}, [Object.keys(latestRoute).length])
+	}, [Object.keys(latestRoute).length]);
+
 	useEffect(
 		() => {
 			if (currentUser) {
@@ -69,15 +70,17 @@ const MainDash = () => {
 	);
 
 	useEffect(() => {
-		const mapObj = new mapboxgl.Map({
-			container: mapContainer, // container id
-			style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
-			center: [-122.675246, 45.529431], // starting position
-			zoom: 12, // starting zoom
-			minZoom: 11 // keep it local
-		});
-		setMap(mapObj);
-	}, []);
+		if (mapContainer) {
+			const mapObj = new mapboxgl.Map({
+				container: mapContainer, // container id
+				style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
+				center: [-122.675246, 45.529431], // starting position
+				zoom: 12, // starting zoom
+				minZoom: 11 // keep it local
+			});
+			setMap(mapObj);
+		}
+	}, [mapContainer]);
 
 	useEffect(
 		() => {
@@ -204,6 +207,22 @@ const MainDash = () => {
 							</React.Fragment>
 						)}
 					</Grid>
+					{isLatestRoute && (
+						<React.Fragment>
+							<Grid item xs={4} sm={4} className={classes.textCenter}>
+								<Typography variant="body2">Distance</Typography>
+								<p>{parseFloat(latestRoute.distance).toFixed(2)} miles</p>
+							</Grid>
+							<Grid item xs={4} sm={4} className={classes.textCenter}>
+								<Typography variant="body2">Average Time</Typography>
+								<p>{!latestRoute.average_time ? '- -' : latestRoute.average_time}</p>
+							</Grid>
+							<Grid item xs={4} sm={4} className={classes.textCenter}>
+								<Typography variant="body2">Best Time</Typography>
+								<p>{!latestRoute.best_time ? '- -' : latestRoute.best_time}</p>
+							</Grid>
+						</React.Fragment>
+					)}
 				</Card>
 			)}
 		</React.Fragment>
