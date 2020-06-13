@@ -194,7 +194,6 @@ const MyRoutes = () => {
 	}));
 
 	const classes = useStyles();
-
 	return (
 		<React.Fragment>
 			{routes && routes.length === 0 ? (
