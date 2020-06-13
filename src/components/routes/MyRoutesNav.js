@@ -4,7 +4,7 @@ import Tab from '@material-ui/core/Tab';
 import { displayRoute } from '../../store/routes';
 
 
-const MyRoutesNav = ({ id, setSelectedTab, index }) => {
+const MyRoutesNav = ({ id, setSelectedTab, index, name }) => {
 
     const dispatch = useDispatch()
     const currentUser = useSelector(state => state.authorization.currentUser)
@@ -15,7 +15,7 @@ const MyRoutesNav = ({ id, setSelectedTab, index }) => {
 
     return (
         <>
-            <Tab className='route-nav-tab' label={`Route ${index + 1}`} onClick={routeClickHandler} />
+            <Tab className='route-nav-tab' label={name} onClick={routeClickHandler} />
         </>
     )
 }

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { FixedSizeList } from 'react-window';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -49,7 +48,6 @@ const DirectionsList = () => {
                     )
                 })}
             </div>
-            {/* </FixedSizeList> */}
         </div>
     );
 }

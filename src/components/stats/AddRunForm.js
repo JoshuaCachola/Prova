@@ -36,7 +36,7 @@ const AddRunForm = () => {
   const currentUser = useSelector((state) => state.authorization.currentUser);
   const routes = useSelector((state) => state.routes.routes);
   const [distance, setDistance] = useState(""), //default should be the distance that comes from the route
-    [date, setDate] = useState(""),
+    [date, setDate] = useState(new Date().toISOString().slice(0, 16)),
     [open, setOpen] = useState(true),
     [route, setRoute] = useState(""),
     [time, setTime] = useState(""),
@@ -76,7 +76,7 @@ const AddRunForm = () => {
         body: JSON.stringify({
           date,
           distance,
-          routeId: 2,
+          routeId: route,
           time,
           calories,
         })
@@ -145,7 +145,7 @@ const AddRunForm = () => {
             id="datetime-local"
             label="Date and time"
             type="datetime-local"
-            defaultValue={new Date().toISOString().slice(0, 16)}
+            defaultValue={date}
             onChange={e => setDate(e.target.value)}
             fullWidth
           />
