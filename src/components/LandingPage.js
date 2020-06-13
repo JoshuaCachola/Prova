@@ -6,8 +6,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Container, Typography } from '@material-ui/core/';
 
 const useStyles = makeStyles((theme) => ({
-	rootContainer: {
-		height: '100vh',
+	root: {
+		height: 'inherit',
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center'
@@ -29,7 +29,7 @@ const LandingPage = (props) => {
 
 	return (
 		<React.Fragment>
-			<Container maxWidth="lg" className={classes.rootContainer}>
+			<Container component="main" maxWidth="lg" className={classes.root}>
 				<Typography variant="h3">The Best App To Track Your Runs</Typography>
 			</Container>
 			<Footer />

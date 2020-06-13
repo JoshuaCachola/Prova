@@ -94,3 +94,9 @@
 .distance {
 	margin-left: 20px;
 }
+
+.App {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+}

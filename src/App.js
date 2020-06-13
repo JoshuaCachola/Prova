@@ -2,7 +2,7 @@
 import React from 'react';
 import NavBar from './components/NavBar';
 
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import CreateRoute from './components/routes/CreateRoute';
 import LandingPage from './components/LandingPage';
 import HomePage from './components/HomePage';
@@ -11,10 +11,9 @@ import MyStats from './components/MyStats';
 import Profile from './components/Profile';
 import history from './utils/history';
 import PrivateRoute from './components/PrivateRoute';
-import ExternalApi from './views/ExternalApi';
 import { CssBaseline } from '@material-ui/core';
 
-const App = () => {
+function App() {
 	return (
 		<div className="App">
 			<CssBaseline />
@@ -22,17 +21,16 @@ const App = () => {
 			<Router history={history}>
 				<NavBar />
 				<Switch>
-					<PrivateRoute path="/profile" exact component={Profile} />
-					<PrivateRoute path="/external-api" exact component={ExternalApi} />
-					<Route path="/create-route" exact={true} component={CreateRoute} />
-					<PrivateRoute path="/home" exact={true} component={HomePage} />
-					<Route path="/my-routes" exact={false} component={MyRoutes} />
-					<Route path="/my-stats" exact={true} component={MyStats} />
 					<Route path="/" exact={true} component={LandingPage} />
+					<PrivateRoute path="/home" exact={true} component={HomePage} />
+					<PrivateRoute path="/profile" exact component={Profile} />
+					<PrivateRoute path="/create-route" exact={true} component={CreateRoute} />
+					<PrivateRoute path="/my-routes" exact={false} component={MyRoutes} />
+					<PrivateRoute path="/my-stats" exact={true} component={MyStats} />
 				</Switch>
 			</Router>
 		</div>
 	);
-};
+}
 
 export default App;

@@ -33,9 +33,6 @@ const useStyles = makeStyles((theme) => ({
 	submit: {
 		margin: theme.spacing(2, 0, 2)
 	},
-	appBarRoot: {
-		flexGrow: 1
-	},
 	menuButton: {
 		marginRight: theme.spacing(2)
 	},
