@@ -1,66 +1,96 @@
 /* TODO Add site wide styles */
 
 .info-box {
-  height: 100px;
-  width: 150px;
-  position: absolute;
-  top: 20px;
-  left: 10px;
-  background-color: rgba(255, 255, 255, .9);
-  padding: 15px;
-  text-align: left;
-  font-family: 'Arial';
-  margin: 0;
-  font-size: 13px;
+	height: 100px;
+	width: 150px;
+	position: absolute;
+	top: 20px;
+	left: 10px;
+	background-color: rgba(255, 255, 255, .9);
+	padding: 15px;
+	text-align: left;
+	font-family: 'Arial';
+	margin: 0;
+	font-size: 13px;
 }
 
 .create-route-button {
-  margin-left: 1000px;
+	margin-left: 1000px;
 }
 
 .my-routes-container {
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
 .map-area {
-  display: grid;
-  height: 100vh;
-  width: 100%;
-  grid-template-columns: 1fr 400px;
+	display: grid;
+	height: 100vh;
+	width: 100%;
+	grid-template-columns: 1fr 400px;
 }
 
 .map-grid-container {
-  /* grid-column: 0 / 1; */
-  height: 100vh;
-  width: 100%;
+	/* grid-column: 0 / 1; */
+	height: 100vh;
+	width: 100%;
 }
 
 .my-routes-map-container {
-  /* position: relative; */
-  height: 100vh;
-  width: 100%;
+	/* position: relative; */
+	height: 100vh;
+	width: 100%;
 }
 
 .route-info {
-  /* grid-column: 1 / 2; */
-  height: 100vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+	/* grid-column: 1 / 2; */
+	height: 100vh;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
 }
 
 .mapContainer {
-  height: 90vh;
-  width: 100%;
+	height: 90vh;
+	width: 100%;
 }
 
 .route-nav-tab:hover {
-  color: red;
+	color: red;
 }
 
 .directions-container {
-  height: 390px;
-  overflow-y: scroll;
+	height: 390px;
+	overflow-y: scroll;
+}
+
+.homeMapContainer {
+	height: 400px;
+	width: 100%;
+}
+
+.no-routes-found-container {
+	display: flex;
+	justify-content: center;
+}
+
+.no-routes-found-button-container {
+	display: flex;
+	justify-content: center;
+}
+
+.icon-and-button {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.directions {
+	margin-left: 20px;
+}
+
+.distance {
+	margin-left: 20px;
 }

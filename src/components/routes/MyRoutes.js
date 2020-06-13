@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 import { getMyRoutes, displayRoute } from '../../store/routes';
 import MyRoutesNav from './MyRoutesNav';
-import Tabs from '@material-ui/core/Tabs';
+import { Tabs } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import DisplayedRouteInfo from './DisplayedRouteInfo';
+import NoRoutesFound from './NoRoutesFound';
 
 const MyRoutes = () => {
   mapboxgl.accessToken =

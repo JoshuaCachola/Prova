@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 const NavBar = (props) => {
 	const { isAuthenticated, loginWithRedirect, logout, loading, user } = useAuth0();
 
-	const [anchorEl, setAnchorEl] = useState(null);
+	const [ anchorEl, setAnchorEl ] = useState(null);
 	const open = Boolean(anchorEl);
 
 	const dispatch = useDispatch();
@@ -78,14 +78,14 @@ const NavBar = (props) => {
 			dispatch(getUser(user));
 			// eslint-disable-next-line
 		},
-		[user, dispatch]
+		[ user, dispatch ]
 	);
 
 	const classes = useStyles();
 
-	if (loading || !currentUser) {
-		return <div>Loading...</div>;
-	}
+	// if (loading || !currentUser) {
+	// 	return <div>Loading...</div>;
+	// }
 
 	return (
 		<React.Fragment>
@@ -109,41 +109,41 @@ const NavBar = (props) => {
 								</Button>
 							)}
 							{isAuthenticated &&
-								currentUser && (
-									<React.Fragment>
-										<IconButton
-											aria-label="account of current user"
-											aria-controls="menu-appbar"
-											aria-haspopup="true"
-											onClick={handleMenu}
-											color="inherit"
-										>
-											<Avatar alt={currentUser.nickname} src={currentUser.picture} />
-										</IconButton>
-										<Menu
-											id="menu-appbar"
-											anchorEl={anchorEl}
-											anchorOrigin={{
-												vertical: 'top',
-												horizontal: 'right'
-											}}
-											keepMounted
-											transformOrigin={{
-												vertical: 'top',
-												horizontal: 'right'
-											}}
-											open={open}
-											onClose={handleClose}
-										>
-											<MenuItem onClick={handleClose}>
-												<Link to="/profile" className={classes.linkStyle} underline="none">
-													Profile
+							currentUser && (
+								<React.Fragment>
+									<IconButton
+										aria-label="account of current user"
+										aria-controls="menu-appbar"
+										aria-haspopup="true"
+										onClick={handleMenu}
+										color="inherit"
+									>
+										<Avatar alt={currentUser.nickname} src={currentUser.picture} />
+									</IconButton>
+									<Menu
+										id="menu-appbar"
+										anchorEl={anchorEl}
+										anchorOrigin={{
+											vertical: 'top',
+											horizontal: 'right'
+										}}
+										keepMounted
+										transformOrigin={{
+											vertical: 'top',
+											horizontal: 'right'
+										}}
+										open={open}
+										onClose={handleClose}
+									>
+										<MenuItem onClick={handleClose}>
+											<Link to="/profile" className={classes.linkStyle} underline="none">
+												Profile
 											</Link>
-											</MenuItem>
-											<MenuItem onClick={() => logout()}>Log out</MenuItem>
-										</Menu>
-									</React.Fragment>
-								)}
+										</MenuItem>
+										<MenuItem onClick={() => logout()}>Log out</MenuItem>
+									</Menu>
+								</React.Fragment>
+							)}
 						</div>
 					</Toolbar>
 				</AppBar>
