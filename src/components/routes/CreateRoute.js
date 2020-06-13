@@ -14,6 +14,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 // import DirectionsIcon from '@material-ui/icons/Directions';
 import SaveIcon from '@material-ui/icons/Save';
+import api from "../../utils";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -245,10 +246,20 @@ const CreateRoute = ({ history }) => {
 		[mapCenter, setMapCenter]
 	);
 
-	const createRouteClick = (e) => {
+	const createRouteClick = async (e) => {
 		e.preventDefault();
-		dispatch(createRoute(distanceState, coordState, user.userId, directionState));
-		history.push('/my-routes');
+		// dispatch(createRoute(distanceState, coordState, user.userId, directionState));
+		const res = await fetch(`${api.url}/routes`, {
+			method: 'POST',
+			body: JSON.stringify({ distance: distanceState, coordinates: coordState, creatorId: user.userId, directions: directionState }),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+		if (res.ok) {
+			history.push('/my-routes');
+		}
+
 	};
 
 	const handleLocSearch = async (e) => {
