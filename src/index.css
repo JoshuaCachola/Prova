@@ -69,3 +69,28 @@
 	height: 400px;
 	width: 100%;
 }
+
+.no-routes-found-container {
+	display: flex;
+	justify-content: center;
+}
+
+.no-routes-found-button-container {
+	display: flex;
+	justify-content: center;
+}
+
+.icon-and-button {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.directions {
+	margin-left: 20px;
+}
+
+.distance {
+	margin-left: 20px;
+}
