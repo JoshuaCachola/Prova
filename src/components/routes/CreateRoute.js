@@ -13,7 +13,12 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 // import DirectionsIcon from '@material-ui/icons/Directions';
-// import SaveIcon from '@material-ui/icons/Save';
+import SaveIcon from '@material-ui/icons/Save';
+import api from "../../utils";
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import TextField from '@material-ui/core/TextField';
+
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -50,12 +55,14 @@ const CreateRoute = ({ history }) => {
 		lat: 37,
 		zoom: 2
 	});
-	const [ coordState, setCoordState ] = useState(null);
-	const [ distanceState, setDistanceState ] = useState(0.0);
-	const [ durationState, setDurationState ] = useState(0.0);
-	const [ searchInput, setSearch ] = useState('');
-	const [ mapCenter, setMapCenter ] = useState([ -122.675246, 45.529431 ]);
-	const [ directionState, setDirectionState ] = useState(null);
+	const [coordState, setCoordState] = useState(null);
+	const [distanceState, setDistanceState] = useState(0.0);
+	const [durationState, setDurationState] = useState(0.0);
+	const [searchInput, setSearch] = useState('');
+	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
+	const [directionState, setDirectionState] = useState(null);
+	const [displayedDirections, setDisplayedDirections] = useState(null)
+	const [nameState, setNameState] = useState('')
 
 	let mapContainer = useRef(null);
 
@@ -210,6 +217,7 @@ const CreateRoute = ({ history }) => {
 						}
 					}
 
+					setDisplayedDirections(runInstructions)
 					console.log(runInstructions);
 					const directionString = runInstructions.join(';');
 					setDirectionState(directionString);
@@ -246,10 +254,20 @@ const CreateRoute = ({ history }) => {
 		[ mapCenter, setMapCenter ]
 	);
 
-	const createRouteClick = (e) => {
+	const createRouteClick = async (e) => {
 		e.preventDefault();
-		dispatch(createRoute(distanceState, coordState, user.userId, directionState));
-		history.push('/my-routes');
+		// dispatch(createRoute(distanceState, coordState, user.userId, directionState));
+		const res = await fetch(`${api.url}/routes`, {
+			method: 'POST',
+			body: JSON.stringify({ name: nameState, distance: distanceState, coordinates: coordState, creatorId: user.userId, directions: directionState, image: null }),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+		if (res.ok) {
+			history.push('/my-routes');
+		}
+
 	};
 
 	const handleLocSearch = async (e) => {
@@ -267,12 +285,37 @@ const CreateRoute = ({ history }) => {
 		setSearch(e.target.value);
 	};
 
+	const nameInputChange = e => {
+		setNameState(e.target.value)
+	}
+
 	const classes = useStyles();
 	return (
 		<React.Fragment>
 			<Grid container>
 				<Grid item xs={2} sm={2}>
-					<div className={classes.sideMenu}>Side bar</div>
+					<div className={classes.sideMenu}>
+						<TextField id="outlined-basic" label="Name Your Route" variant="outlined" value={nameState} onChange={nameInputChange} />
+						<div className={classes.root}>
+							<div className='directions'>
+								{displayedDirections &&
+									<React.Fragment>
+										<h2>Directions:</h2>
+										<div className='directions-container'>
+											{/* <FixedSizeList height={400} width={300} itemSize={46} itemCount={directionsArr.length}> */}
+											{displayedDirections && displayedDirections.map((direction, i) => {
+												return (
+													<ListItem key={i}>
+														<ListItemText primary={direction} />
+													</ListItem>
+												)
+											})}
+										</div>
+									</React.Fragment>}
+							</div>
+
+						</div>
+					</div>
 				</Grid>
 				<Grid item xs={10} sm={10}>
 					<Paper component="form" className={classes.root}>

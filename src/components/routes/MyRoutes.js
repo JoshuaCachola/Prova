@@ -20,7 +20,7 @@ const MyRoutes = () => {
 
 	const [ mapCenter, setMapCenter ] = useState([ -122.675246, 45.529431 ]);
 
-	let routes = useSelector((state) => state.routes.routes);
+	const routes = useSelector((state) => state.routes.routes);
 
 	const currentRoute = useSelector((state) => state.routes.currentRoute);
 
@@ -194,7 +194,7 @@ const MyRoutes = () => {
 	}));
 
 	const classes = useStyles();
-	// routes = []
+
 	return (
 		<React.Fragment>
 			{routes && routes.length === 0 ? (
@@ -203,23 +203,26 @@ const MyRoutes = () => {
 					{/* <div ref={(el) => (mapContainer = el)} /> */}
 				</React.Fragment>
 			) : (
-				<div className="my-routes-container">
-					<div className={classes.root}>
-						<Tabs
-							orientation="vertical"
-							variant="scrollable"
-							value={selectedTab}
-							aria-label="Vertical tabs example"
-							className={classes.tabs}
-						>
-							{routes &&
-								routes.map(({ id }, i) => {
-									return <MyRoutesNav index={i} key={id} id={id} setSelectedTab={setSelectedTab} />;
-								})}
-						</Tabs>
-						<div className="map-area">
-							<div className="map-grid-container">
-								<div ref={(el) => (mapContainer = el)} className="my-routes-map-container" />
+
+					<div className="my-routes-container">
+						<div className={classes.root}>
+							<Tabs
+								orientation="vertical"
+								variant="scrollable"
+								value={selectedTab}
+								aria-label="Vertical tabs example"
+								className={classes.tabs}
+							>
+								{routes &&
+									routes.map(({ id, name }, i) => {
+										return <MyRoutesNav index={i} key={id} id={id} name={name} setSelectedTab={setSelectedTab} />;
+									})}
+							</Tabs>
+							<div className="map-area">
+								<div className="map-grid-container">
+									<div ref={(el) => (mapContainer = el)} className="my-routes-map-container" />
+								</div>
+								{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
 							</div>
 							{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
 						</div>

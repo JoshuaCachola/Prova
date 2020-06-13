@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-// import { FixedSizeList } from 'react-window';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -31,27 +30,28 @@ renderRow.propTypes = {
 };
 
 const DirectionsList = () => {
-	const classes = useStyles();
 
-	const currentRoute = useSelector((state) => state.routes.currentRoute);
+    const classes = useStyles();
 
-	const directionsArr = currentRoute.directions.split(';');
+    const currentRoute = useSelector(state => state.routes.currentRoute)
 
-	return (
-		<div className={classes.root}>
-			<div className="directions-container">
-				{/* <FixedSizeList height={400} width={300} itemSize={46} itemCount={directionsArr.length}> */}
-				{directionsArr.map((direction, i) => {
-					return (
-						<ListItem key={i}>
-							<ListItemText primary={direction} />
-						</ListItem>
-					);
-				})}
-			</div>
-			{/* </FixedSizeList> */}
-		</div>
-	);
-};
+    const directionsArr = currentRoute.directions.split(';')
+
+    return (
+        <div className={classes.root}>
+            <div className='directions-container'>
+                {/* <FixedSizeList height={400} width={300} itemSize={46} itemCount={directionsArr.length}> */}
+                {directionsArr.map((direction, i) => {
+                    return (
+                        <ListItem key={i}>
+                            <ListItemText primary={direction} />
+                        </ListItem>
+                    )
+                })}
+            </div>
+        </div>
+    );
+}
+
 
 export default DirectionsList;
