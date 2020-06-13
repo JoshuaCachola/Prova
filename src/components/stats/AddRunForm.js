@@ -5,7 +5,7 @@ import {
 	Dialog,
 	DialogActions,
 	DialogContent,
-	DialogContentText,
+	// DialogContentText,
 	DialogTitle,
 	makeStyles,
 	FormControl,
@@ -48,6 +48,7 @@ const AddRunForm = () => {
 				dispatch(getMyRoutes(currentUser.userId));
 			}
 		},
+		// eslint-disable-next-line
 		[ currentUser ]
 	);
 

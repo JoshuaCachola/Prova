@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useAuth0 } from '../react-auth0-spa';
 import { getUser } from '../store/authorization';
@@ -12,7 +12,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Avatar from '@material-ui/core/Avatar';
-// import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -57,13 +56,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavBar = (props) => {
-	const { isAuthenticated, loginWithRedirect, logout, loading, user } = useAuth0();
+	const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
 
 	const [ anchorEl, setAnchorEl ] = useState(null);
 	const open = Boolean(anchorEl);
 
 	const dispatch = useDispatch();
 	const currentUser = useSelector((state) => state.authorization.currentUser);
+
+	const matchMyStats = useRouteMatch('/my-stats');
+	const matchMyRoutes = useRouteMatch('/my-routes');
 
 	const handleMenu = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -111,6 +113,20 @@ const NavBar = (props) => {
 							{isAuthenticated &&
 							currentUser && (
 								<React.Fragment>
+									{matchMyStats && (
+										<Button variant="contained" color="secondary" className={classes.submit}>
+											<Link to="/create-route" className={classes.linkStyle}>
+												Create Route
+											</Link>
+										</Button>
+									)}
+									{matchMyRoutes && (
+										<Button variant="contained" color="secondary" className={classes.submit}>
+											<Link to="/create-route" className={classes.linkStyle}>
+												Create Route
+											</Link>
+										</Button>
+									)}
 									<IconButton
 										aria-label="account of current user"
 										aria-controls="menu-appbar"

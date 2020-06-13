@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 	avatar: {
 		position: 'relative',
 		bottom: '35px',
-		left: '20%',
+		left: '25%',
 		zIndex: 1
 	},
 	linkStyle: {
