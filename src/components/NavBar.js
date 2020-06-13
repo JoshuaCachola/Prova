@@ -15,9 +15,6 @@ import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		height: '100vh'
-	},
 	image: {
 		backgroundImage: 'url(../images/runner.jpg)',
 		backgroundRepeat: 'no-repeat',

@@ -2,7 +2,7 @@
 import React from 'react';
 import NavBar from './components/NavBar';
 
-import { Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import CreateRoute from './components/routes/CreateRoute';
 import LandingPage from './components/LandingPage';
 import HomePage from './components/HomePage';
@@ -14,7 +14,7 @@ import PrivateRoute from './components/PrivateRoute';
 import ExternalApi from './views/ExternalApi';
 import { CssBaseline } from '@material-ui/core';
 
-function App() {
+const App = () => {
 	return (
 		<div className="App">
 			<CssBaseline />
@@ -33,6 +33,6 @@ function App() {
 			</Router>
 		</div>
 	);
-}
+};
 
 export default App;

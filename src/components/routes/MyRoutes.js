@@ -203,29 +203,35 @@ const MyRoutes = () => {
 					{/* <div ref={(el) => (mapContainer = el)} /> */}
 				</React.Fragment>
 			) : (
-
-					<div className="my-routes-container">
-						<div className={classes.root}>
-							<Tabs
-								orientation="vertical"
-								variant="scrollable"
-								value={selectedTab}
-								aria-label="Vertical tabs example"
-								className={classes.tabs}
-							>
-								{routes &&
-									routes.map(({ id, name }, i) => {
-										return <MyRoutesNav index={i} key={id} id={id} name={name} setSelectedTab={setSelectedTab} />;
-									})}
-							</Tabs>
-							<div className="map-area">
-								<div className="map-grid-container">
-									<div ref={(el) => (mapContainer = el)} className="my-routes-map-container" />
-								</div>
-								{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
+				<div className="my-routes-container">
+					<div className={classes.root}>
+						<Tabs
+							orientation="vertical"
+							variant="scrollable"
+							value={selectedTab}
+							aria-label="Vertical tabs example"
+							className={classes.tabs}
+						>
+							{routes &&
+								routes.map(({ id, name }, i) => {
+									return (
+										<MyRoutesNav
+											index={i}
+											key={id}
+											id={id}
+											name={name}
+											setSelectedTab={setSelectedTab}
+										/>
+									);
+								})}
+						</Tabs>
+						<div className="map-area">
+							<div className="map-grid-container">
+								<div ref={(el) => (mapContainer = el)} className="my-routes-map-container" />
 							</div>
 							{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
 						</div>
+						{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
 					</div>
 				</div>
 			)}

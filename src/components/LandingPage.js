@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { useAuth0 } from '../react-auth0-spa';
-import StickyFooter from './Footer';
+import Footer from './Footer';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Typography } from '@material-ui/core/';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		height: '90vh',
+	rootContainer: {
+		height: '100vh',
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center'
@@ -29,10 +29,10 @@ const LandingPage = (props) => {
 
 	return (
 		<React.Fragment>
-			<Container component="main" maxWidth="lg" className={classes.root}>
+			<Container maxWidth="lg" className={classes.rootContainer}>
 				<Typography variant="h3">The Best App To Track Your Runs</Typography>
 			</Container>
-			<StickyFooter />
+			<Footer />
 		</React.Fragment>
 	);
 };
