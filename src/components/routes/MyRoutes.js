@@ -18,7 +18,7 @@ const MyRoutes = () => {
 
 	const dispatch = useDispatch();
 
-	const [ mapCenter, setMapCenter ] = useState([ -122.675246, 45.529431 ]);
+	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
 
 	let routes = useSelector((state) => state.routes.routes);
 
@@ -26,9 +26,9 @@ const MyRoutes = () => {
 
 	const routePersonalInfo = useSelector((state) => state.routes.routePersonalInfo);
 
-	const [ map, setMap ] = useState(null);
-	const [ selectedTab, setSelectedTab ] = useState(0);
-	const [ hasLoaded, setHasLoaded ] = useState(false);
+	const [map, setMap] = useState(null);
+	const [selectedTab, setSelectedTab] = useState(0);
+	const [hasLoaded, setHasLoaded] = useState(false);
 
 	useEffect(
 		() => {
@@ -38,19 +38,22 @@ const MyRoutes = () => {
 				}
 			}
 		},
-		[ currentUser ]
+		[currentUser]
 	);
 
 	useEffect(() => {
-		const mapObj = new mapboxgl.Map({
-			container: mapContainer, // container id
-			style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
-			center: mapCenter, // starting position
-			zoom: 13, // starting zoom
-			minZoom: 11 // keep it local
-		});
-		setMap(mapObj);
-	}, []);
+		if (routes && routes.length !== 0) {
+			const mapObj = new mapboxgl.Map({
+				container: mapContainer, // container id
+				style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
+				center: mapCenter, // starting position
+				zoom: 13, // starting zoom
+				minZoom: 11 // keep it local
+			});
+			setMap(mapObj);
+		}
+
+	}, [routes]);
 
 	useEffect(
 		() => {
@@ -153,7 +156,7 @@ const MyRoutes = () => {
 				}
 			}
 		},
-		[ map, currentRoute ]
+		[map, currentRoute]
 	);
 
 	useEffect(
@@ -164,7 +167,7 @@ const MyRoutes = () => {
 				}
 			}
 		},
-		[ currentUser, routes ]
+		[currentUser, routes]
 	);
 
 	const useStyles = makeStyles((theme) => ({
@@ -186,32 +189,32 @@ const MyRoutes = () => {
 			{routes && routes.length === 0 ? (
 				<React.Fragment>
 					<NoRoutesFound />
-					<div ref={(el) => (mapContainer = el)} />
+					{/* <div ref={(el) => (mapContainer = el)} /> */}
 				</React.Fragment>
 			) : (
-				<div className="my-routes-container">
-					<div className={classes.root}>
-						<Tabs
-							orientation="vertical"
-							variant="scrollable"
-							value={selectedTab}
-							aria-label="Vertical tabs example"
-							className={classes.tabs}
-						>
-							{routes &&
-								routes.map(({ id }, i) => {
-									return <MyRoutesNav index={i} key={id} id={id} setSelectedTab={setSelectedTab} />;
-								})}
-						</Tabs>
-						<div className="map-area">
-							<div className="map-grid-container">
-								<div ref={(el) => (mapContainer = el)} className="my-routes-map-container" />
+					<div className="my-routes-container">
+						<div className={classes.root}>
+							<Tabs
+								orientation="vertical"
+								variant="scrollable"
+								value={selectedTab}
+								aria-label="Vertical tabs example"
+								className={classes.tabs}
+							>
+								{routes &&
+									routes.map(({ id }, i) => {
+										return <MyRoutesNav index={i} key={id} id={id} setSelectedTab={setSelectedTab} />;
+									})}
+							</Tabs>
+							<div className="map-area">
+								<div className="map-grid-container">
+									<div ref={(el) => (mapContainer = el)} className="my-routes-map-container" />
+								</div>
+								{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
 							</div>
-							{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
 						</div>
 					</div>
-				</div>
-			)}
+				)}
 		</React.Fragment>
 	);
 };
