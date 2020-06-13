@@ -42,15 +42,18 @@ const MyRoutes = () => {
   );
 
   useEffect(() => {
-    const mapObj = new mapboxgl.Map({
-      container: mapContainer, // container id
-      style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
-      center: mapCenter, // starting position
-      zoom: 13, // starting zoom
-      minZoom: 11 // keep it local
-    });
-    setMap(mapObj);
-  }, []);
+    if (routes && routes.length !== 0) {
+      const mapObj = new mapboxgl.Map({
+        container: mapContainer, // container id
+        style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
+        center: mapCenter, // starting position
+        zoom: 13, // starting zoom
+        minZoom: 11 // keep it local
+      });
+      setMap(mapObj);
+    }
+
+  }, [routes]);
 
   useEffect(
     () => {
@@ -186,7 +189,7 @@ const MyRoutes = () => {
       {routes && routes.length === 0 ? (
         <React.Fragment>
           <NoRoutesFound />
-          <div ref={(el) => (mapContainer = el)} />
+          {/* <div ref={(el) => (mapContainer = el)} /> */}
         </React.Fragment>
       ) : (
           <div className="my-routes-container">
