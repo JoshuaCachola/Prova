@@ -30,8 +30,8 @@ export const createRoute = (distance, coordinates, userId, directions) => async 
 			'Content-Type': 'application/json'
 		}
 	});
-	const parsedRes = await res.json();
-	console.log(parsedRes);
+	// const parsedRes = await res.json();
+
 };
 
 export const displayRoute = (routeId, userId) => async (dispatch, getState) => {
