@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: 15
 	},
 	cardSize: {
-		maxHeight: '500px'
+		maxHeight: '490px'
 	},
 	linkStyle: {
 		textDecoration: 'none',
@@ -216,7 +216,7 @@ const MainDash = () => {
 							</React.Fragment>
 						)}
 					</Grid>
-					{latestRoute && (
+					{/* {latestRoute && (
 						<React.Fragment>
 							<Grid item xs={4} sm={4} className={classes.textCenter}>
 								<Typography variant="body2">Distance</Typography>
@@ -231,7 +231,7 @@ const MainDash = () => {
 								<p>{!latestRoute.best_time ? '- -' : latestRoute.best_time}</p>
 							</Grid>
 						</React.Fragment>
-					)}
+					)} */}
 				</Card>
 			)}
 		</React.Fragment>
