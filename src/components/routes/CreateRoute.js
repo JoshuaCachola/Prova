@@ -41,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 	sideMenu: {
 		width: '25vh'
+	},
+	nameInput: {
+		marginTop: 30,
+		marginLeft: 30
 	}
 }));
 
@@ -310,43 +314,35 @@ const CreateRoute = ({ history }) => {
 			<Grid container>
 				<Grid item xs={2} sm={2}>
 					<div className={classes.sideMenu}>
-						<TextField
-							error={nameError}
-							id="outlined-basic"
-							label="Name Your Route"
-							variant="outlined"
-							value={nameState}
-							onChange={nameInputChange}
-							helperText={nameError && 'Route must have a name'}
+						<div className='create-route-sidebar'>
+							<TextField
+								className={classes.nameInput}
+								error={nameError}
+								id="outlined-basic"
+								label="Name Your Route"
+								variant="outlined"
+								value={nameState}
+								onChange={nameInputChange}
+								helperText={nameError && 'Route must have a name'}
+							/>
+							<div className={classes.root}>
+								<div className='directions'>
+									{displayedDirections &&
+										<React.Fragment>
+											<h2>Directions:</h2>
+											<div className='create-route-directions-container'>
+												{displayedDirections && displayedDirections.map((direction, i) => {
+													return (
+														<ListItem key={i}>
+															<ListItemText primary={direction} />
+														</ListItem>
+													)
+												})}
+											</div>
+										</React.Fragment>}
+								</div>
 
-						/>
-						{/* {nameError && <TextField
-							error
-							id="outlined-error-helper-text"
-							label="Name Your Route"
-							defaultValue=""
-							helperText="Route must have a name"
-							variant="outlined"
-							onChange={nameInputChange}
-							value={nameState}
-						/>} */}
-						<div className={classes.root}>
-							<div className='directions'>
-								{displayedDirections &&
-									<React.Fragment>
-										<h2>Directions:</h2>
-										<div className='directions-container'>
-											{displayedDirections && displayedDirections.map((direction, i) => {
-												return (
-													<ListItem key={i}>
-														<ListItemText primary={direction} />
-													</ListItem>
-												)
-											})}
-										</div>
-									</React.Fragment>}
 							</div>
-
 						</div>
 					</div>
 				</Grid>
