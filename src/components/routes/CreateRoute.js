@@ -348,9 +348,9 @@ const CreateRoute = ({ history }) => {
 				</Grid>
 				<Grid item xs={10} sm={10}>
 					<Box component="form" className={classes.root}>
-						<IconButton className={classes.iconButton} aria-label="menu">
+						{/* <IconButton className={classes.iconButton} aria-label="menu">
 							<MenuIcon />
-						</IconButton>
+						</IconButton> */}
 						<InputBase
 							className={classes.input}
 							placeholder="Search"
@@ -379,7 +379,7 @@ const CreateRoute = ({ history }) => {
 							color="secondary"
 							size="small"
 							className={classes.button}
-							endIcon={<Icon className="fas fa-running" color="white" />}
+							endIcon={<Icon className="fas fa-running" color="inherit" />}
 							onClick={createRouteClick}
 						>
 							Save
