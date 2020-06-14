@@ -364,9 +364,8 @@ const CreateRoute = ({ history }) => {
 											return (
 												<ListItem
 													key={i}
-													className={
-														i % 2 ? classes.whiteBackground : classes.inheritBackground
-													}
+													className={`
+														${i % 2 ? classes.whiteBackground : classes.inheritBackground} ${'list-item'}`}
 												>
 													<ListItemText primary={direction} className={classes.listMargin} />
 												</ListItem>
