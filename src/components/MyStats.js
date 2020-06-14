@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	Box,
-	Grid,
-	Tabs,
-	Tab,
-} from '@material-ui/core';
+import { Box, Grid, Tabs, Tab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { getRuns } from '../store/runs';
 
@@ -21,11 +16,11 @@ const useStyles = makeStyles({
 		// // maxWidth: '40vw',
 		overflowY: 'scroll',
 		overflowX: 'hidden',
-		borderRight: `2px solid #e2e2e2`,
+		borderRight: `2px solid #e2e2e2`
 	},
 	list: {
 		listStyleType: 'none',
-		borderBottom: '1px solid #e6e6e6',
+		borderBottom: '1px solid #e6e6e6'
 	},
 	graphContainer: {
 		// width: '100px',
@@ -36,7 +31,7 @@ const useStyles = makeStyles({
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'space-between',
-		flexGrow: 1,
+		flexGrow: 1
 	},
 	graphNav: {
 		borderBottom: '1px solid #e6e6e6',
@@ -48,7 +43,7 @@ const useStyles = makeStyles({
 	graphLinks: {
 		borderLeft: '1px solid #e6e6e6',
 		borderRight: '1px solid #e6e6e6',
-		padding: '5px',
+		padding: '5px'
 	},
 	navText: {
 		fontSize: '16px',
@@ -60,57 +55,67 @@ const useStyles = makeStyles({
 });
 
 const MyStats = () => {
-	const [value, setValue] = useState(0);
-	const [calData, setCalData] = useState([]);
-	const [distanceData, setDistanceData] = useState([]);
-	const [caloriesData, setCaloriesData] = useState([]);
-	const [showCal, setShowCal] = useState(true);
-	const [showDistance, setShowDistance] = useState(false);
-	const [showCalories, setShowCalories] = useState(false);
-	const [showRunForm, setRunForm] = useState(false);
+	const [ value, setValue ] = useState(0);
+	const [ calData, setCalData ] = useState([]);
+	const [ distanceData, setDistanceData ] = useState([]);
+	const [ caloriesData, setCaloriesData ] = useState([]);
+	const [ showCal, setShowCal ] = useState(true);
+	const [ showDistance, setShowDistance ] = useState(false);
+	const [ showCalories, setShowCalories ] = useState(false);
+	const [ showRunForm, setRunForm ] = useState(false);
 	const dispatch = useDispatch();
 	const currentUser = useSelector((state) => state.authorization.currentUser);
-	const runs = useSelector(state => state.runs.runs);
+	const runs = useSelector((state) => state.runs.runs);
 
 	const lineGraph = (type) => {
 		const graphData = {
-			id: "runs",
-			color: "#FF6600",
+			id: 'runs',
+			color: '#FF6600',
 			data: []
 		};
 
-		runs.forEach(run => {
+		runs.forEach((run) => {
 			graphData.data.push({
 				x: run.date,
 				y: run[type]
 			});
-		})
+		});
 
 		console.log(graphData);
-		return [graphData];
+		return [ graphData ];
 	};
 
 	useEffect(() => {
-		if (currentUser) {
-			dispatch(getRuns(currentUser.userId))
-		}
-	}, [currentUser, runs.length])
+		document.title = 'Prova - My Stats';
+	}, []);
 
-	useEffect(() => {
-		const calendarRuns = [];
-		if (runs.length) {
-			runs.forEach(run => {
-				const cRun = {};
-				cRun.day = run.date;
-				cRun.value = run.distance;
-				calendarRuns.push(cRun);
-			});
+	useEffect(
+		() => {
+			if (currentUser) {
+				dispatch(getRuns(currentUser.userId));
+			}
+		},
+		[ currentUser, runs.length ]
+	);
 
-			setDistanceData(lineGraph('distance'));
-			setCaloriesData(lineGraph('calories'));
-			setCalData(calendarRuns);
-		}
-	}, [distanceData.length, caloriesData.length, runs.length]);
+	useEffect(
+		() => {
+			const calendarRuns = [];
+			if (runs.length) {
+				runs.forEach((run) => {
+					const cRun = {};
+					cRun.day = run.date;
+					cRun.value = run.distance;
+					calendarRuns.push(cRun);
+				});
+
+				setDistanceData(lineGraph('distance'));
+				setCaloriesData(lineGraph('calories'));
+				setCalData(calendarRuns);
+			}
+		},
+		[ distanceData.length, caloriesData.length, runs.length ]
+	);
 
 	const handleRunDetails = (e) => {
 		console.log('clicked!');
@@ -154,18 +159,10 @@ const MyStats = () => {
 		<React.Fragment>
 			<Grid container>
 				<Grid item xs={3} sm={3}>
-					<Box
-						orientation="vertical"
-						variant="scrollable"
-						className={classes.nav}
-					>
-						{runs.map(run => {
+					<Box orientation="vertical" variant="scrollable" className={classes.nav}>
+						{runs.map((run) => {
 							return (
-								<Box
-									key={run.id}
-									className={classes.list}
-									onClick={handleRunDetails}
-								>
+								<Box key={run.id} className={classes.list} onClick={handleRunDetails}>
 									<RunDetails run={run} />
 								</Box>
 							);
@@ -183,36 +180,16 @@ const MyStats = () => {
 								textColor="inherit"
 								centered
 							>
-								<Tab
-									label="Calendar"
-									className={classes.navText}
-								/>
-								<Tab
-									label="Distance"
-									className={classes.navText}
-								/>
-								<Tab
-									label="Calories"
-									className={classes.navText}
-								/>
+								<Tab label="Calendar" className={classes.navText} />
+								<Tab label="Distance" className={classes.navText} />
+								<Tab label="Calories" className={classes.navText} />
 							</Tabs>
 						</Box>
-						{showCal &&
-							<Calendar myRuns={calData} />
-						}
-						{showDistance &&
-							<LineGraph runs={distanceData} legend="Time in minutes" />
-						}
-						{showCalories &&
-							<LineGraph runs={caloriesData} legend="Calories" />
-						}
-						{showRunForm &&
-							<AddRunForm />
-						}
-						<Grid
-							container
-							justify="center"
-						>
+						{showCal && <Calendar myRuns={calData} />}
+						{showDistance && <LineGraph runs={distanceData} legend="Time in minutes" />}
+						{showCalories && <LineGraph runs={caloriesData} legend="Calories" />}
+						{showRunForm && <AddRunForm />}
+						<Grid container justify="center">
 							<Grid item xs={9} s={9}>
 								<TotalStats runs={runs} />
 							</Grid>
@@ -222,6 +199,6 @@ const MyStats = () => {
 			</Grid>
 		</React.Fragment>
 	);
-}
+};
 
 export default MyStats;
