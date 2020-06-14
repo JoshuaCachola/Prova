@@ -6,27 +6,27 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		width: '100%',
-		height: 400,
-		maxWidth: 300,
-		backgroundColor: theme.palette.background.paper
-	}
+    root: {
+        width: '100%',
+        height: 400,
+        maxWidth: 300,
+        backgroundColor: theme.palette.background.paper
+    }
 }));
 
 function renderRow(props) {
-	// const { index, style } = props;
+    // const { index, style } = props;
 
-	return (
-		<ListItem button>
-			<ListItemText primary={`Item`} />
-		</ListItem>
-	);
+    return (
+        <ListItem button>
+            <ListItemText primary={`Item`} />
+        </ListItem>
+    );
 }
 
 renderRow.propTypes = {
-	index: PropTypes.number.isRequired,
-	style: PropTypes.object.isRequired
+    index: PropTypes.number.isRequired,
+    style: PropTypes.object.isRequired
 };
 
 const DirectionsList = () => {
@@ -43,12 +43,33 @@ const DirectionsList = () => {
                 {/* <FixedSizeList height={400} width={300} itemSize={46} itemCount={directionsArr.length}> */}
                 {directionsArr.map((direction, i) => {
                     return (
-                        <ListItem key={i}>
+                        <ListItem className='list-item' key={i}>
                             <ListItemText primary={direction} />
                         </ListItem>
                     )
                 })}
+                {/* </FixedSizeList> */}
             </div>
+            {/* <TableContainer component={Paper}>
+                <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                        <TableRow className='table-row'>
+                            <TableCell>Personal</TableCell>
+                            <TableCell align="right"></TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {personalRows.map((row) => (
+                            <TableRow key={row.category} className='table-row'>
+                                <TableCell component="th" scope="row">
+                                    {row.category}
+                                </TableCell>
+                                <TableCell align="right">{row.value !== '00:00:00' ? row.value : 'N/A'}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer> */}
         </div>
     );
 }
