@@ -69,6 +69,11 @@ const CreateRoute = ({ history }) => {
 
 	const { user } = useAuth0();
 
+	const [ mapState, setMapState ] = useState({
+		lng: -122,
+		lat: 37,
+		zoom: 2
+	});
 	const [ coordState, setCoordState ] = useState(null);
 	const [ distanceState, setDistanceState ] = useState(0.0);
 	const [ durationState, setDurationState ] = useState(0.0);
@@ -78,6 +83,8 @@ const CreateRoute = ({ history }) => {
 	const [ displayedDirections, setDisplayedDirections ] = useState(null);
 	const [ nameState, setNameState ] = useState('');
 	const [ nameError, setNameError ] = useState(false);
+	const [ coordError, setCoordError ] = useState(false);
+
 	let mapContainer = useRef(null);
 
 	useEffect(() => {
@@ -224,7 +231,6 @@ const CreateRoute = ({ history }) => {
 					if (!res.ok) throw res;
 					res = await res.json();
 
-					console.log(res);
 					setDurationState(Math.floor(res.routes[0].duration / 60)); // in minutes;
 
 					const instructionSteps = res.routes[0].legs;
@@ -279,9 +285,14 @@ const CreateRoute = ({ history }) => {
 
 		if (!nameState) {
 			setNameError(true);
+		} else if (!coordState) {
+			setCoordError(true);
 		} else {
 			if (nameError) {
 				setNameError(false);
+			}
+			if (coordError) {
+				setCoordError(false);
 			}
 
 			const res = await fetch(`${api.url}/routes`, {
