@@ -230,7 +230,6 @@ const MyRoutes = () => {
 							</div>
 							{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
 						</div>
-						{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
 					</div>
 				</div>
 			)}
