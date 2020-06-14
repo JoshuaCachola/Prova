@@ -181,6 +181,8 @@ const CreateRoute = ({ history }) => {
 			};
 
 			const addRoute = (coords) => {
+				drawObj.deleteAll();
+
 				if (mapObj.getSource('route')) {
 					mapObj.removeLayer('route');
 					mapObj.removeSource('route');
@@ -366,6 +368,9 @@ const CreateRoute = ({ history }) => {
 				</Grid>
 				<Grid item xs={10} sm={10} lg={10}>
 					<Box component="form" className={classes.root}>
+						{/* <IconButton className={classes.iconButton} aria-label="menu">
+							<MenuIcon />
+						</IconButton> */}
 						<InputBase
 							className={classes.input}
 							placeholder="Search"
@@ -387,7 +392,7 @@ const CreateRoute = ({ history }) => {
 							color="secondary"
 							size="small"
 							className={classes.button}
-							endIcon={<Icon className="fas fa-running" />}
+							endIcon={<Icon className="fas fa-running" color="inherit" />}
 							onClick={createRouteClick}
 						>
 							Save

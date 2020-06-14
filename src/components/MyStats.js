@@ -7,13 +7,11 @@ import { getRuns } from '../store/runs';
 import Calendar from './stats/Calendar';
 import RunDetails from './stats/RunDetails';
 import LineGraph from './stats/LineGraph';
-import AddRunForm from './stats/AddRunForm';
 import TotalStats from './stats/TotalStats';
 
 const useStyles = makeStyles({
 	nav: {
 		maxHeight: '100vh',
-		// // maxWidth: '40vw',
 		overflowY: 'scroll',
 		overflowX: 'hidden',
 		borderRight: `2px solid #e2e2e2`
@@ -23,19 +21,16 @@ const useStyles = makeStyles({
 		borderBottom: '1px solid #e6e6e6'
 	},
 	graphContainer: {
-		// width: '100px',
 		height: '500px',
-		// maxHeight: '100vh',
 		minWidth: '60vw',
 		marginTop: '5px',
 		display: 'flex',
 		flexDirection: 'column',
-		justifyContent: 'space-between',
-		flexGrow: 1
+		justifyContent: 'space-between'
+		// flexGrow: 1,
 	},
 	graphNav: {
 		borderBottom: '1px solid #e6e6e6',
-		// margin: '20px',
 		width: '100%',
 		display: 'flex',
 		justifyContent: 'space-around'
@@ -62,7 +57,6 @@ const MyStats = () => {
 	const [ showCal, setShowCal ] = useState(true);
 	const [ showDistance, setShowDistance ] = useState(false);
 	const [ showCalories, setShowCalories ] = useState(false);
-	const [ showRunForm, setRunForm ] = useState(false);
 	const dispatch = useDispatch();
 	const currentUser = useSelector((state) => state.authorization.currentUser);
 	const runs = useSelector((state) => state.runs.runs);
@@ -81,13 +75,8 @@ const MyStats = () => {
 			});
 		});
 
-		console.log(graphData);
 		return [ graphData ];
 	};
-
-	useEffect(() => {
-		document.title = 'Prova - My Stats';
-	}, []);
 
 	useEffect(
 		() => {
@@ -139,9 +128,9 @@ const MyStats = () => {
 		setShowCalories(true);
 	};
 
-	const handleRunForm = () => {
-		setRunForm(!showRunForm);
-	};
+	// const handleRunForm = () => {
+	//   setRunForm(!showRunForm);
+	// };
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
@@ -188,7 +177,9 @@ const MyStats = () => {
 						{showCal && <Calendar myRuns={calData} />}
 						{showDistance && <LineGraph runs={distanceData} legend="Time in minutes" />}
 						{showCalories && <LineGraph runs={caloriesData} legend="Calories" />}
-						{showRunForm && <AddRunForm />}
+						{/* {showRunForm &&
+              <AddRunForm />
+            } */}
 						<Grid container justify="center">
 							<Grid item xs={9} s={9}>
 								<TotalStats runs={runs} />
