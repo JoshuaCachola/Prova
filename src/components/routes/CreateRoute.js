@@ -167,6 +167,10 @@ const CreateRoute = ({ history }) => {
 			};
 
 			const addRoute = (coords) => {
+
+				drawObj.deleteAll()
+
+
 				if (mapObj.getSource('route')) {
 					mapObj.removeLayer('route');
 					mapObj.removeSource('route');
