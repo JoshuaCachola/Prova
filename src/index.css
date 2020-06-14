@@ -52,7 +52,7 @@
 }
 
 .mapContainer {
-	height: 90vh;
+	height: 85vh;
 	width: 100%;
 }
 
@@ -89,6 +89,8 @@
 
 .directions {
 	margin-left: 20px;
+	overflow-y: scroll;
+	height: inherit;
 }
 
 .create-route-sidebar {
@@ -98,8 +100,7 @@
 }
 
 .create-route-directions-container {
-	overflow-y: scroll;
-	max-height: 100vh;
+	overflow: auto;
 }
 
 .App {

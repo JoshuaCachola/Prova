@@ -60,6 +60,7 @@ const NavBar = (props) => {
 
 	const matchMyStats = useRouteMatch('/my-stats');
 	const matchMyRoutes = useRouteMatch('/my-routes');
+	const matchCreateRoute = useRouteMatch('/create-route');
 
 	const handleMenu = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -145,11 +146,43 @@ const NavBar = (props) => {
 										open={open}
 										onClose={handleClose}
 									>
-										<MenuItem onClick={handleClose}>
+										{matchCreateRoute && (
+											<div>
+												<MenuItem onClick={handleClose}>
+													<Link to="/my-stats" className={classes.linkStyle} underline="none">
+														My Stats
+													</Link>
+												</MenuItem>
+												<MenuItem onClick={handleClose}>
+													<Link
+														to="/my-routes"
+														className={classes.linkStyle}
+														underline="none"
+													>
+														My Routes
+													</Link>
+												</MenuItem>
+											</div>
+										)}
+										{matchMyStats && (
+											<MenuItem onClick={handleClose}>
+												<Link to="/my-routes" className={classes.linkStyle} underline="none">
+													My Routes
+												</Link>
+											</MenuItem>
+										)}
+										{matchMyRoutes && (
+											<MenuItem onClick={handleClose}>
+												<Link to="/my-stats" className={classes.linkStyle} underline="none">
+													My Stats
+												</Link>
+											</MenuItem>
+										)}
+										{/* <MenuItem onClick={handleClose}>
 											<Link to="/profile" className={classes.linkStyle} underline="none">
 												Profile
 											</Link>
-										</MenuItem>
+										</MenuItem> */}
 										<MenuItem onClick={() => logout()}>Log out</MenuItem>
 									</Menu>
 								</React.Fragment>
