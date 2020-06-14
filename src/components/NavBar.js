@@ -145,11 +145,11 @@ const NavBar = (props) => {
 										open={open}
 										onClose={handleClose}
 									>
-										<MenuItem onClick={handleClose}>
+										{/* <MenuItem onClick={handleClose}>
 											<Link to="/profile" className={classes.linkStyle} underline="none">
 												Profile
 											</Link>
-										</MenuItem>
+										</MenuItem> */}
 										<MenuItem onClick={() => logout()}>Log out</MenuItem>
 									</Menu>
 								</React.Fragment>
