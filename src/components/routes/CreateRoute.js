@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 	nameInput: {
 		marginTop: 30,
 		marginLeft: 30
-	}
+	},
 }));
 
 const CreateRoute = ({ history }) => {
@@ -68,6 +68,8 @@ const CreateRoute = ({ history }) => {
 	const [displayedDirections, setDisplayedDirections] = useState(null)
 	const [nameState, setNameState] = useState('')
 	const [nameError, setNameError] = useState(false)
+	const [coordError, setCoordError] = useState(false)
+
 	let mapContainer = useRef(null);
 
 	// creates MapBox obj
@@ -212,7 +214,6 @@ const CreateRoute = ({ history }) => {
 					if (!res.ok) throw res;
 					res = await res.json();
 
-					console.log(res);
 					setDurationState(Math.floor(res.routes[0].duration / 60)); // in minutes;
 
 					const instructionSteps = res.routes[0].legs;
@@ -267,9 +268,14 @@ const CreateRoute = ({ history }) => {
 
 		if (!nameState) {
 			setNameError(true)
+		} else if (!coordState) {
+			setCoordError(true)
 		} else {
 			if (nameError) {
 				setNameError(false)
+			}
+			if (coordError) {
+				setCoordError(false)
 			}
 
 			const res = await fetch(`${api.url}/routes`, {
@@ -333,11 +339,13 @@ const CreateRoute = ({ history }) => {
 								<div className='directions'>
 									{displayedDirections &&
 										<React.Fragment>
-											<h2>Directions:</h2>
+											<h2>Directions</h2>
 											<div className='create-route-directions-container'>
 												{displayedDirections && displayedDirections.map((direction, i) => {
 													return (
-														<ListItem key={i}>
+														<ListItem
+															className='list-item'
+															key={i}>
 															<ListItemText primary={direction} />
 														</ListItem>
 													)

@@ -91,10 +91,6 @@
 	margin-left: 20px;
 }
 
-.distance {
-	margin-left: 20px;
-}
-
 .create-route-sidebar {
 	display: flex;
 	flex-direction: column;
@@ -110,4 +106,12 @@
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
+}
+
+.list-item:hover {
+	background-color: rgb(253, 207, 207);
+}
+
+.table-row:hover {
+	background-color: rgb(253, 207, 207);
 }
