@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainDash = () => {
-	const [ map, setMap ] = useState(null);
+	const [map, setMap] = useState(null);
 
 	mapboxgl.accessToken =
 		'pk.eyJ1IjoibWFya2ptNjEwIiwiYSI6ImNrYjFjeTBoMzAzb3UyeXF1YTE3Y25wdDMifQ.K9r926HKVv0u8RQzpdXleg';
@@ -59,7 +59,7 @@ const MainDash = () => {
 			}
 		},
 		// eslint-disable-next-line
-		[ currentUser ]
+		[currentUser]
 	);
 
 	useEffect(
@@ -68,14 +68,14 @@ const MainDash = () => {
 				const mapObj = new mapboxgl.Map({
 					container: mapContainer, // container id
 					style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
-					center: [ -122.675246, 45.529431 ], // starting position
+					center: [-122.675246, 45.529431], // starting position
 					zoom: 12, // starting zoom
 					minZoom: 11 // keep it local
 				});
 				setMap(mapObj);
 			}
 		},
-		[ latestRoute ]
+		[latestRoute]
 	);
 
 	useEffect(
@@ -130,7 +130,7 @@ const MainDash = () => {
 				});
 			}
 		},
-		[ map, latestRoute ]
+		[map, latestRoute]
 	);
 
 	const classes = useStyles();
@@ -184,7 +184,7 @@ const MainDash = () => {
 								className="homeMapContainer"
 							/>
 						</Grid>
-						{isLatestRoute && (
+						{latestRoute && (
 							<React.Fragment>
 								<Grid item xs={4} sm={4} className={classes.textCenter}>
 									<Typography variant="body2">Distance</Typography>
@@ -192,8 +192,8 @@ const MainDash = () => {
 										{!latestRoute.distance ? (
 											'- -'
 										) : (
-											parseFloat(latestRoute.distance).toFixed(2)
-										)}{' '}
+												parseFloat(latestRoute.distance).toFixed(2)
+											)}{' '}
 										miles
 									</p>
 								</Grid>
