@@ -1,34 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import {
-	Button,
-	TextField,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	// DialogContentText,
-	DialogTitle,
-	makeStyles,
-	FormControl,
-	Select,
-	InputLabel,
-	MenuItem
+  Button,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  makeStyles,
+  FormControl,
+  Select,
+  InputLabel,
+  MenuItem
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../../utils';
 import { getMyRoutes } from '../../store/routes';
 
 const useStyles = makeStyles((theme) => ({
-	container: {
-		display: 'flex',
-		flexWrap: 'wrap'
-	},
-	formControl: {
-		width: '100%'
-	},
-	textField: {
-		marginLeft: theme.spacing(1),
-		marginRight: theme.spacing(1)
-	}
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap'
+  },
+  formControl: {
+    width: '100%'
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1)
+  }
 }));
 
 const AddRunForm = () => {
@@ -43,29 +42,27 @@ const AddRunForm = () => {
     [calories, setCalories] = useState("");
 
 
-	useEffect(
-		() => {
-			if (currentUser) {
-				dispatch(getMyRoutes(currentUser.userId));
-			}
-		},
-		// eslint-disable-next-line
-		[ currentUser ]
-	);
+  useEffect(
+    () => {
+      if (currentUser) {
+        dispatch(getMyRoutes(currentUser.userId));
+      }
+    },
+    // eslint-disable-next-line
+    [currentUser]
+  );
 
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-	const handleClose = () => {
-		setOpen(false);
-	};
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-	const handleChange = (e) => {
-		setRoute(e.target.value);
-		// console.log(e.target);
-		// setDistance(routes[e.target.name]);
-	};
+  const handleChange = (e) => {
+    setRoute(e.target.value);
+  };
 
   const handleSubmit = async e => {
     try {
@@ -83,19 +80,20 @@ const AddRunForm = () => {
         })
       });
 
-			if (!res.ok) throw res;
-		} catch (err) {
-			console.error(err);
-		}
-	};
+      if (!res.ok) throw res;
+      handleClose();
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-	const classes = useStyles();
-	return (
-		<div>
-			<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-				<DialogTitle id="form-dialog-title">Add a run</DialogTitle>
-				<DialogContent>
-					{/* <DialogContentText>
+  const classes = useStyles();
+  return (
+    <div>
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Add a run</DialogTitle>
+        <DialogContent>
+          {/* <DialogContentText>
             To subscribe to this website, please enter your email address here. We will send updates
             occasionally.
           </DialogContentText> */}
@@ -119,7 +117,7 @@ const AddRunForm = () => {
             label="Distance"
             type="text"
             onChange={e => setDistance(e.target.value)}
-            placeholder="X.XX"
+            placeholder="0.00"
             fullWidth
           />
           <TextField
@@ -129,7 +127,7 @@ const AddRunForm = () => {
             label="Run duration"
             type="text"
             onChange={e => setTime(e.target.value)}
-            placeholder="X'XX"
+            placeholder="(min)'(sec)"
             fullWidth
           />
           <TextField
@@ -139,7 +137,7 @@ const AddRunForm = () => {
             label="Calories"
             type="text"
             onChange={e => setCalories(e.target.value)}
-            placeholder="X.XX"
+            placeholder="0.00"
             fullWidth
           />
           <TextField

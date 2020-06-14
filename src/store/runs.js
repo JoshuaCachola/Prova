@@ -46,7 +46,6 @@ export const getRuns = userId => async dispatch => {
     res.forEach(run => {
       const newRun = { ...run };
       const date = run.date.split(' ');
-      console.log(date);
       date[0] = date[0].slice(0, 3);
       newRun.day = days[date[0]];
       newRun.date = `${date[3]}-${months[date[2]]}-${date[1]}`;

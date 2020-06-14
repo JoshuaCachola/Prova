@@ -41,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 	sideMenu: {
 		width: '25vh'
+	},
+	nameInput: {
+		marginTop: 30,
+		marginLeft: 30
 	}
 }));
 
@@ -50,7 +54,7 @@ const CreateRoute = ({ history }) => {
 
 	const { user } = useAuth0();
 	const dispatch = useDispatch();
-	const [ mapState, setMapState ] = useState({
+	const [mapState, setMapState] = useState({
 		lng: -122,
 		lat: 37,
 		zoom: 2
@@ -63,7 +67,7 @@ const CreateRoute = ({ history }) => {
 	const [directionState, setDirectionState] = useState(null);
 	const [displayedDirections, setDisplayedDirections] = useState(null)
 	const [nameState, setNameState] = useState('')
-
+	const [nameError, setNameError] = useState(false)
 	let mapContainer = useRef(null);
 
 	// creates MapBox obj
@@ -93,14 +97,14 @@ const CreateRoute = ({ history }) => {
 					{
 						id: 'gl-draw-line',
 						type: 'line',
-						filter: [ 'all', [ '==', '$type', 'LineString' ], [ '!=', 'mode', 'static' ] ],
+						filter: ['all', ['==', '$type', 'LineString'], ['!=', 'mode', 'static']],
 						layout: {
 							'line-cap': 'round',
 							'line-join': 'round'
 						},
 						paint: {
 							'line-color': '#3b9ddd',
-							'line-dasharray': [ 0.2, 2 ],
+							'line-dasharray': [0.2, 2],
 							'line-width': 4,
 							'line-opacity': 0.7
 						}
@@ -111,9 +115,9 @@ const CreateRoute = ({ history }) => {
 						type: 'circle',
 						filter: [
 							'all',
-							[ '==', 'meta', 'vertex' ],
-							[ '==', '$type', 'Point' ],
-							[ '!=', 'mode', 'static' ]
+							['==', 'meta', 'vertex'],
+							['==', '$type', 'Point'],
+							['!=', 'mode', 'static']
 						],
 						paint: {
 							'circle-radius': 10,
@@ -126,9 +130,9 @@ const CreateRoute = ({ history }) => {
 						type: 'circle',
 						filter: [
 							'all',
-							[ '==', 'meta', 'vertex' ],
-							[ '==', '$type', 'Point' ],
-							[ '!=', 'mode', 'static' ]
+							['==', 'meta', 'vertex'],
+							['==', '$type', 'Point'],
+							['!=', 'mode', 'static']
 						],
 						paint: {
 							'circle-radius': 6,
@@ -251,22 +255,32 @@ const CreateRoute = ({ history }) => {
 			createMB();
 		},
 		// eslint-disable-next-line
-		[ mapCenter, setMapCenter ]
+		[mapCenter, setMapCenter]
 	);
 
 	const createRouteClick = async (e) => {
 		e.preventDefault();
-		// dispatch(createRoute(distanceState, coordState, user.userId, directionState));
-		const res = await fetch(`${api.url}/routes`, {
-			method: 'POST',
-			body: JSON.stringify({ name: nameState, distance: distanceState, coordinates: coordState, creatorId: user.userId, directions: directionState, image: null }),
-			headers: {
-				'Content-Type': 'application/json'
+
+		if (!nameState) {
+			setNameError(true)
+		} else {
+			if (nameError) {
+				setNameError(false)
 			}
-		});
-		if (res.ok) {
-			history.push('/my-routes');
+
+			const res = await fetch(`${api.url}/routes`, {
+				method: 'POST',
+				body: JSON.stringify({ name: nameState, distance: distanceState, coordinates: coordState, creatorId: user.userId, directions: directionState, image: null }),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
+			if (res.ok) {
+				history.push('/my-routes');
+			}
 		}
+
+
 
 	};
 
@@ -289,6 +303,9 @@ const CreateRoute = ({ history }) => {
 
 	const nameInputChange = e => {
 		setNameState(e.target.value)
+		if (nameError === true) {
+			setNameError(false)
+		}
 	}
 
 	const classes = useStyles();
@@ -297,33 +314,43 @@ const CreateRoute = ({ history }) => {
 			<Grid container>
 				<Grid item xs={2} sm={2}>
 					<div className={classes.sideMenu}>
-						<TextField id="outlined-basic" label="Name Your Route" variant="outlined" value={nameState} onChange={nameInputChange} />
-						<div className={classes.root}>
-							<div className='directions'>
-								{displayedDirections &&
-									<React.Fragment>
-										<h2>Directions:</h2>
-										<div className='directions-container'>
-											{/* <FixedSizeList height={400} width={300} itemSize={46} itemCount={directionsArr.length}> */}
-											{displayedDirections && displayedDirections.map((direction, i) => {
-												return (
-													<ListItem key={i}>
-														<ListItemText primary={direction} />
-													</ListItem>
-												)
-											})}
-										</div>
-									</React.Fragment>}
-							</div>
+						<div className='create-route-sidebar'>
+							<TextField
+								className={classes.nameInput}
+								error={nameError}
+								id="outlined-basic"
+								label="Name Your Route"
+								variant="outlined"
+								value={nameState}
+								onChange={nameInputChange}
+								helperText={nameError && 'Route must have a name'}
+							/>
+							<div className={classes.root}>
+								<div className='directions'>
+									{displayedDirections &&
+										<React.Fragment>
+											<h2>Directions:</h2>
+											<div className='create-route-directions-container'>
+												{displayedDirections && displayedDirections.map((direction, i) => {
+													return (
+														<ListItem key={i}>
+															<ListItemText primary={direction} />
+														</ListItem>
+													)
+												})}
+											</div>
+										</React.Fragment>}
+								</div>
 
+							</div>
 						</div>
 					</div>
 				</Grid>
 				<Grid item xs={10} sm={10}>
 					<Box component="form" className={classes.root}>
-						<IconButton className={classes.iconButton} aria-label="menu">
+						{/* <IconButton className={classes.iconButton} aria-label="menu">
 							<MenuIcon />
-						</IconButton>
+						</IconButton> */}
 						<InputBase
 							className={classes.input}
 							placeholder="Search"
@@ -352,7 +379,7 @@ const CreateRoute = ({ history }) => {
 							color="secondary"
 							size="small"
 							className={classes.button}
-							endIcon={<Icon className="fas fa-running" color="white" />}
+							endIcon={<Icon className="fas fa-running" color="inherit" />}
 							onClick={createRouteClick}
 						>
 							Save
