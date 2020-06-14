@@ -147,7 +147,7 @@ const NavBar = (props) => {
 										onClose={handleClose}
 									>
 										{matchCreateRoute && (
-											<React.Fragment>
+											<div>
 												<MenuItem onClick={handleClose}>
 													<Link to="/my-stats" className={classes.linkStyle} underline="none">
 														My Stats
@@ -162,7 +162,7 @@ const NavBar = (props) => {
 														My Routes
 													</Link>
 												</MenuItem>
-											</React.Fragment>
+											</div>
 										)}
 										{matchMyStats && (
 											<MenuItem onClick={handleClose}>
