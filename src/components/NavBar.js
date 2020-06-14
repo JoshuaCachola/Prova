@@ -15,9 +15,6 @@ import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		height: '100vh'
-	},
 	image: {
 		backgroundImage: 'url(../images/runner.jpg)',
 		backgroundRepeat: 'no-repeat',
@@ -35,9 +32,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	submit: {
 		margin: theme.spacing(2, 0, 2)
-	},
-	appBarRoot: {
-		flexGrow: 1
 	},
 	menuButton: {
 		marginRight: theme.spacing(2)

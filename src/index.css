@@ -105,3 +105,9 @@
 	overflow-y: scroll;
 	max-height: 100vh;
 }
+
+.App {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+}

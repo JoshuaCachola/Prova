@@ -18,7 +18,7 @@ const MyRoutes = () => {
 
 	const dispatch = useDispatch();
 
-	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
+	const [ mapCenter, setMapCenter ] = useState([ -122.675246, 45.529431 ]);
 
 	const routes = useSelector((state) => state.routes.routes);
 
@@ -26,9 +26,9 @@ const MyRoutes = () => {
 
 	const routePersonalInfo = useSelector((state) => state.routes.routePersonalInfo);
 
-	const [map, setMap] = useState(null);
-	const [selectedTab, setSelectedTab] = useState(0);
-	const [hasLoaded, setHasLoaded] = useState(false);
+	const [ map, setMap ] = useState(null);
+	const [ selectedTab, setSelectedTab ] = useState(0);
+	const [ hasLoaded, setHasLoaded ] = useState(false);
 
 	useEffect(() => {
 		document.title = 'Prova - My Routes';
@@ -43,7 +43,7 @@ const MyRoutes = () => {
 			}
 		},
 		// eslint-disable-next-line
-		[currentUser]
+		[ currentUser ]
 	);
 
 	useEffect(
@@ -61,7 +61,7 @@ const MyRoutes = () => {
 			// eslint-disable-next-line
 		},
 		// eslint-disable-next-line
-		[routes]
+		[ routes ]
 	);
 
 	useEffect(
@@ -166,7 +166,7 @@ const MyRoutes = () => {
 			}
 		},
 		// eslint-disable-next-line
-		[map, currentRoute]
+		[ map, currentRoute ]
 	);
 
 	useEffect(
@@ -178,7 +178,7 @@ const MyRoutes = () => {
 			}
 		},
 		// eslint-disable-next-line
-		[currentUser, routes]
+		[ currentUser, routes ]
 	);
 
 	const useStyles = makeStyles((theme) => ({
@@ -202,31 +202,38 @@ const MyRoutes = () => {
 					{/* <div ref={(el) => (mapContainer = el)} /> */}
 				</React.Fragment>
 			) : (
-					<div className="my-routes-container">
-						<div className={classes.root}>
-							<Tabs
-								orientation="vertical"
-								variant="scrollable"
-								value={selectedTab}
-								aria-label="Vertical tabs example"
-								className={classes.tabs}
-							>
-								{routes &&
-									routes.map(({ id, name }, i) => {
-										return <MyRoutesNav index={i} key={id} id={id} name={name} setSelectedTab={setSelectedTab} />;
-									})}
-							</Tabs>
-							<div className="map-area">
-								<div className="map-grid-container">
-									<div ref={(el) => (mapContainer = el)} className="my-routes-map-container" />
-								</div>
-								{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
+				<div className="my-routes-container">
+					<div className={classes.root}>
+						<Tabs
+							orientation="vertical"
+							variant="scrollable"
+							value={selectedTab}
+							aria-label="Vertical tabs example"
+							className={classes.tabs}
+						>
+							{routes &&
+								routes.map(({ id, name }, i) => {
+									return (
+										<MyRoutesNav
+											index={i}
+											key={id}
+											id={id}
+											name={name}
+											setSelectedTab={setSelectedTab}
+										/>
+									);
+								})}
+						</Tabs>
+						<div className="map-area">
+							<div className="map-grid-container">
+								<div ref={(el) => (mapContainer = el)} className="my-routes-map-container" />
 							</div>
+							{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
 						</div>
 					</div>
-				)
-			}
-		</React.Fragment >
+				</div>
+			)}
+		</React.Fragment>
 	);
 };
 
