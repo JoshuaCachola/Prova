@@ -27,19 +27,29 @@ const DisplayedRouteInfo = () => {
 
     const routePersonalInfo = useSelector(state => state.routes.routePersonalInfo)
 
+    function convertSecondsToTime(time) {
+
+        const hours = Math.floor(time / 3600);
+        const minutes = Math.floor((time - (hours * 3600)) / 60);
+        const seconds = time - (hours * 3600) - (minutes * 60);
+
+        const timeString = hours.toString().padStart(2, '0') + ':' +
+            minutes.toString().padStart(2, '0') + ':' +
+            seconds.toString().padStart(2, '0');
+        return timeString
+    }
 
     const personalRows = [
         createData('Run Count', routePersonalInfo.number_of_runs),
-        createData('Average Time', routePersonalInfo.average_time),
-        createData('Best Time', routePersonalInfo.best_time),
+        createData('Average Time', convertSecondsToTime(routePersonalInfo.average_time)),
+        createData('Best Time', convertSecondsToTime(routePersonalInfo.best_time)),
     ];
 
     const generalRows = [
         createData('Run Count', currentRoute.total_number_of_runs),
-        createData('Average Time', currentRoute.average_time),
-        createData('Best Time', currentRoute.best_time),
+        createData('Average Time', convertSecondsToTime(currentRoute.average_time)),
+        createData('Best Time', convertSecondsToTime(currentRoute.best_time)),
     ]
-
 
 
     return (
@@ -68,7 +78,7 @@ const DisplayedRouteInfo = () => {
                                     <TableCell component="th" scope="row">
                                         {row.category}
                                     </TableCell>
-                                    <TableCell align="right">{row.value !== null ? row.value : 'N/A'}</TableCell>
+                                    <TableCell align="right">{row.value !== '00:00:00' ? row.value : 'N/A'}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -90,7 +100,7 @@ const DisplayedRouteInfo = () => {
                                     <TableCell component="th" scope="row">
                                         {row.category}
                                     </TableCell>
-                                    <TableCell align="right">{row.value !== null ? row.value : 'N/A'}</TableCell>
+                                    <TableCell align="right">{row.value !== '00:00:00' ? row.value : 'N/A'}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
