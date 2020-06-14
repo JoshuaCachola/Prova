@@ -171,6 +171,13 @@ const NavBar = (props) => {
 												</Link>
 											</MenuItem>
 										)}
+										{matchMyRoutes && (
+											<MenuItem onClick={handleClose}>
+												<Link to="/my-stats" className={classes.linkStyle} underline="none">
+													My Stats
+												</Link>
+											</MenuItem>
+										)}
 										{/* <MenuItem onClick={handleClose}>
 											<Link to="/profile" className={classes.linkStyle} underline="none">
 												Profile
