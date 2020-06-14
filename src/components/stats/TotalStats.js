@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const TotalStats = ({ runs, history }) => {
+const TotalStats = ({ runs }) => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.authorization.currentUser);
   const routes = useSelector((state) => state.routes.routes);
@@ -83,15 +83,6 @@ const TotalStats = ({ runs, history }) => {
     setAvgPace((totalTime / 60) / totalMiles);
 
   }, [runs.length, runs]);
-
-  // const handleRunForm = e => {
-  //   if (e.target.tagName === 'I') {
-  //     setRunForm(true);
-  //   }
-  //   if (e.target.tagName === 'DIV' && showRunForm === true) {
-  //     setRunForm(false);
-  //   }
-  // };
 
 
   useEffect(
@@ -242,7 +233,7 @@ const TotalStats = ({ runs, history }) => {
                   onChange={handleChange}
                 >
                   {routes &&
-                    routes.map(({ id }) => <MenuItem key={id} value={id}>Route {id}</MenuItem>)}
+                    routes.map(({ id, name }) => <MenuItem key={id} value={id}>{name}</MenuItem>)}
                 </Select>
               </FormControl>
               <TextField

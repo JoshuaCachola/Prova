@@ -6,13 +6,10 @@ import { createRoute } from '../../store/routes';
 import { useAuth0 } from '../../react-auth0-spa';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Button, Icon, Grid } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-// import DirectionsIcon from '@material-ui/icons/Directions';
 import SaveIcon from '@material-ui/icons/Save';
 import api from "../../utils";
 import ListItem from '@material-ui/core/ListItem';
@@ -208,7 +205,6 @@ const CreateRoute = ({ history }) => {
 					if (!res.ok) throw res;
 					res = await res.json();
 
-					console.log(res);
 					setDurationState(Math.floor(res.routes[0].duration / 60)); // in minutes;
 
 					const instructionSteps = res.routes[0].legs;
@@ -221,8 +217,7 @@ const CreateRoute = ({ history }) => {
 						}
 					}
 
-					setDisplayedDirections(runInstructions)
-					console.log(runInstructions);
+					setDisplayedDirections(runInstructions);
 					const directionString = runInstructions.join(';');
 					setDirectionState(directionString);
 
@@ -279,14 +274,14 @@ const CreateRoute = ({ history }) => {
 				history.push('/my-routes');
 			}
 		}
-
-
-
 	};
 
 	const handleLocSearch = async (e) => {
 		e.preventDefault();
 		const search = encodeURI(searchInput);
+		if (search === '') {
+			return;
+		}
 		const url = `
 			https://api.mapbox.com/geocoding/v5/mapbox.places/${search}.json?access_token=${mapboxgl.accessToken}`;
 
@@ -341,7 +336,6 @@ const CreateRoute = ({ history }) => {
 											</div>
 										</React.Fragment>}
 								</div>
-
 							</div>
 						</div>
 					</div>
