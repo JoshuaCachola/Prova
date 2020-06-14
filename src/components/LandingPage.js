@@ -31,6 +31,7 @@ const LandingPage = (props) => {
 		<React.Fragment>
 			<Container component="main" maxWidth="lg" className={classes.root}>
 				<Typography variant="h3">The Best App To Track Your Runs</Typography>
+				{/* need some kind of image here */}
 			</Container>
 			<Footer />
 		</React.Fragment>

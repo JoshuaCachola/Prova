@@ -95,6 +95,17 @@
 	margin-left: 20px;
 }
 
+.create-route-sidebar {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.create-route-directions-container {
+	overflow-y: scroll;
+	max-height: 100vh;
+}
+
 .App {
 	height: 100vh;
 	display: flex;

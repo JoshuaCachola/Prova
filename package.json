@@ -16,6 +16,7 @@
 		"@testing-library/user-event": "^7.2.1",
 		"clsx": "^1.1.1",
 		"date-fns": "^2.14.0",
+		"fontsource-roboto": "^2.1.4",
 		"mapbox-gl": "^1.10.1",
 		"react": "^16.13.1",
 		"react-countup": "^4.3.3",
