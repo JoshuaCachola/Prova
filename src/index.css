@@ -61,8 +61,6 @@
 	color: red;
 }
 
-
-
 .homeMapContainer {
 	height: 400px;
 	width: 100%;
@@ -92,7 +90,7 @@
 
 /* .directions-container {
 	height: 390px;
-	
+
 } */
 
 .create-route-sidebar {
@@ -125,4 +123,13 @@
 
 .distance-span {
 	font-weight: bold
+}
+
+.formButton {
+	font-size: 30px;
+	color: red
+}
+
+.formButton:hover {
+	cursor: pointer;
 }
