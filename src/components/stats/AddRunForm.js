@@ -107,7 +107,7 @@ const AddRunForm = () => {
               onChange={handleChange}
             >
               {routes &&
-                routes.map(({ id }) => <MenuItem key={id} value={id}>Route {id}</MenuItem>)}
+                routes.map(({ id, name }) => <MenuItem key={id} value={id}>{name}</MenuItem>)}
             </Select>
           </FormControl>
           <TextField

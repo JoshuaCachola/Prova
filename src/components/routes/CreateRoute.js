@@ -8,7 +8,8 @@ import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import api from '../../utils';
+import SaveIcon from '@material-ui/icons/Save';
+import api from "../../utils";
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import TextField from '@material-ui/core/TextField';
@@ -244,7 +245,6 @@ const CreateRoute = ({ history }) => {
 					}
 
 					setDisplayedDirections(runInstructions);
-					console.log(runInstructions);
 					const directionString = runInstructions.join(';');
 					setDirectionState(directionString);
 
@@ -318,6 +318,9 @@ const CreateRoute = ({ history }) => {
 	const handleLocSearch = async (e) => {
 		e.preventDefault();
 		const search = encodeURI(searchInput);
+		if (search === '') {
+			return;
+		}
 		const url = `
 			https://api.mapbox.com/geocoding/v5/mapbox.places/${search}.json?access_token=${mapboxgl.accessToken}`;
 

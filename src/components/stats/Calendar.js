@@ -6,7 +6,6 @@ const Calendar = ({ myRuns }) => {
   // const createDate = () => {
 
   // };
-
   return (
     <ResponsiveCalendarCanvas
       data={myRuns}
