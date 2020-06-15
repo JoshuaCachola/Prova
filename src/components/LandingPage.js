@@ -10,7 +10,11 @@ const useStyles = makeStyles((theme) => ({
 		height: 'inherit',
 		display: 'flex',
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+		flexDirection: 'column'
+	},
+	image: {
+		width: '100%'
 	}
 }));
 
@@ -30,8 +34,12 @@ const LandingPage = (props) => {
 	return (
 		<React.Fragment>
 			<Container component="main" maxWidth="lg" className={classes.root}>
-				<Typography variant="h3">The Best App To Track Your Runs</Typography>
-				{/* need some kind of image here */}
+				<div>
+					<Typography variant="h3">The Best Way To Track Your Runs</Typography>
+				</div>
+				<div>
+					<img src={require('../images/imac-data.jpg')} className={classes.image} alt="imac with data" />
+				</div>
 			</Container>
 			<Footer />
 		</React.Fragment>

@@ -61,6 +61,7 @@ const NavBar = (props) => {
 	const matchMyStats = useRouteMatch('/my-stats');
 	const matchMyRoutes = useRouteMatch('/my-routes');
 	const matchCreateRoute = useRouteMatch('/create-route');
+	const matchHome = useRouteMatch('/home');
 
 	const handleMenu = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -164,14 +165,14 @@ const NavBar = (props) => {
 												</MenuItem>
 											</div>
 										)}
-										{matchMyStats && (
+										{(matchMyStats || matchHome) && (
 											<MenuItem onClick={handleClose}>
 												<Link to="/my-routes" className={classes.linkStyle} underline="none">
 													My Routes
 												</Link>
 											</MenuItem>
 										)}
-										{matchMyRoutes && (
+										{(matchMyRoutes || matchHome) && (
 											<MenuItem onClick={handleClose}>
 												<Link to="/my-stats" className={classes.linkStyle} underline="none">
 													My Stats
