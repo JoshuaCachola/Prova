@@ -52,7 +52,7 @@
 }
 
 .mapContainer {
-	height: 90vh;
+	height: 85vh;
 	width: 100%;
 }
 
@@ -89,10 +89,8 @@
 
 .directions {
 	margin-left: 20px;
-}
-
-.distance {
-	margin-left: 20px;
+	overflow-y: scroll;
+	height: inherit;
 }
 
 .create-route-sidebar {
@@ -102,6 +100,19 @@
 }
 
 .create-route-directions-container {
-	overflow-y: scroll;
-	max-height: 100vh;
+	overflow: auto;
+}
+
+.App {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+.list-item:hover {
+	background-color: rgb(253, 207, 207);
+}
+
+.table-row:hover {
+	background-color: rgb(253, 207, 207);
 }

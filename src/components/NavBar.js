@@ -15,9 +15,6 @@ import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		height: '100vh'
-	},
 	image: {
 		backgroundImage: 'url(../images/runner.jpg)',
 		backgroundRepeat: 'no-repeat',
@@ -35,9 +32,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	submit: {
 		margin: theme.spacing(2, 0, 2)
-	},
-	appBarRoot: {
-		flexGrow: 1
 	},
 	menuButton: {
 		marginRight: theme.spacing(2)
@@ -66,6 +60,8 @@ const NavBar = (props) => {
 
 	const matchMyStats = useRouteMatch('/my-stats');
 	const matchMyRoutes = useRouteMatch('/my-routes');
+	const matchCreateRoute = useRouteMatch('/create-route');
+	const matchHome = useRouteMatch('/home');
 
 	const handleMenu = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -151,11 +147,43 @@ const NavBar = (props) => {
 										open={open}
 										onClose={handleClose}
 									>
-										<MenuItem onClick={handleClose}>
+										{matchCreateRoute && (
+											<div>
+												<MenuItem onClick={handleClose}>
+													<Link to="/my-stats" className={classes.linkStyle} underline="none">
+														My Stats
+													</Link>
+												</MenuItem>
+												<MenuItem onClick={handleClose}>
+													<Link
+														to="/my-routes"
+														className={classes.linkStyle}
+														underline="none"
+													>
+														My Routes
+													</Link>
+												</MenuItem>
+											</div>
+										)}
+										{(matchMyStats || matchHome) && (
+											<MenuItem onClick={handleClose}>
+												<Link to="/my-routes" className={classes.linkStyle} underline="none">
+													My Routes
+												</Link>
+											</MenuItem>
+										)}
+										{(matchMyRoutes || matchHome) && (
+											<MenuItem onClick={handleClose}>
+												<Link to="/my-stats" className={classes.linkStyle} underline="none">
+													My Stats
+												</Link>
+											</MenuItem>
+										)}
+										{/* <MenuItem onClick={handleClose}>
 											<Link to="/profile" className={classes.linkStyle} underline="none">
 												Profile
 											</Link>
-										</MenuItem>
+										</MenuItem> */}
 										<MenuItem onClick={() => logout()}>Log out</MenuItem>
 									</Menu>
 								</React.Fragment>

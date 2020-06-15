@@ -1,12 +1,20 @@
 import React, { useEffect } from 'react';
 import { useAuth0 } from '../react-auth0-spa';
+import Footer from './Footer';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import { Container, Typography } from '@material-ui/core/';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		height: '100vh'
+		height: 'inherit',
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		flexDirection: 'column'
+	},
+	image: {
+		width: '100%'
 	}
 }));
 
@@ -24,9 +32,17 @@ const LandingPage = (props) => {
 	}
 
 	return (
-		<Container component="main" maxWidth="xs" className={classes.root}>
-			<h1>Landing Page</h1>
-		</Container>
+		<React.Fragment>
+			<Container component="main" maxWidth="lg" className={classes.root}>
+				<div>
+					<Typography variant="h3">The Best Way To Track Your Runs</Typography>
+				</div>
+				<div>
+					<img src={require('../images/imac-data.jpg')} className={classes.image} alt="imac with data" />
+				</div>
+			</Container>
+			<Footer />
+		</React.Fragment>
 	);
 };
 
