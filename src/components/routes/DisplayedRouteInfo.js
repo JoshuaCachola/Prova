@@ -55,29 +55,23 @@ const DisplayedRouteInfo = () => {
     return (
 
         <div className='route-info'>
+            <div className='directions'>
+                <h2 className='directions-heading'>Directions</h2>
+                <DirectionsList />
+            </div>
             <div className='distance'>
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="simple table">
-                        {/* <TableHead>
-                            <TableRow className='table-row'>
-                                <TableCell>Distance</TableCell>
-                                <TableCell align="right"></TableCell>
-                            </TableRow>
-                        </TableHead> */}
                         <TableBody>
                             <TableRow key={'Distance'} className='table-row'>
                                 <TableCell component="th" scope="row">
-                                    Distance
+                                    <span className='distance-span'>Distance</span>
                                 </TableCell>
                                 <TableCell align="right">{`${parseFloat(currentRoute.distance).toFixed(2)} mi`}</TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
                 </TableContainer>
-            </div>
-            <div className='directions'>
-                <h2>Directions</h2>
-                <DirectionsList />
             </div>
             <div className='personal-table'>
                 <TableContainer component={Paper}>
