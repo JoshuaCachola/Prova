@@ -21,30 +21,31 @@
 .my-routes-container {
 	display: flex;
 	justify-content: space-between;
+	height: 90vh;
 }
 
 .map-area {
 	display: grid;
-	height: 100vh;
+	height: 90vh;
 	width: 100%;
 	grid-template-columns: 1fr 400px;
 }
 
 .map-grid-container {
 	/* grid-column: 0 / 1; */
-	height: 100vh;
+	height: 90vh;
 	width: 100%;
 }
 
 .my-routes-map-container {
 	/* position: relative; */
-	height: 100vh;
+	height: 90vh;
 	width: 100%;
 }
 
 .route-info {
 	/* grid-column: 1 / 2; */
-	height: 100vh;
+	height: 90vh;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -52,7 +53,7 @@
 }
 
 .mapContainer {
-	height: 85vh;
+	height: 80vh;
 	width: 100%;
 }
 
@@ -60,10 +61,7 @@
 	color: red;
 }
 
-.directions-container {
-	height: 390px;
-	overflow-y: scroll;
-}
+
 
 .homeMapContainer {
 	height: 400px;
@@ -88,10 +86,14 @@
 }
 
 .directions {
-	margin-left: 20px;
 	overflow-y: scroll;
 	height: inherit;
 }
+
+/* .directions-container {
+	height: 390px;
+	
+} */
 
 .create-route-sidebar {
 	display: flex;
@@ -115,4 +117,12 @@
 
 .table-row:hover {
 	background-color: rgb(253, 207, 207);
+}
+
+.directions-heading {
+	margin-left: 20px;
+}
+
+.distance-span {
+	font-weight: bold
 }

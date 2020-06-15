@@ -8,6 +8,20 @@ import { makeStyles } from '@material-ui/core/styles';
 import DisplayedRouteInfo from './DisplayedRouteInfo';
 import NoRoutesFound from './NoRoutesFound';
 
+
+const useStyles = makeStyles((theme) => ({
+	root: {
+		flexGrow: 1,
+		backgroundColor: theme.palette.background.paper,
+		display: 'flex',
+		height: '90vh'
+	},
+	tabs: {
+		borderRight: `1px solid ${theme.palette.divider}`
+	}
+}));
+
+
 const MyRoutes = () => {
 	mapboxgl.accessToken =
 		'pk.eyJ1IjoibWFya2ptNjEwIiwiYSI6ImNrYjFjeTBoMzAzb3UyeXF1YTE3Y25wdDMifQ.K9r926HKVv0u8RQzpdXleg';
@@ -18,7 +32,7 @@ const MyRoutes = () => {
 
 	const dispatch = useDispatch();
 
-	const [ mapCenter, setMapCenter ] = useState([ -122.675246, 45.529431 ]);
+	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
 
 	const routes = useSelector((state) => state.routes.routes);
 
@@ -26,9 +40,9 @@ const MyRoutes = () => {
 
 	const routePersonalInfo = useSelector((state) => state.routes.routePersonalInfo);
 
-	const [ map, setMap ] = useState(null);
-	const [ selectedTab, setSelectedTab ] = useState(0);
-	const [ hasLoaded, setHasLoaded ] = useState(false);
+	const [map, setMap] = useState(null);
+	const [selectedTab, setSelectedTab] = useState(0);
+	const [hasLoaded, setHasLoaded] = useState(false);
 
 	useEffect(() => {
 		document.title = 'Prova - My Routes';
@@ -43,7 +57,7 @@ const MyRoutes = () => {
 			}
 		},
 		// eslint-disable-next-line
-		[ currentUser ]
+		[currentUser]
 	);
 
 	useEffect(
@@ -61,7 +75,7 @@ const MyRoutes = () => {
 			// eslint-disable-next-line
 		},
 		// eslint-disable-next-line
-		[ routes ]
+		[routes]
 	);
 
 	useEffect(
@@ -166,7 +180,7 @@ const MyRoutes = () => {
 			}
 		},
 		// eslint-disable-next-line
-		[ map, currentRoute ]
+		[map, currentRoute]
 	);
 
 	useEffect(
@@ -178,20 +192,10 @@ const MyRoutes = () => {
 			}
 		},
 		// eslint-disable-next-line
-		[ currentUser, routes ]
+		[currentUser, routes]
 	);
 
-	const useStyles = makeStyles((theme) => ({
-		root: {
-			flexGrow: 1,
-			backgroundColor: theme.palette.background.paper,
-			display: 'flex',
-			height: '100vh'
-		},
-		tabs: {
-			borderRight: `1px solid ${theme.palette.divider}`
-		}
-	}));
+
 
 	const classes = useStyles();
 	return (
@@ -202,37 +206,37 @@ const MyRoutes = () => {
 					{/* <div ref={(el) => (mapContainer = el)} /> */}
 				</React.Fragment>
 			) : (
-				<div className="my-routes-container">
-					<div className={classes.root}>
-						<Tabs
-							orientation="vertical"
-							variant="scrollable"
-							value={selectedTab}
-							aria-label="Vertical tabs example"
-							className={classes.tabs}
-						>
-							{routes &&
-								routes.map(({ id, name }, i) => {
-									return (
-										<MyRoutesNav
-											index={i}
-											key={id}
-											id={id}
-											name={name}
-											setSelectedTab={setSelectedTab}
-										/>
-									);
-								})}
-						</Tabs>
-						<div className="map-area">
-							<div className="map-grid-container">
-								<div ref={(el) => (mapContainer = el)} className="my-routes-map-container" />
+					<div className="my-routes-container">
+						<div className={classes.root}>
+							<Tabs
+								orientation="vertical"
+								variant="scrollable"
+								value={selectedTab}
+								aria-label="Vertical tabs example"
+								className={classes.tabs}
+							>
+								{routes &&
+									routes.map(({ id, name }, i) => {
+										return (
+											<MyRoutesNav
+												index={i}
+												key={id}
+												id={id}
+												name={name}
+												setSelectedTab={setSelectedTab}
+											/>
+										);
+									})}
+							</Tabs>
+							<div className="map-area">
+								<div className="map-grid-container">
+									<div ref={(el) => (mapContainer = el)} className="my-routes-map-container" />
+								</div>
+								{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
 							</div>
-							{currentRoute && routePersonalInfo && <DisplayedRouteInfo />}
 						</div>
 					</div>
-				</div>
-			)}
+				)}
 		</React.Fragment>
 	);
 };

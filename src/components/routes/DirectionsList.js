@@ -9,8 +9,17 @@ const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
         height: 400,
-        maxWidth: 300,
-        backgroundColor: theme.palette.background.paper
+    },
+    whiteBackground: {
+        backgroundColor: 'white',
+        padding: '15px 0'
+    },
+    inheritBackground: {
+        backgroundColor: 'whitesmoke',
+        padding: '15px 0'
+    },
+    listMargin: {
+        marginLeft: '20px'
     }
 }));
 
@@ -39,37 +48,17 @@ const DirectionsList = () => {
 
     return (
         <div className={classes.root}>
-            <div className='directions-container'>
-                {/* <FixedSizeList height={400} width={300} itemSize={46} itemCount={directionsArr.length}> */}
-                {directionsArr.map((direction, i) => {
-                    return (
-                        <ListItem className='list-item' key={i}>
-                            <ListItemText primary={direction} />
-                        </ListItem>
-                    )
-                })}
-                {/* </FixedSizeList> */}
-            </div>
-            {/* <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="simple table">
-                    <TableHead>
-                        <TableRow className='table-row'>
-                            <TableCell>Personal</TableCell>
-                            <TableCell align="right"></TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {personalRows.map((row) => (
-                            <TableRow key={row.category} className='table-row'>
-                                <TableCell component="th" scope="row">
-                                    {row.category}
-                                </TableCell>
-                                <TableCell align="right">{row.value !== '00:00:00' ? row.value : 'N/A'}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer> */}
+            {/* <div className='directions-container'> */}
+            {directionsArr.map((direction, i) => {
+                return (
+                    <ListItem
+                        className={`${i % 2 ? classes.whiteBackground : classes.inheritBackground} ${'list-item'}`}
+                        key={i}>
+                        <ListItemText className={classes.listMargin} primary={direction} />
+                    </ListItem>
+                )
+            })}
+            {/* </div> */}
         </div>
     );
 }
