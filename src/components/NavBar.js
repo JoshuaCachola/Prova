@@ -3,6 +3,7 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useAuth0 } from '../react-auth0-spa';
 import { getUser } from '../store/authorization';
+import baseUrl from '../config/config';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -78,6 +79,12 @@ const NavBar = (props) => {
 		},
 		[ user, dispatch ]
 	);
+
+	const handleLogout = () => {
+		logout({
+			returnTo: baseUrl.main
+		});
+	};
 
 	const classes = useStyles();
 
@@ -184,7 +191,7 @@ const NavBar = (props) => {
 												Profile
 											</Link>
 										</MenuItem> */}
-										<MenuItem onClick={() => logout()}>Log out</MenuItem>
+										<MenuItem onClick={handleLogout}>Log out</MenuItem>
 									</Menu>
 								</React.Fragment>
 							)}
