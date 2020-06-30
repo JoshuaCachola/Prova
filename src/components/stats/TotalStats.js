@@ -54,7 +54,7 @@ const TotalStats = ({ runs }) => {
     [totalRuns, setTotalRuns] = useState(0),
     [avgDist, setAvgDist] = useState(0.00),
     [avgPace, setAvgPace] = useState(0.00),
-    [showRunForm, setRunForm] = useState(false),
+    // [showRunForm, setRunForm] = useState(false),
     [distance, setDistance] = useState(""), //default should be the distance that comes from the route
     [date, setDate] = useState(new Date().toISOString().slice(0, 16)),
     [open, setOpen] = useState(false),

@@ -50,13 +50,13 @@ const useStyles = makeStyles({
 });
 
 const MyStats = () => {
-	const [ value, setValue ] = useState(0);
-	const [ calData, setCalData ] = useState([]);
-	const [ distanceData, setDistanceData ] = useState([]);
-	const [ caloriesData, setCaloriesData ] = useState([]);
-	const [ showCal, setShowCal ] = useState(true);
-	const [ showDistance, setShowDistance ] = useState(false);
-	const [ showCalories, setShowCalories ] = useState(false);
+	const [value, setValue] = useState(0);
+	const [calData, setCalData] = useState([]);
+	const [distanceData, setDistanceData] = useState([]);
+	const [caloriesData, setCaloriesData] = useState([]);
+	const [showCal, setShowCal] = useState(true);
+	const [showDistance, setShowDistance] = useState(false);
+	const [showCalories, setShowCalories] = useState(false);
 	const dispatch = useDispatch();
 	const currentUser = useSelector((state) => state.authorization.currentUser);
 	const runs = useSelector((state) => state.runs.runs);
@@ -75,7 +75,7 @@ const MyStats = () => {
 			});
 		});
 
-		return [ graphData ];
+		return [graphData];
 	};
 
 	useEffect(
@@ -84,7 +84,8 @@ const MyStats = () => {
 				dispatch(getRuns(currentUser.userId));
 			}
 		},
-		[ currentUser, runs.length ]
+		// eslint-disable-next-line
+		[currentUser, runs.length]
 	);
 
 	useEffect(
@@ -103,7 +104,8 @@ const MyStats = () => {
 				setCalData(calendarRuns);
 			}
 		},
-		[ distanceData.length, caloriesData.length, runs.length ]
+		// eslint-disable-next-line
+		[distanceData.length, caloriesData.length, runs.length]
 	);
 
 	const handleRunDetails = (e) => {

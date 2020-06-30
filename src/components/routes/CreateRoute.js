@@ -8,7 +8,6 @@ import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import SaveIcon from '@material-ui/icons/Save';
 import api from "../../utils";
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -70,21 +69,21 @@ const CreateRoute = ({ history }) => {
 
 	const { user } = useAuth0();
 
-	const [ mapState, setMapState ] = useState({
-		lng: -122,
-		lat: 37,
-		zoom: 2
-	});
-	const [ coordState, setCoordState ] = useState(null);
-	const [ distanceState, setDistanceState ] = useState(0.0);
-	const [ durationState, setDurationState ] = useState(0.0);
-	const [ searchInput, setSearch ] = useState('');
-	const [ mapCenter, setMapCenter ] = useState([ -122.675246, 45.529431 ]);
-	const [ directionState, setDirectionState ] = useState(null);
-	const [ displayedDirections, setDisplayedDirections ] = useState(null);
-	const [ nameState, setNameState ] = useState('');
-	const [ nameError, setNameError ] = useState(false);
-	const [ coordError, setCoordError ] = useState(false);
+	// const [mapState, setMapState] = useState({
+	// 	lng: -122,
+	// 	lat: 37,
+	// 	zoom: 2
+	// });
+	const [coordState, setCoordState] = useState(null);
+	const [distanceState, setDistanceState] = useState(0.0);
+	const [durationState, setDurationState] = useState(0.0);
+	const [searchInput, setSearch] = useState('');
+	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
+	const [directionState, setDirectionState] = useState(null);
+	const [displayedDirections, setDisplayedDirections] = useState(null);
+	const [nameState, setNameState] = useState('');
+	const [nameError, setNameError] = useState(false);
+	const [coordError, setCoordError] = useState(false);
 
 	let mapContainer = useRef(null);
 
@@ -119,14 +118,14 @@ const CreateRoute = ({ history }) => {
 					{
 						id: 'gl-draw-line',
 						type: 'line',
-						filter: [ 'all', [ '==', '$type', 'LineString' ], [ '!=', 'mode', 'static' ] ],
+						filter: ['all', ['==', '$type', 'LineString'], ['!=', 'mode', 'static']],
 						layout: {
 							'line-cap': 'round',
 							'line-join': 'round'
 						},
 						paint: {
 							'line-color': '#3b9ddd',
-							'line-dasharray': [ 0.2, 2 ],
+							'line-dasharray': [0.2, 2],
 							'line-width': 4,
 							'line-opacity': 0.7
 						}
@@ -137,9 +136,9 @@ const CreateRoute = ({ history }) => {
 						type: 'circle',
 						filter: [
 							'all',
-							[ '==', 'meta', 'vertex' ],
-							[ '==', '$type', 'Point' ],
-							[ '!=', 'mode', 'static' ]
+							['==', 'meta', 'vertex'],
+							['==', '$type', 'Point'],
+							['!=', 'mode', 'static']
 						],
 						paint: {
 							'circle-radius': 10,
@@ -152,9 +151,9 @@ const CreateRoute = ({ history }) => {
 						type: 'circle',
 						filter: [
 							'all',
-							[ '==', 'meta', 'vertex' ],
-							[ '==', '$type', 'Point' ],
-							[ '!=', 'mode', 'static' ]
+							['==', 'meta', 'vertex'],
+							['==', '$type', 'Point'],
+							['!=', 'mode', 'static']
 						],
 						paint: {
 							'circle-radius': 6,
@@ -277,7 +276,7 @@ const CreateRoute = ({ history }) => {
 			createMB();
 		},
 		// eslint-disable-next-line
-		[ mapCenter, setMapCenter ]
+		[mapCenter, setMapCenter]
 	);
 
 	const createRouteClick = async (e) => {
