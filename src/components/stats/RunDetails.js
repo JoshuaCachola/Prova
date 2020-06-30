@@ -64,7 +64,7 @@ const RunDetails = ({ run }) => {
           <Box display='flex' justifyContent='space-between'>
             <Box className={classes.grey} pr={5} flexBasis="auto">{run.distance} mi</Box>
             <Box className={classes.grey} pr={5} flexBasis="auto"> {((run.time / 60) / run.distance).toFixed(2)}''/mi</Box>
-            <Box className={classes.grey} flexBasis="auto">{run.time / 60} min</Box>
+            <Box className={classes.grey} flexBasis="auto">{(run.time / 60).toFixed(2)} min</Box>
           </Box>
         </Box>
       </Box>

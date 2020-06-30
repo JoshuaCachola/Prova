@@ -44,10 +44,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1)
   },
-  formButton: {
-    fontSize: '30px',
-    color: 'red'
-  }
 }));
 
 const TotalStats = ({ runs }) => {
@@ -80,7 +76,9 @@ const TotalStats = ({ runs }) => {
     setTotalMiles(totalMiles);
     setTotalRuns(totalRuns);
     setAvgDist(totalMiles / totalRuns);
-    setAvgPace((totalTime / 60) / totalMiles);
+    const min = Math.floor((totalTime / 60) / totalMiles);
+    const sec = Math.floor((((totalTime / 60) / totalMiles) - min) * 60);
+    setAvgPace(min + (sec / 100));
 
   }, [runs.length, runs]);
 
@@ -105,6 +103,9 @@ const TotalStats = ({ runs }) => {
 
   const handleChange = (e) => {
     setRoute(e.target.value);
+    const idx = document.getElementById('routes-select').tabIndex;
+    const route = routes[idx]
+    setDistance(route.distance);
   };
 
   const handleSubmit = async e => {
@@ -217,7 +218,7 @@ const TotalStats = ({ runs }) => {
         <Box>
           <Box
             onClick={handleClickOpen}
-            className={classes.formButton}
+            className="formButton"
           >
             <i className="fas fa-plus-circle"></i>
           </Box>
@@ -233,7 +234,7 @@ const TotalStats = ({ runs }) => {
                   onChange={handleChange}
                 >
                   {routes &&
-                    routes.map(({ id, name }) => <MenuItem key={id} value={id}>{name}</MenuItem>)}
+                    routes.map(({ id, name }, i) => <MenuItem id={i} key={id} value={id}>{name}</MenuItem>)}
                 </Select>
               </FormControl>
               <TextField
@@ -243,7 +244,7 @@ const TotalStats = ({ runs }) => {
                 label="Distance"
                 type="text"
                 onChange={e => setDistance(e.target.value)}
-                placeholder="0.00"
+                placeholder="00.00 in miles"
                 fullWidth
               />
               <TextField

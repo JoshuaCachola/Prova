@@ -62,6 +62,11 @@ const AddRunForm = () => {
 
   const handleChange = (e) => {
     setRoute(e.target.value);
+    const idx = e.target.id;
+    console.log(idx)
+    const route = routes[idx]
+    console.log(route);
+    setDistance(route.distance);
   };
 
   const handleSubmit = async e => {
@@ -107,7 +112,7 @@ const AddRunForm = () => {
               onChange={handleChange}
             >
               {routes &&
-                routes.map(({ id, name }) => <MenuItem key={id} value={id}>{name}</MenuItem>)}
+                routes.map(({ id, name }, i) => <MenuItem id={i} key={id} value={id}>{name}</MenuItem>)}
             </Select>
           </FormControl>
           <TextField
@@ -117,7 +122,7 @@ const AddRunForm = () => {
             label="Distance"
             type="text"
             onChange={e => setDistance(e.target.value)}
-            placeholder="0.00"
+            placeholder="00.00 in miles"
             fullWidth
           />
           <TextField
