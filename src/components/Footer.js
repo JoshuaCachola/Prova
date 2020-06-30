@@ -1,12 +1,20 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
+
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import { Container, Typography } from '@material-ui/core';
+import EmailIcon from '@material-ui/icons/Email';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
 
 const useStyles = makeStyles((theme) => ({
 	footer: {
 		padding: theme.spacing(3, 2),
 		backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[800]
+	},
+	content: {
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'space-around'
 	}
 }));
 
@@ -16,14 +24,19 @@ const Footer = () => {
 	return (
 		<React.Fragment>
 			<footer className={classes.footer}>
-				<Container maxWidth="sm">
-					<Typography variant="body1">Welcome to Prova</Typography>
-					<Typography variant="body2" color="textSecondary">
-						{'Copyright © '}
-						{'Prova '}
-						{new Date().getFullYear()}
-						{'.'}
-					</Typography>
+				<Container maxWidth="sm" className={classes.content}>
+					<div>
+						<Typography variant="body1">Welcome to Prova</Typography>
+						<Typography variant="body2" color="textSecondary">
+							{'Copyright © '}
+							{'Prova '}
+							{new Date().getFullYear()}
+							{'.'}
+						</Typography>
+					</div>
+					<div className={classes.about}>
+						<Typography variant="body1">About the Developers</Typography>
+					</div>
 				</Container>
 			</footer>
 		</React.Fragment>
