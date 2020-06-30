@@ -12,7 +12,7 @@ Prova is a running platform where users' can create running routes and keep trac
 
 ### App Feature Screenshots
 - Create a route
-![Prova-create-a-route](https://github.com/JoshuaCachola/Prova-backend/blob/master/documentation/feature-packet/Prova-schema.png)
+![Prova-create-a-route](https://media.giphy.com/media/W03O7rOagoE0V80j8c/giphy.gif)
 
 
 - Feature List: [Github](/documentation/feature-list.md)
