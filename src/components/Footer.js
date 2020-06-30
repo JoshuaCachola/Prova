@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Typography } from '@material-ui/core';
+import { Container, Typography, Grid } from '@material-ui/core';
 import EmailIcon from '@material-ui/icons/Email';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
@@ -34,9 +34,9 @@ const Footer = () => {
 							{'.'}
 						</Typography>
 					</div>
-					<div className={classes.about}>
+					<Grid container className={classes.about}>
 						<Typography variant="body1">About the Developers</Typography>
-					</div>
+					</Grid>
 				</Container>
 			</footer>
 		</React.Fragment>
