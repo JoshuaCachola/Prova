@@ -11,7 +11,7 @@
 Prova is a running platform where users' can create running routes and keep track of their progress on these routes. Our app provides clear verbal and visual representations of the route ensuring accurate directions. When a user finishes a route they can update the distance they ran along with the total amount of time it took to update their total progress.
 
 ### App Feature Screenshots
-- Create a route
+#### Create a route
 ![Prova-create-a-route](https://media.giphy.com/media/W03O7rOagoE0V80j8c/giphy.gif)
 
 
