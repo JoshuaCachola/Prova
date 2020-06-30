@@ -23,7 +23,7 @@ export const getLatestRoute = (userId) => async (dispatch, getState) => {
 };
 
 export const createRoute = (distance, coordinates, userId, directions) => async (dispatch, getState) => {
-	const res = await fetch(`${api.url}/routes`, {
+	await fetch(`${api.url}/routes`, {
 		method: 'POST',
 		body: JSON.stringify({ distance, coordinates, creatorId: userId, directions }),
 		headers: {

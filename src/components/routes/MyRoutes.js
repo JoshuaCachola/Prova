@@ -32,7 +32,7 @@ const MyRoutes = () => {
 
 	const dispatch = useDispatch();
 
-	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
+	const mapCenter = [-122.675246, 45.529431];
 
 	const routes = useSelector((state) => state.routes.routes);
 
