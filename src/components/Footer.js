@@ -1,8 +1,7 @@
 import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Typography, Grid } from '@material-ui/core';
-import EmailIcon from '@material-ui/icons/Email';
+import { Container, Typography } from '@material-ui/core';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 
@@ -14,7 +13,22 @@ const useStyles = makeStyles((theme) => ({
 	content: {
 		display: 'flex',
 		flexDirection: 'row',
-		justifyContent: 'space-around'
+		justifyContent: 'space-around',
+		alignItems: 'center'
+	},
+	about: {
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'space-between'
+	},
+	developers: {
+		marginLeft: 10
+	},
+	alignCenter: {
+		textAlign: 'center'
+	},
+	githubColor: {
+		color: '#000'
 	}
 }));
 
@@ -24,7 +38,7 @@ const Footer = () => {
 	return (
 		<React.Fragment>
 			<footer className={classes.footer}>
-				<Container maxWidth="sm" className={classes.content}>
+				<Container maxWidth="lg" className={classes.content}>
 					<div>
 						<Typography variant="body1">Welcome to Prova</Typography>
 						<Typography variant="body2" color="textSecondary">
@@ -34,9 +48,50 @@ const Footer = () => {
 							{'.'}
 						</Typography>
 					</div>
-					<Grid container className={classes.about}>
+					<div className={classes.alignCenter}>
 						<Typography variant="body1">About the Developers</Typography>
-					</Grid>
+						<div className={classes.about}>
+							<div className={classes.developers}>
+								<Typography variant="subtitle1">Joshua Cachola</Typography>
+								<a
+									href="https://www.linkedin.com/in/joshua-cachola-b6bab9194/"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									<LinkedInIcon color="primary" />
+								</a>
+								<a href="https://github.com/JoshuaCachola" target="_blank" rel="noopener noreferrer">
+									<GitHubIcon className={classes.githubColor} />
+								</a>
+							</div>
+							<div className={classes.developers}>
+								<Typography variant="subtitle1">Mark Mansolino</Typography>
+								<a
+									href="https://www.linkedin.com/in/markmansolino/"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									<LinkedInIcon color="primary" />
+								</a>
+								<a href="https://github.com/markjm610" target="_blank" rel="noopener noreferrer">
+									<GitHubIcon className={classes.githubColor} />
+								</a>
+							</div>
+							<div className={classes.developers}>
+								<Typography variant="subtitle1">Alan Li</Typography>
+								<a
+									href="https://www.linkedin.com/in/alan-li-730143133/"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									<LinkedInIcon color="primary" />
+								</a>
+								<a href="https://github.com/alanli011" target="_blank" rel="noopener noreferrer">
+									<GitHubIcon className={classes.githubColor} />
+								</a>
+							</div>
+						</div>
+					</div>
 				</Container>
 			</footer>
 		</React.Fragment>
