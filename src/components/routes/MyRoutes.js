@@ -187,7 +187,8 @@ const MyRoutes = () => {
 		() => {
 			if (routes && currentUser) {
 				if (routes.length !== 0) {
-					dispatch(displayRoute(routes[0].id, currentUser.userId));
+					// console.log(routes[0])
+					dispatch(displayRoute(routes[0].route.id, currentUser.userId));
 				}
 			}
 		},
@@ -216,7 +217,7 @@ const MyRoutes = () => {
 								className={classes.tabs}
 							>
 								{routes &&
-									routes.map(({ id, name }, i) => {
+									routes.map(({ route: { id, name } }, i) => {
 										return (
 											<MyRoutesNav
 												index={i}

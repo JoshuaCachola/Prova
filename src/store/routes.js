@@ -5,12 +5,13 @@ export const currentRouteActionCreator = (route) => ({ type: 'CURRENT_ROUTE', ro
 export const currentRoutePersonalInfoActionCreator = (info) => ({ type: 'ROUTE_PERSONAL_INFO', info });
 export const currentRouteRunsActionCreator = (runs) => ({ type: 'RUNS_FOR_ROUTE', runs });
 export const latestRouteActionCreator = (latestRoute) => ({ type: 'LATEST_ROUTE', latestRoute });
+export const otherRoutesActionCreator = (otherRoutes) => ({ type: 'OTHER_ROUTES', otherRoutes })
+
 
 export const getMyRoutes = (userId) => async (dispatch, getState) => {
 	const res = await fetch(`${api.url}/users/${userId}/routes`);
 
 	const parsedRes = await res.json();
-
 	dispatch(getMyRoutesActionCreator(parsedRes));
 };
 
@@ -23,14 +24,20 @@ export const getLatestRoute = (userId) => async (dispatch, getState) => {
 };
 
 export const createRoute = (distance, coordinates, userId, directions) => async (dispatch, getState) => {
-	await fetch(`${api.url}/routes`, {
+	const routeRes = await fetch(`${api.url}/routes`, {
 		method: 'POST',
 		body: JSON.stringify({ distance, coordinates, creatorId: userId, directions }),
 		headers: {
 			'Content-Type': 'application/json'
 		}
 	});
-	// const parsedRes = await res.json();
+	const route = await routeRes.json();
+	const personalRouteStatEntry = await fetch(`${api.url}/routes/${route.id}/users/${userId}/personalroutestats`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	})
 };
 
 export const displayRoute = (routeId, userId) => async (dispatch, getState) => {
@@ -49,6 +56,23 @@ export const displayRoute = (routeId, userId) => async (dispatch, getState) => {
 	dispatch(currentRoutePersonalInfoActionCreator(routePersonalInfo));
 	dispatch(currentRouteRunsActionCreator(runsForRoute));
 };
+
+export const getOtherRoutes = (userId) => async (dispatch) => {
+	const res = await fetch(`${api.url}/personalroutestats/${userId}`)
+	const otherRoutes = await res.json()
+
+	dispatch(otherRoutesActionCreator(otherRoutes))
+}
+
+export const saveOtherRoute = (userId, routeId) => async (dispatch) => {
+	await fetch(`${api.url}/routes/${routeId}/users/${userId}/personalroutestats`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	})
+
+}
 
 export default function reducer(state = { latestRoute: {} }, action) {
 	switch (action.type) {
@@ -81,6 +105,12 @@ export default function reducer(state = { latestRoute: {} }, action) {
 				...state,
 				latestRoute: action.latestRoute
 			};
+		}
+		case 'OTHER_ROUTES': {
+			return {
+				...state,
+				otherRoutes: action.otherRoutes
+			}
 		}
 		default:
 			return state;

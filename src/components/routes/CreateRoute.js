@@ -294,7 +294,7 @@ const CreateRoute = ({ history }) => {
 				setCoordError(false);
 			}
 
-			const res = await fetch(`${api.url}/routes`, {
+			const routeRes = await fetch(`${api.url}/routes`, {
 				method: 'POST',
 				body: JSON.stringify({
 					name: nameState,
@@ -308,7 +308,14 @@ const CreateRoute = ({ history }) => {
 					'Content-Type': 'application/json'
 				}
 			});
-			if (res.ok) {
+			const route = await routeRes.json();
+			const personalRouteStatsRes = await fetch(`${api.url}/routes/${route.id}/users/${user.userId}/personalroutestats`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+			if (personalRouteStatsRes.ok) {
 				history.push('/my-routes');
 			}
 		}

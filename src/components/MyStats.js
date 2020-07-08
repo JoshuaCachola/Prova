@@ -109,7 +109,7 @@ const MyStats = () => {
 	);
 
 	const handleRunDetails = (e) => {
-		console.log('clicked!');
+		// console.log('clicked!');
 	};
 
 	const handleShowCalGraph = () => {

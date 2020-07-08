@@ -61,12 +61,12 @@ const AddRunForm = () => {
   };
 
   const handleChange = (e) => {
-    console.log('handle change')
+    // console.log('handle change')
     setRoute(e.target.value);
     const idx = e.target.id;
-    console.log(idx)
+    // console.log(idx)
     const route = routes[idx]
-    console.log(route);
+    // console.log(route);
     setDistance(route.distance);
 
   };
@@ -125,7 +125,6 @@ const AddRunForm = () => {
             type="text"
             // value={}
             onChange={e => {
-              console.log(e.target.value)
               setDistance(e.target.value)
             }}
             placeholder="00.00 in miles"
