@@ -105,7 +105,7 @@ const TotalStats = ({ runs }) => {
     setRoute(e.target.value);
     const idx = document.getElementById('routes-select').tabIndex;
     const route = routes[idx]
-    setDistance(route.distance);
+    setDistance(route.distance.toFixed(2));
   };
 
   const handleSubmit = async e => {
@@ -243,7 +243,12 @@ const TotalStats = ({ runs }) => {
                 id="distance"
                 label="Distance"
                 type="text"
-                onChange={e => setDistance(e.target.value)}
+                value={distance}
+                onChange={e => {
+                  if (!route) {
+                    setDistance(e.target.value)
+                  }
+                }}
                 placeholder="00.00 in miles"
                 fullWidth
               />

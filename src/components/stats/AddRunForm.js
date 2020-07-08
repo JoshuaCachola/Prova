@@ -61,12 +61,14 @@ const AddRunForm = () => {
   };
 
   const handleChange = (e) => {
+    console.log('handle change')
     setRoute(e.target.value);
     const idx = e.target.id;
     console.log(idx)
     const route = routes[idx]
     console.log(route);
     setDistance(route.distance);
+
   };
 
   const handleSubmit = async e => {
@@ -121,7 +123,11 @@ const AddRunForm = () => {
             id="distance"
             label="Distance"
             type="text"
-            onChange={e => setDistance(e.target.value)}
+            // value={}
+            onChange={e => {
+              console.log(e.target.value)
+              setDistance(e.target.value)
+            }}
             placeholder="00.00 in miles"
             fullWidth
           />
