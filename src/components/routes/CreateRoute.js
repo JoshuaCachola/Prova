@@ -3,7 +3,7 @@ import mapboxgl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import { useAuth0 } from '../../react-auth0-spa';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Button, Icon, Grid } from '@material-ui/core';
+import { Box, Button, Icon, Grid, Typography } from '@material-ui/core';
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -69,11 +69,6 @@ const CreateRoute = ({ history }) => {
 
 	const { user } = useAuth0();
 
-	// const [mapState, setMapState] = useState({
-	// 	lng: -122,
-	// 	lat: 37,
-	// 	zoom: 2
-	// });
 	const [coordState, setCoordState] = useState(null);
 	const [distanceState, setDistanceState] = useState(0.0);
 	const [durationState, setDurationState] = useState(0.0);
@@ -84,6 +79,8 @@ const CreateRoute = ({ history }) => {
 	const [nameState, setNameState] = useState('');
 	const [nameError, setNameError] = useState(false);
 	const [coordError, setCoordError] = useState(false);
+	const [showGetStarted, setShowGetStarted] = useState(true)
+	const [drawALine, setDrawALine] = useState(false)
 
 	let mapContainer = useRef(null);
 
@@ -109,8 +106,7 @@ const CreateRoute = ({ history }) => {
 			const drawObj = new MapboxDraw({
 				displayControlsDefault: false,
 				controls: {
-					line_string: true,
-					trash: true
+					line_string: true
 				},
 				styles: [
 					// ACTIVE (being drawn)
@@ -181,13 +177,13 @@ const CreateRoute = ({ history }) => {
 				if (mapObj.getSource('route')) {
 					mapObj.removeLayer('route');
 					mapObj.removeSource('route');
-					// document.getElementById('calculated-line').innerHTML = '';
 				} else {
 					return;
 				}
 			};
 
 			const addRoute = (coords) => {
+
 				drawObj.deleteAll();
 
 				if (mapObj.getSource('route')) {
@@ -242,7 +238,7 @@ const CreateRoute = ({ history }) => {
 							runInstructions.push(steps[j].maneuver.instruction);
 						}
 					}
-
+					setDrawALine(false)
 					setDisplayedDirections(runInstructions);
 					const directionString = runInstructions.join(';');
 					setDirectionState(directionString);
@@ -264,10 +260,19 @@ const CreateRoute = ({ history }) => {
 				}
 			};
 
+			const handleModeChange = (e) => {
+				if (showGetStarted) {
+					setShowGetStarted(false)
+					setDrawALine(true)
+				}
+			}
+
+
 			mapObj.addControl(drawObj);
 			mapObj.on('draw.create', updateRoute);
 			mapObj.on('draw.update', updateRoute);
 			mapObj.on('draw.delete', removeRoute);
+			mapObj.on('draw.modechange', handleModeChange)
 		});
 	};
 
@@ -284,8 +289,7 @@ const CreateRoute = ({ history }) => {
 
 		if (!nameState) {
 			setNameError(true);
-		} else if (!coordState) {
-			setCoordError(true);
+
 		} else {
 			if (nameError) {
 				setNameError(false);
@@ -368,28 +372,48 @@ const CreateRoute = ({ history }) => {
 							<React.Fragment>
 								<List className={classes.sidebarContainer}>
 									<h2 className={classes.listMargin}>Directions:</h2>
-									{displayedDirections &&
-										displayedDirections.map((direction, i) => {
-											return (
-												<ListItem
-													key={i}
-													className={`
+									{displayedDirections.map((direction, i) => {
+										return (
+											<ListItem
+												key={i}
+												className={`
 														${i % 2 ? classes.whiteBackground : classes.inheritBackground} ${'list-item'}`}
-												>
-													<ListItemText primary={direction} className={classes.listMargin} />
-												</ListItem>
-											);
-										})}
+											>
+												<ListItemText primary={direction} className={classes.listMargin} />
+											</ListItem>
+										);
+									})}
 								</List>
+							</React.Fragment>
+						)}
+						{showGetStarted && (
+							<React.Fragment>
+								<div className='instructions'>
+									<Typography>Search for where in the world you'd like to run.</Typography>
+								</div>
+								<div className='instructions'>
+									<Typography>Once you've found a spot, click the line button in the top right corner of the map to start drawing.</Typography>
+								</div>
+							</React.Fragment>
+
+						)}
+						{drawALine && (
+							<React.Fragment>
+								<div className='instructions'>
+									<Typography>Draw a general path, and the map will figure out a route for you.</Typography>
+								</div>
+								<div className='instructions'>
+									<Typography>Double-click to end your route.</Typography>
+								</div>
+								<div className='instructions'>
+									<Typography>If you want to change your route, just draw a new one.</Typography>
+								</div>
 							</React.Fragment>
 						)}
 					</div>
 				</Grid>
 				<Grid item xs={10} sm={10} lg={10}>
 					<Box component="form" className={classes.root}>
-						{/* <IconButton className={classes.iconButton} aria-label="menu">
-							<MenuIcon />
-						</IconButton> */}
 						<InputBase
 							className={classes.input}
 							placeholder="Search"
