@@ -57,8 +57,14 @@ export const displayRoute = (routeId, userId) => async (dispatch, getState) => {
 	dispatch(currentRouteRunsActionCreator(runsForRoute));
 };
 
-export const getOtherRoutes = (userId) => async (dispatch) => {
-	const res = await fetch(`${api.url}/personalroutestats/${userId}`)
+export const getOtherRoutes = (userId, highestOtherRouteId) => async (dispatch) => {
+	const res = await fetch(`${api.url}/personalroutestats/${userId}`, {
+		method: 'PUT',
+		body: JSON.stringify({ highestOtherRouteId }),
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	})
 	const otherRoutes = await res.json()
 
 	dispatch(otherRoutesActionCreator(otherRoutes))

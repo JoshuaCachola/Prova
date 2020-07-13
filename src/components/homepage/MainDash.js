@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 const MainDash = () => {
 	const [map, setMap] = useState(null);
 	const [coords, setCoords] = useState(null)
+	const [otherRoutesCounter, setOtherRoutesCounter] = useState(1)
 
 	mapboxgl.accessToken =
 		'pk.eyJ1IjoibWFya2ptNjEwIiwiYSI6ImNrYjFjeTBoMzAzb3UyeXF1YTE3Y25wdDMifQ.K9r926HKVv0u8RQzpdXleg';
@@ -54,7 +55,10 @@ const MainDash = () => {
 	const currentUser = useSelector((state) => state.authorization.currentUser);
 	const latestRoute = useSelector((state) => state.routes.latestRoute);
 	const otherRoutes = useSelector((state) => state.routes.otherRoutes);
-
+	// console.log(otherRoutes)
+	const [otherRoutesNumber, setOtherRoutesNumber] = useState(0)
+	const [otherRoutesDescription, setOtherRoutesDescription] = useState(null)
+	const [previousOtherRoutesNumber, setPreviousOtherRoutesNumber] = useState(0)
 	useEffect(
 		() => {
 			if (currentUser) {
@@ -151,7 +155,42 @@ const MainDash = () => {
 		return `${min}'${sec}"`;
 	};
 
+	const getNextFive = () => {
+		setOtherRoutesCounter(otherRoutesCounter + 1)
+		setPreviousOtherRoutesNumber(otherRoutesNumber)
+		let highestOtherRouteId = 0;
+		otherRoutes[0].forEach(route => {
+			if (route.id > highestOtherRouteId) {
+				highestOtherRouteId = route.id
+			}
+		})
+
+		dispatch(getOtherRoutes(currentUser.userId, highestOtherRouteId))
+	}
+
+
+
+	useEffect(() => {
+		if (otherRoutes) {
+			setOtherRoutesNumber(otherRoutesNumber + otherRoutes[0].length)
+		}
+	}, [otherRoutes])
+
+
+	useEffect(() => {
+		if (otherRoutesNumber) {
+			setOtherRoutesDescription(`Showing ${previousOtherRoutesNumber + 1}-${otherRoutesNumber} of ${otherRoutes[1].total_routes}`)
+
+		}
+	}, [otherRoutesNumber])
+
+
 	const classes = useStyles();
+
+
+
+
+
 
 	return (
 		<React.Fragment>
@@ -233,22 +272,42 @@ const MainDash = () => {
 					</Card>
 				</React.Fragment>
 			)}
-			<div className={classes.marginSpacing}>
-				<Typography variant="h5">Discover Routes</Typography>
-			</div>
-			{otherRoutes && otherRoutes.map((route) => {
-				return (
-					<OtherRoute
-						key={route.id}
-						id={route.id}
-						coordinates={route.coordinates}
-						distance={route.distance}
-						average_time={route.average_time}
-						best_time={route.best_time}
-					/>)
-			})}
+			{otherRoutes && (
+				<div className={classes.marginSpacing}>
+					<Typography variant="h5">Discover Routes</Typography>
+					<div>
+						<Typography>{otherRoutesDescription}</Typography>
+						{otherRoutesNumber < otherRoutes[1].total_routes && (
+							<Button
+								type="submit"
+								variant="contained"
+								color="secondary"
+								size="small"
+								className={classes.button}
+								onClick={getNextFive}
+							>
+								See more
+							</Button>)}
+					</div>
+					{console.log(otherRoutesDescription)}
+				</div>)
+			}
 
-		</React.Fragment>
+			{
+				otherRoutes && otherRoutes[0].map((route) => {
+					return (
+						<OtherRoute
+							key={route.id}
+							id={route.id}
+							coordinates={route.coordinates}
+							distance={route.distance}
+							average_time={route.average_time}
+							best_time={route.best_time}
+						/>)
+				})
+			}
+
+		</React.Fragment >
 	);
 };
 
