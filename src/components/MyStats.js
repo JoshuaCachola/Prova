@@ -91,14 +91,23 @@ const MyStats = () => {
 	useEffect(
 		() => {
 			const calendarRuns = [];
+			console.log('runs: ', runs);
 			if (runs.length) {
 				runs.forEach((run) => {
 					const cRun = {};
-					cRun.day = run.date;
-					cRun.value = run.distance;
-					calendarRuns.push(cRun);
+					// use findIndex to check if date is already in calendarRuns
+					const objIdx = calendarRuns.findIndex(obj => obj.day === run.date);
+					console.log(objIdx);
+					if (objIdx !== -1) {
+						calendarRuns[objIdx].value += run.distance;
+					} else {
+						cRun.day = run.date;
+						cRun.value = run.distance;
+						calendarRuns.push(cRun);
+					}
 				});
 
+				console.log(calendarRuns);
 				setDistanceData(lineGraph('distance'));
 				setCaloriesData(lineGraph('calories'));
 				setCalData(calendarRuns);

@@ -31,3 +31,10 @@
 
 - Add friends
 - Route Recommendation based on stats
+
+## User Stories
+As a user
+I would like to create routes by clicking on a start and endpoint on a map
+I would like to have my stats analyzed and presented in a user-friendly way
+I would like to share my workout with friends
+I would like to make friends with others who use the app

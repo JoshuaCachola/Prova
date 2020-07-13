@@ -61,12 +61,9 @@ const AddRunForm = () => {
   };
 
   const handleChange = (e) => {
-    console.log('handle change')
     setRoute(e.target.value);
     const idx = e.target.id;
-    console.log(idx)
     const route = routes[idx]
-    console.log(route);
     setDistance(route.distance);
 
   };
@@ -123,7 +120,6 @@ const AddRunForm = () => {
             id="distance"
             label="Distance"
             type="text"
-            // value={}
             onChange={e => {
               console.log(e.target.value)
               setDistance(e.target.value)
