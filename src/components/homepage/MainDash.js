@@ -44,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
 const MainDash = () => {
 	const [map, setMap] = useState(null);
 	const [coords, setCoords] = useState(null)
-	const [otherRoutesCounter, setOtherRoutesCounter] = useState(1)
 
 	mapboxgl.accessToken =
 		'pk.eyJ1IjoibWFya2ptNjEwIiwiYSI6ImNrYjFjeTBoMzAzb3UyeXF1YTE3Y25wdDMifQ.K9r926HKVv0u8RQzpdXleg';
@@ -156,7 +155,6 @@ const MainDash = () => {
 	};
 
 	const getNextFive = () => {
-		setOtherRoutesCounter(otherRoutesCounter + 1)
 		setPreviousOtherRoutesNumber(otherRoutesNumber)
 		let highestOtherRouteId = 0;
 		otherRoutes[0].forEach(route => {
