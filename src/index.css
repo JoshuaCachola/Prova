@@ -133,3 +133,13 @@
 .formButton:hover {
 	cursor: pointer;
 }
+
+.instructions {
+	margin-left: 15px;
+	margin-bottom: 20px;
+}
+
+.other-routes-info {
+	display: flex;
+	justify-content: space-between;
+}

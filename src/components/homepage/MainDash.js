@@ -2,12 +2,13 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import mapboxgl from 'mapbox-gl';
-import { getLatestRoute } from '../../store/routes';
+import { getLatestRoute, getOtherRoutes } from '../../store/routes';
 
 import { Card, CardContent, Divider, CardMedia, Typography, Button, Grid } from '@material-ui/core';
 import ExploreIcon from '@material-ui/icons/Explore';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import OtherRoute from './OtherRoute';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -42,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MainDash = () => {
 	const [map, setMap] = useState(null);
+	const [coords, setCoords] = useState(null)
 
 	mapboxgl.accessToken =
 		'pk.eyJ1IjoibWFya2ptNjEwIiwiYSI6ImNrYjFjeTBoMzAzb3UyeXF1YTE3Y25wdDMifQ.K9r926HKVv0u8RQzpdXleg';
@@ -51,11 +53,16 @@ const MainDash = () => {
 	const dispatch = useDispatch();
 	const currentUser = useSelector((state) => state.authorization.currentUser);
 	const latestRoute = useSelector((state) => state.routes.latestRoute);
-
+	const otherRoutes = useSelector((state) => state.routes.otherRoutes);
+	// console.log(otherRoutes)
+	const [otherRoutesNumber, setOtherRoutesNumber] = useState(0)
+	const [otherRoutesDescription, setOtherRoutesDescription] = useState(null)
+	const [previousOtherRoutesNumber, setPreviousOtherRoutesNumber] = useState(0)
 	useEffect(
 		() => {
 			if (currentUser) {
 				dispatch(getLatestRoute(currentUser.userId));
+				dispatch(getOtherRoutes(currentUser.userId))
 			}
 		},
 		// eslint-disable-next-line
@@ -65,44 +72,51 @@ const MainDash = () => {
 	useEffect(
 		() => {
 			if (latestRoute.coordinates) {
-				const mapObj = new mapboxgl.Map({
-					container: mapContainer, // container id
-					style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
-					center: [-122.675246, 45.529431], // starting position
-					zoom: 12, // starting zoom
-					minZoom: 11 // keep it local
+
+				const firstSplit = latestRoute.coordinates.split(';');
+				const secondSplit = firstSplit.map((el) => {
+					return el.split(',');
 				});
-				setMap(mapObj);
+
+				const finalArr = secondSplit.map((subArr) => {
+					return subArr.map((stringNum) => {
+						return Number(stringNum);
+					});
+				});
+
+				const coordinates = finalArr;
+
+				setCoords(coordinates)
+
+
 			}
 		},
 		[latestRoute]
 	);
 
+	useEffect(() => {
+		if (coords) {
+			const mapObj = new mapboxgl.Map({
+				container: mapContainer, // container id
+				style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
+				center: coords[0], // starting position
+				zoom: 12, // starting zoom
+				minZoom: 11 // keep it local
+			});
+			setMap(mapObj);
+		}
+
+	}, [coords])
+
+
 	useEffect(
 		() => {
-			if (map && latestRoute.coordinates) {
+			if (map && coords) {
 				map.on('load', () => {
 					if (map.getSource('route')) {
 						map.removeLayer('route');
 						map.removeSource('route');
 					}
-
-					const firstSplit = latestRoute.coordinates.split(';');
-					const secondSplit = firstSplit.map((el) => {
-						return el.split(',');
-					});
-
-					const finalArr = secondSplit.map((subArr) => {
-						return subArr.map((stringNum) => {
-							return Number(stringNum);
-						});
-					});
-
-					const coords = finalArr;
-
-					map.flyTo({
-						center: coords[0]
-					});
 
 					const coordsObj = { coordinates: coords, type: 'LineString' };
 					// map.removeLayer()
@@ -130,7 +144,7 @@ const MainDash = () => {
 				});
 			}
 		},
-		[map, latestRoute]
+		[map, coords]
 	);
 
 	const convertTime = time => {
@@ -140,7 +154,41 @@ const MainDash = () => {
 		return `${min}'${sec}"`;
 	};
 
+	const getNextFive = () => {
+		setPreviousOtherRoutesNumber(otherRoutesNumber)
+		let highestOtherRouteId = 0;
+		otherRoutes[0].forEach(route => {
+			if (route.id > highestOtherRouteId) {
+				highestOtherRouteId = route.id
+			}
+		})
+
+		dispatch(getOtherRoutes(currentUser.userId, highestOtherRouteId))
+	}
+
+
+
+	useEffect(() => {
+		if (otherRoutes) {
+			setOtherRoutesNumber(otherRoutesNumber + otherRoutes[0].length)
+		}
+	}, [otherRoutes])
+
+
+	useEffect(() => {
+		if (otherRoutesNumber) {
+			setOtherRoutesDescription(`Showing ${previousOtherRoutesNumber + 1}-${otherRoutesNumber} of ${otherRoutes[1].total_routes} undiscovered routes`)
+
+		}
+	}, [otherRoutesNumber])
+
+
 	const classes = useStyles();
+
+
+
+
+
 
 	return (
 		<React.Fragment>
@@ -222,7 +270,41 @@ const MainDash = () => {
 					</Card>
 				</React.Fragment>
 			)}
-		</React.Fragment>
+			{otherRoutes && (
+				<div className={classes.marginSpacing}>
+					<Typography variant="h5">Discover Routes</Typography>
+					<div className='other-routes-info'>
+						<Typography>{otherRoutesDescription}</Typography>
+						{otherRoutesNumber < otherRoutes[1].total_routes && (
+							<Button
+								type="submit"
+								variant="contained"
+								color="secondary"
+								size="small"
+								className={classes.button}
+								onClick={getNextFive}
+							>
+								See more
+							</Button>)}
+					</div>
+				</div>)
+			}
+
+			{
+				otherRoutes && otherRoutes[0].map((route) => {
+					return (
+						<OtherRoute
+							key={route.id}
+							id={route.id}
+							coordinates={route.coordinates}
+							distance={route.distance}
+							average_time={route.average_time}
+							best_time={route.best_time}
+						/>)
+				})
+			}
+
+		</React.Fragment >
 	);
 };
 

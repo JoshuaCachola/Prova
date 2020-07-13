@@ -32,7 +32,7 @@ const MyRoutes = () => {
 
 	const dispatch = useDispatch();
 
-	const mapCenter = [-122.675246, 45.529431];
+	const [coords, setCoords] = useState(null)
 
 	const routes = useSelector((state) => state.routes.routes);
 
@@ -62,11 +62,11 @@ const MyRoutes = () => {
 
 	useEffect(
 		() => {
-			if (routes && routes.length !== 0) {
+			if (!map && routes && routes.length !== 0 && coords) {
 				const mapObj = new mapboxgl.Map({
 					container: mapContainer, // container id
 					style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
-					center: mapCenter, // starting position
+					center: coords[0], // starting position
 					zoom: 13, // starting zoom
 					minZoom: 11 // keep it local
 				});
@@ -75,12 +75,31 @@ const MyRoutes = () => {
 			// eslint-disable-next-line
 		},
 		// eslint-disable-next-line
-		[routes]
+		[routes, coords]
 	);
+
+	useEffect(() => {
+		if (currentRoute) {
+
+			const firstSplit = currentRoute.coordinates.split(';');
+			const secondSplit = firstSplit.map((el) => {
+				return el.split(',');
+			});
+
+			const finalArr = secondSplit.map((subArr) => {
+				return subArr.map((stringNum) => {
+					return Number(stringNum);
+				});
+			});
+
+			setCoords(finalArr)
+		}
+	}, [currentRoute])
+
 
 	useEffect(
 		() => {
-			if (map && currentRoute) {
+			if (map && currentRoute && coords) {
 				if (!hasLoaded) {
 					map.on('load', () => {
 						if (map.getSource('route')) {
@@ -88,22 +107,6 @@ const MyRoutes = () => {
 							map.removeSource('route');
 						}
 
-						const firstSplit = currentRoute.coordinates.split(';');
-						const secondSplit = firstSplit.map((el) => {
-							return el.split(',');
-						});
-
-						const finalArr = secondSplit.map((subArr) => {
-							return subArr.map((stringNum) => {
-								return Number(stringNum);
-							});
-						});
-
-						const coords = finalArr;
-
-						map.flyTo({
-							center: coords[0]
-						});
 
 						const coordsObj = { coordinates: coords, type: 'LineString' };
 
@@ -180,14 +183,15 @@ const MyRoutes = () => {
 			}
 		},
 		// eslint-disable-next-line
-		[map, currentRoute]
+		[map, currentRoute, coords]
 	);
 
 	useEffect(
 		() => {
 			if (routes && currentUser) {
 				if (routes.length !== 0) {
-					dispatch(displayRoute(routes[0].id, currentUser.userId));
+					// console.log(routes[0])
+					dispatch(displayRoute(routes[0].route.id, currentUser.userId));
 				}
 			}
 		},
@@ -216,7 +220,7 @@ const MyRoutes = () => {
 								className={classes.tabs}
 							>
 								{routes &&
-									routes.map(({ id, name }, i) => {
+									routes.map(({ route: { id, name } }, i) => {
 										return (
 											<MyRoutesNav
 												index={i}
