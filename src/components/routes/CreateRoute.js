@@ -8,11 +8,12 @@ import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import api from "../../utils";
+import api from '../../utils';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -69,6 +70,7 @@ const CreateRoute = ({ history }) => {
 
 	const { user } = useAuth0();
 
+
 	const [coordState, setCoordState] = useState(null);
 	const [distanceState, setDistanceState] = useState(0.0);
 	const [durationState, setDurationState] = useState(0.0);
@@ -81,6 +83,7 @@ const CreateRoute = ({ history }) => {
 	const [coordError, setCoordError] = useState(false);
 	const [showGetStarted, setShowGetStarted] = useState(true)
 	const [drawALine, setDrawALine] = useState(false)
+
 
 	let mapContainer = useRef(null);
 
@@ -114,14 +117,14 @@ const CreateRoute = ({ history }) => {
 					{
 						id: 'gl-draw-line',
 						type: 'line',
-						filter: ['all', ['==', '$type', 'LineString'], ['!=', 'mode', 'static']],
+						filter: [ 'all', [ '==', '$type', 'LineString' ], [ '!=', 'mode', 'static' ] ],
 						layout: {
 							'line-cap': 'round',
 							'line-join': 'round'
 						},
 						paint: {
 							'line-color': '#3b9ddd',
-							'line-dasharray': [0.2, 2],
+							'line-dasharray': [ 0.2, 2 ],
 							'line-width': 4,
 							'line-opacity': 0.7
 						}
@@ -132,9 +135,9 @@ const CreateRoute = ({ history }) => {
 						type: 'circle',
 						filter: [
 							'all',
-							['==', 'meta', 'vertex'],
-							['==', '$type', 'Point'],
-							['!=', 'mode', 'static']
+							[ '==', 'meta', 'vertex' ],
+							[ '==', '$type', 'Point' ],
+							[ '!=', 'mode', 'static' ]
 						],
 						paint: {
 							'circle-radius': 10,
@@ -147,9 +150,9 @@ const CreateRoute = ({ history }) => {
 						type: 'circle',
 						filter: [
 							'all',
-							['==', 'meta', 'vertex'],
-							['==', '$type', 'Point'],
-							['!=', 'mode', 'static']
+							[ '==', 'meta', 'vertex' ],
+							[ '==', '$type', 'Point' ],
+							[ '!=', 'mode', 'static' ]
 						],
 						paint: {
 							'circle-radius': 6,
@@ -281,7 +284,7 @@ const CreateRoute = ({ history }) => {
 			createMB();
 		},
 		// eslint-disable-next-line
-		[mapCenter, setMapCenter]
+		[ mapCenter, setMapCenter ]
 	);
 
 	const createRouteClick = async (e) => {
@@ -444,12 +447,12 @@ const CreateRoute = ({ history }) => {
 					<div ref={(el) => (mapContainer = el)} className="mapContainer" />
 					<Grid container className={classes.bottomContainer}>
 						<Grid item xs={6} sm={6}>
-							<div>Distance</div>
-							<div>{distanceState.toFixed(2)} mi</div>
+							<Typography variant="h6">Distance</Typography>
+							<Typography variant="body1">{distanceState.toFixed(2)} mi</Typography>
 						</Grid>
 						<Grid item xs={6} sm={6}>
-							<div>Est. route duration</div>
-							<div>{durationState} min</div>
+							<Typography variant="h6">Est. route duration</Typography>
+							<Typography variant="body1">{durationState} min</Typography>
 						</Grid>
 					</Grid>
 				</Grid>
