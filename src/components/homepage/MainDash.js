@@ -179,7 +179,7 @@ const MainDash = () => {
 
 	useEffect(() => {
 		if (otherRoutesNumber) {
-			setOtherRoutesDescription(`Showing ${previousOtherRoutesNumber + 1}-${otherRoutesNumber} of ${otherRoutes[1].total_routes}`)
+			setOtherRoutesDescription(`Showing ${previousOtherRoutesNumber + 1}-${otherRoutesNumber} of ${otherRoutes[1].total_routes} undiscovered routes`)
 
 		}
 	}, [otherRoutesNumber])
@@ -275,7 +275,7 @@ const MainDash = () => {
 			{otherRoutes && (
 				<div className={classes.marginSpacing}>
 					<Typography variant="h5">Discover Routes</Typography>
-					<div>
+					<div className='other-routes-info'>
 						<Typography>{otherRoutesDescription}</Typography>
 						{otherRoutesNumber < otherRoutes[1].total_routes && (
 							<Button
@@ -289,7 +289,6 @@ const MainDash = () => {
 								See more
 							</Button>)}
 					</div>
-					{console.log(otherRoutesDescription)}
 				</div>)
 			}
 
