@@ -227,7 +227,7 @@ const TotalStats = ({ runs }) => {
             <DialogTitle id="form-dialog-title">Add a run</DialogTitle>
             <DialogContent>
               <FormControl className={classes.formControl}>
-                <InputLabel id="routes-input">Routes</InputLabel>
+                <InputLabel id="routes-input">My Saved Routes</InputLabel>
                 <Select
                   labelId="routes"
                   id="routes-select"
