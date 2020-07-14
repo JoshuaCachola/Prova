@@ -21,12 +21,14 @@ const useStyles = makeStyles((theme) => ({
 		padding: '2px 4px',
 		display: 'flex',
 		alignItems: 'center',
-		width: '100%'
+		width: '100%',
+		backgroundColor: '#f7f7fa',
+
 	},
 	input: {
 		marginLeft: theme.spacing(1),
 		flex: 1,
-		backgroudColor: 'yellow'
+		backgroudColor: 'yellow',
 	},
 	iconButton: {
 		padding: 10

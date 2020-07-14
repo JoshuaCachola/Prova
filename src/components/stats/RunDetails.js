@@ -29,8 +29,8 @@ const useStyles = makeStyles({
 });
 
 const RunDetails = ({ run }) => {
-  const showRunPopup = useSelector(({ runs }) => runs.showRunPopup);
-  const dispatch = useDispatch();
+  // const showRunPopup = useSelector(({ runs }) => runs.showRunPopup);
+  // const dispatch = useDispatch();
   // const convertDate = date => {
   //   const dateArr = date.split('-');
 

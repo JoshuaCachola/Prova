@@ -46,14 +46,14 @@ const useStyles = makeStyles((theme) => ({
 	},
 	linkStyle: {
 		textDecoration: 'none',
-		color: 'inherit'
+		color: 'inherit',
 	}
 }));
 
 const NavBar = (props) => {
 	const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
 
-	const [ anchorEl, setAnchorEl ] = useState(null);
+	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
 
 	const dispatch = useDispatch();
@@ -77,7 +77,7 @@ const NavBar = (props) => {
 			dispatch(getUser(user));
 			// eslint-disable-next-line
 		},
-		[ user, dispatch ]
+		[user, dispatch]
 	);
 
 	// const handleLogout = () => {
@@ -99,7 +99,7 @@ const NavBar = (props) => {
 					<Toolbar>
 						<Typography variant="h6" className={classes.title}>
 							<Link to="/home" className={classes.linkStyle} underline="none">
-								PROVA
+								<i className="fab fa-strava"></i> PROVA
 							</Link>
 						</Typography>
 						<div>
@@ -114,87 +114,87 @@ const NavBar = (props) => {
 								</Button>
 							)}
 							{isAuthenticated &&
-							currentUser && (
-								<React.Fragment>
-									{matchMyStats && (
-										<Button variant="contained" color="secondary" className={classes.submit}>
-											<Link to="/create-route" className={classes.linkStyle}>
-												Create Route
+								currentUser && (
+									<React.Fragment>
+										{matchMyStats && (
+											<Button variant="contained" color="secondary" className={classes.submit}>
+												<Link to="/create-route" className={classes.linkStyle}>
+													Create Route
 											</Link>
-										</Button>
-									)}
-									{matchMyRoutes && (
-										<Button variant="contained" color="secondary" className={classes.submit}>
-											<Link to="/create-route" className={classes.linkStyle}>
-												Create Route
+											</Button>
+										)}
+										{matchMyRoutes && (
+											<Button variant="contained" color="secondary" className={classes.submit}>
+												<Link to="/create-route" className={classes.linkStyle}>
+													Create Route
 											</Link>
-										</Button>
-									)}
-									<IconButton
-										aria-label="account of current user"
-										aria-controls="menu-appbar"
-										aria-haspopup="true"
-										onClick={handleMenu}
-										color="inherit"
-									>
-										<Avatar alt={currentUser.nickname} src={currentUser.picture} />
-									</IconButton>
-									<Menu
-										id="menu-appbar"
-										anchorEl={anchorEl}
-										anchorOrigin={{
-											vertical: 'top',
-											horizontal: 'right'
-										}}
-										keepMounted
-										transformOrigin={{
-											vertical: 'top',
-											horizontal: 'right'
-										}}
-										open={open}
-										onClose={handleClose}
-									>
-										{matchCreateRoute && (
-											<div>
+											</Button>
+										)}
+										<IconButton
+											aria-label="account of current user"
+											aria-controls="menu-appbar"
+											aria-haspopup="true"
+											onClick={handleMenu}
+											color="inherit"
+										>
+											<Avatar alt={currentUser.nickname} src={currentUser.picture} />
+										</IconButton>
+										<Menu
+											id="menu-appbar"
+											anchorEl={anchorEl}
+											anchorOrigin={{
+												vertical: 'top',
+												horizontal: 'right'
+											}}
+											keepMounted
+											transformOrigin={{
+												vertical: 'top',
+												horizontal: 'right'
+											}}
+											open={open}
+											onClose={handleClose}
+										>
+											{matchCreateRoute && (
+												<div>
+													<MenuItem onClick={handleClose}>
+														<Link to="/my-stats" className={classes.linkStyle} underline="none">
+															My Stats
+													</Link>
+													</MenuItem>
+													<MenuItem onClick={handleClose}>
+														<Link
+															to="/my-routes"
+															className={classes.linkStyle}
+															underline="none"
+														>
+															My Routes
+													</Link>
+													</MenuItem>
+												</div>
+											)}
+											{(matchMyStats || matchHome) && (
+												<MenuItem onClick={handleClose}>
+													<Link to="/my-routes" className={classes.linkStyle} underline="none">
+														My Routes
+												</Link>
+												</MenuItem>
+											)}
+											{(matchMyRoutes || matchHome) && (
 												<MenuItem onClick={handleClose}>
 													<Link to="/my-stats" className={classes.linkStyle} underline="none">
 														My Stats
-													</Link>
-												</MenuItem>
-												<MenuItem onClick={handleClose}>
-													<Link
-														to="/my-routes"
-														className={classes.linkStyle}
-														underline="none"
-													>
-														My Routes
-													</Link>
-												</MenuItem>
-											</div>
-										)}
-										{(matchMyStats || matchHome) && (
-											<MenuItem onClick={handleClose}>
-												<Link to="/my-routes" className={classes.linkStyle} underline="none">
-													My Routes
 												</Link>
-											</MenuItem>
-										)}
-										{(matchMyRoutes || matchHome) && (
-											<MenuItem onClick={handleClose}>
-												<Link to="/my-stats" className={classes.linkStyle} underline="none">
-													My Stats
-												</Link>
-											</MenuItem>
-										)}
-										{/* <MenuItem onClick={handleClose}>
+												</MenuItem>
+											)}
+											{/* <MenuItem onClick={handleClose}>
 											<Link to="/profile" className={classes.linkStyle} underline="none">
 												Profile
 											</Link>
 										</MenuItem> */}
-										<MenuItem onClick={() => logout()}>Log out</MenuItem>
-									</Menu>
-								</React.Fragment>
-							)}
+											<MenuItem onClick={() => logout()}>Log out</MenuItem>
+										</Menu>
+									</React.Fragment>
+								)}
 						</div>
 					</Toolbar>
 				</AppBar>

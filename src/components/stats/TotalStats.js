@@ -17,6 +17,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../../utils';
 import { getMyRoutes } from '../../store/routes';
+import { getRuns } from '../../store/runs';
 
 const useStyles = makeStyles((theme) => ({
   totals: {
@@ -98,6 +99,8 @@ const TotalStats = ({ runs }) => {
   };
 
   const handleClose = () => {
+    setDistance("");
+    setRoute("");
     setOpen(false);
   };
 
@@ -108,9 +111,14 @@ const TotalStats = ({ runs }) => {
     setDistance(route.route.distance.toFixed(2));
   };
 
+  const handleDistance = e => {
+    setDistance(e.target.value)
+  };
+
   const handleSubmit = async e => {
+    const userId = currentUser.userId;
     try {
-      const res = await fetch(`${api.url}/users/${currentUser.userId}/runs`, {
+      const res = await fetch(`${api.url}/users/${userId}/runs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -128,8 +136,10 @@ const TotalStats = ({ runs }) => {
     } catch (err) {
       console.error(err);
     } finally {
+      setDistance("");
+      setRoute("");
       handleClose();
-      window.location.reload();
+      dispatch(getRuns(userId));
     }
   };
 
@@ -246,11 +256,7 @@ const TotalStats = ({ runs }) => {
                 label="Distance"
                 type="text"
                 value={distance}
-                onChange={e => {
-                  if (!route) {
-                    setDistance(e.target.value)
-                  }
-                }}
+                onChange={handleDistance}
                 placeholder="00.00 in miles"
                 fullWidth
               />
@@ -261,7 +267,7 @@ const TotalStats = ({ runs }) => {
                 label="Run duration"
                 type="text"
                 onChange={e => setTime(e.target.value)}
-                placeholder="(min)'(sec)"
+                placeholder="(min)'(sec) separated by an apostraphe ( ' )"
                 fullWidth
               />
               <TextField

@@ -60,7 +60,6 @@ const MyStats = () => {
 	const [showDistance, setShowDistance] = useState(false);
 	const [showCalories, setShowCalories] = useState(false);
 	const [combinedRuns, setCombinedRuns] = useState([]);
-	const [popupObj, setPopupObj] = useState({});
 	const dispatch = useDispatch();
 	const currentUser = useSelector((state) => state.authorization.currentUser);
 	const showRunPopup = useSelector(({ runs }) => runs.showRunPopup);
@@ -172,12 +171,9 @@ const MyStats = () => {
 	};
 
 	const handlePopup = e => {
-		// dispatch(handleShowRunPopup(showRunPopup));
-		console.log(e.currentTarget.id);
 		const newPopupObj = { ...showRunPopup };
 		newPopupObj[e.currentTarget.id] = !newPopupObj[e.currentTarget.id];
 		dispatch(handleShowRunPopup(newPopupObj));
-		console.log(popupObj)
 	};
 
 	const classes = useStyles();
