@@ -1,11 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { Link } from 'react-router-dom';
 import mapboxgl from 'mapbox-gl';
-import { getLatestRoute, getOtherRoutes, saveOtherRoute } from '../../store/routes';
+// import { getLatestRoute, getOtherRoutes, saveOtherRoute } from '../../store/routes';
 import api from "../../utils";
-import { Card, CardContent, Divider, CardMedia, Typography, Button, Grid, Icon } from '@material-ui/core';
-import ExploreIcon from '@material-ui/icons/Explore';
+import { Card, /*CardContent, Divider, CardMedia,*/ Typography, Button, Grid, Icon } from '@material-ui/core';
+// import ExploreIcon from '@material-ui/icons/Explore';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { useAuth0 } from '../../react-auth0-spa';

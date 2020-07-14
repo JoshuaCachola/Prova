@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Grid, Tabs, Tab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { getRuns } from '../store/runs';
+import { getRuns, handleShowRunPopup } from '../store/runs';
 
 import Calendar from './stats/Calendar';
 import RunDetails from './stats/RunDetails';
 import LineGraph from './stats/LineGraph';
 import TotalStats from './stats/TotalStats';
+import RunPopup from './stats/RunPopup';
 
 const useStyles = makeStyles({
 	nav: {
@@ -18,14 +19,15 @@ const useStyles = makeStyles({
 	},
 	list: {
 		listStyleType: 'none',
-		borderBottom: '1px solid #e6e6e6'
+		borderBottom: '1px solid #e6e6e6',
+		cursor: 'pointer'
 	},
 	graphContainer: {
 		height: '500px',
 		minWidth: '60vw',
 		marginTop: '5px',
-		display: 'flex',
-		flexDirection: 'column',
+		// display: 'flex',
+		// flexDirection: 'column',
 		justifyContent: 'space-between'
 		// flexGrow: 1,
 	},
@@ -58,8 +60,10 @@ const MyStats = () => {
 	const [showDistance, setShowDistance] = useState(false);
 	const [showCalories, setShowCalories] = useState(false);
 	const [combinedRuns, setCombinedRuns] = useState([]);
+	const [popupObj, setPopupObj] = useState({});
 	const dispatch = useDispatch();
 	const currentUser = useSelector((state) => state.authorization.currentUser);
+	const showRunPopup = useSelector(({ runs }) => runs.showRunPopup);
 	const runs = useSelector((state) => state.runs.runs);
 
 	const lineGraph = (type) => {
@@ -108,6 +112,14 @@ const MyStats = () => {
 	);
 
 	useEffect(() => {
+		const popupObj = {};
+		runs.forEach(run => {
+			popupObj[run.id] = false;
+		});
+		dispatch(handleShowRunPopup(popupObj));
+	}, [runs.length]);
+
+	useEffect(() => {
 		const combinedRuns = [];
 		if (runs.length) {
 			runs.forEach((run) => {
@@ -130,10 +142,6 @@ const MyStats = () => {
 		}
 	}, [distanceData.length, caloriesData.length, runs.length]);
 
-	const handleRunDetails = (e) => {
-		// console.log('clicked!');
-	};
-
 	const handleShowCalGraph = () => {
 		setShowCalories(false);
 		setShowDistance(false);
@@ -152,10 +160,6 @@ const MyStats = () => {
 		setShowCalories(true);
 	};
 
-	// const handleRunForm = () => {
-	//   setRunForm(!showRunForm);
-	// };
-
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 		if (newValue === 0) {
@@ -167,6 +171,15 @@ const MyStats = () => {
 		}
 	};
 
+	const handlePopup = e => {
+		// dispatch(handleShowRunPopup(showRunPopup));
+		console.log(e.currentTarget.id);
+		const newPopupObj = { ...showRunPopup };
+		newPopupObj[e.currentTarget.id] = !newPopupObj[e.currentTarget.id];
+		dispatch(handleShowRunPopup(newPopupObj));
+		console.log(popupObj)
+	};
+
 	const classes = useStyles();
 	return (
 		<React.Fragment>
@@ -175,8 +188,16 @@ const MyStats = () => {
 					<Box orientation="vertical" variant="scrollable" className={classes.nav}>
 						{runs.map((run) => {
 							return (
-								<Box key={run.id} className={classes.list} onClick={handleRunDetails}>
+								<Box
+									key={run.id}
+									id={run.id}
+									className={classes.list}
+									onClick={handlePopup}
+								>
 									<RunDetails run={run} />
+									{showRunPopup[run.id] &&
+										<RunPopup run={run} runId={run.id} />
+									}
 								</Box>
 							);
 						})}

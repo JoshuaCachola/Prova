@@ -1,11 +1,19 @@
 import api from '../utils';
 
 export const GET_RUNS = 'GET_RUNS';
+export const SHOW_RUN_POPUP = 'SHOW_RUN_POPUP';
 
 export const getMyRuns = runs => {
   return {
     type: GET_RUNS,
     runs
+  };
+};
+
+export const showRunPopup = showRunPopup => {
+  return {
+    type: SHOW_RUN_POPUP,
+    showRunPopup
   };
 };
 
@@ -42,7 +50,6 @@ export const getRuns = userId => async dispatch => {
 
     res = await res.json();
 
-    console.log(res)
     const newRuns = [];
     res.forEach(run => {
       const newRun = { ...run };
@@ -60,12 +67,23 @@ export const getRuns = userId => async dispatch => {
   }
 };
 
-export default function reducer(state = { runs: [] }, action) {
+export const handleShowRunPopup = runPopup => dispatch => {
+  dispatch(showRunPopup(runPopup))
+}
+
+export default function reducer(
+  state = { runs: [], showRunPopup: {} }, action) {
   switch (action.type) {
     case GET_RUNS: {
       return {
         ...state,
         runs: action.runs
+      };
+    }
+    case SHOW_RUN_POPUP: {
+      return {
+        ...state,
+        showRunPopup: action.showRunPopup
       };
     }
     default: return state;

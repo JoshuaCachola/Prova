@@ -1,7 +1,10 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box } from '@material-ui/core';
 import staticMap from '../../images/static-map.png'
 import { makeStyles } from '@material-ui/core/styles';
+
+import { convertDate, convertDateToDay } from '../../utils/convert-date';
 
 const useStyles = makeStyles({
   map: {
@@ -26,27 +29,29 @@ const useStyles = makeStyles({
 });
 
 const RunDetails = ({ run }) => {
-  const convertDate = date => {
-    const dateArr = date.split('-');
+  const showRunPopup = useSelector(({ runs }) => runs.showRunPopup);
+  const dispatch = useDispatch();
+  // const convertDate = date => {
+  //   const dateArr = date.split('-');
 
-    return `${dateArr[1]}/${dateArr[2]}/${dateArr[0]}`;
-  };
+  //   return `${dateArr[1]}/${dateArr[2]}/${dateArr[0]}`;
+  // };
 
-  const convertDateToDay = () => {
-    const timeOfDay = ['morning', 'afternoon', 'evening'];
-    const hour = run.timeOfDay.split(':')[0];
-    let num;
+  // const convertDateToDay = () => {
+  //   const timeOfDay = ['morning', 'afternoon', 'evening'];
+  //   const hour = run.timeOfDay.split(':')[0];
+  //   let num;
 
-    if (hour >= 5 && hour < 12) {
-      num = 0;
-    } else if (hour >= 12 && hour <= 18) {
-      num = 1;
-    } else {
-      num = 2;
-    }
+  //   if (hour >= 5 && hour < 12) {
+  //     num = 0;
+  //   } else if (hour >= 12 && hour <= 18) {
+  //     num = 1;
+  //   } else {
+  //     num = 2;
+  //   }
 
-    return `${run.day} ${timeOfDay[num]} run`;
-  };
+  //   return `${run.day} ${timeOfDay[num]} run`;
+  // };
 
   const renderMap = () => {
     if (run.static_map) {
@@ -55,28 +60,34 @@ const RunDetails = ({ run }) => {
       return <img className={classes.map} src={staticMap} alt='map of route' />;
     }
   }
+  console.log(run);
   const classes = useStyles();
   return (
-    <Box className={classes.container} display='flex'>
-      <Box display='flex'>
-        <Box alignSelf="center">
-          {renderMap}
-        </Box>
-        <Box className={classes.inner} flexDirection="column">
-          <Box className={classes.grey}>
-            {convertDate(run.date)}
+    <>
+      <Box className={classes.container} display='flex'>
+        <Box display='flex'>
+          <Box alignSelf="center">
+            {renderMap}
           </Box>
-          <Box className={classes.bold}>
-            {convertDateToDay(run.date)}
-          </Box>
-          <Box display='flex' justifyContent='space-between'>
-            <Box className={classes.grey} pr={5} flexBasis="auto">{run.distance} mi</Box>
-            <Box className={classes.grey} pr={5} flexBasis="auto"> {((run.time / 60) / run.distance).toFixed(2)}''/mi</Box>
-            <Box className={classes.grey} flexBasis="auto">{(run.time / 60).toFixed(2)} min</Box>
+          <Box className={classes.inner} flexDirection="column">
+            <Box className={classes.grey}>
+              {convertDate(run.date)}
+            </Box>
+            <Box className={classes.bold}>
+              {convertDateToDay(run)}
+            </Box>
+            <Box display='flex' justifyContent='space-between'>
+              <Box className={classes.grey} pr={5} flexBasis="auto">{run.distance} mi</Box>
+              <Box className={classes.grey} pr={5} flexBasis="auto"> {((run.time / 60) / run.distance).toFixed(2)}''/mi</Box>
+              <Box className={classes.grey} flexBasis="auto">{(run.time / 60).toFixed(2)} min</Box>
+            </Box>
           </Box>
         </Box>
       </Box>
-    </Box >
+      {/* {showRunPopup &&
+        <RunPopup run={run} />
+      } */}
+    </>
   );
 };
 
