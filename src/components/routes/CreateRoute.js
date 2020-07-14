@@ -23,12 +23,15 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		width: '100%',
 		backgroundColor: '#f7f7fa',
-
+		margin: theme.spacing(1, 0),
+		boxShadow:
+			'0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
 	},
 	input: {
 		marginLeft: theme.spacing(1),
+
 		flex: 1,
-		backgroudColor: 'yellow',
+		backgroudColor: 'yellow'
 	},
 	iconButton: {
 		padding: 10
@@ -73,20 +76,19 @@ const CreateRoute = ({ history }) => {
 
 	const { user } = useAuth0();
 
-	const [coordState, setCoordState] = useState(null);
-	const [distanceState, setDistanceState] = useState(0.0);
-	const [durationState, setDurationState] = useState(0.0);
-	const [searchInput, setSearch] = useState('');
-	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
-	const [directionState, setDirectionState] = useState(null);
-	const [displayedDirections, setDisplayedDirections] = useState(null);
-	const [nameState, setNameState] = useState('');
-	const [nameError, setNameError] = useState(false);
-	const [coordError, setCoordError] = useState(false);
-	const [staticMap, setStaticMap] = useState("");
-	const [showGetStarted, setShowGetStarted] = useState(true)
-	const [drawALine, setDrawALine] = useState(false)
-
+	const [ coordState, setCoordState ] = useState(null);
+	const [ distanceState, setDistanceState ] = useState(0.0);
+	const [ durationState, setDurationState ] = useState(0.0);
+	const [ searchInput, setSearch ] = useState('');
+	const [ mapCenter, setMapCenter ] = useState([ -122.675246, 45.529431 ]);
+	const [ directionState, setDirectionState ] = useState(null);
+	const [ displayedDirections, setDisplayedDirections ] = useState(null);
+	const [ nameState, setNameState ] = useState('');
+	const [ nameError, setNameError ] = useState(false);
+	const [ coordError, setCoordError ] = useState(false);
+	const [ staticMap, setStaticMap ] = useState('');
+	const [ showGetStarted, setShowGetStarted ] = useState(true);
+	const [ drawALine, setDrawALine ] = useState(false);
 
 	let mapContainer = useRef(null);
 
@@ -120,14 +122,14 @@ const CreateRoute = ({ history }) => {
 					{
 						id: 'gl-draw-line',
 						type: 'line',
-						filter: ['all', ['==', '$type', 'LineString'], ['!=', 'mode', 'static']],
+						filter: [ 'all', [ '==', '$type', 'LineString' ], [ '!=', 'mode', 'static' ] ],
 						layout: {
 							'line-cap': 'round',
 							'line-join': 'round'
 						},
 						paint: {
 							'line-color': '#3b9ddd',
-							'line-dasharray': [0.2, 2],
+							'line-dasharray': [ 0.2, 2 ],
 							'line-width': 4,
 							'line-opacity': 0.7
 						}
@@ -138,9 +140,9 @@ const CreateRoute = ({ history }) => {
 						type: 'circle',
 						filter: [
 							'all',
-							['==', 'meta', 'vertex'],
-							['==', '$type', 'Point'],
-							['!=', 'mode', 'static']
+							[ '==', 'meta', 'vertex' ],
+							[ '==', '$type', 'Point' ],
+							[ '!=', 'mode', 'static' ]
 						],
 						paint: {
 							'circle-radius': 10,
@@ -153,9 +155,9 @@ const CreateRoute = ({ history }) => {
 						type: 'circle',
 						filter: [
 							'all',
-							['==', 'meta', 'vertex'],
-							['==', '$type', 'Point'],
-							['!=', 'mode', 'static']
+							[ '==', 'meta', 'vertex' ],
+							[ '==', '$type', 'Point' ],
+							[ '!=', 'mode', 'static' ]
 						],
 						paint: {
 							'circle-radius': 6,
@@ -189,7 +191,6 @@ const CreateRoute = ({ history }) => {
 			};
 
 			const addRoute = (coords) => {
-
 				drawObj.deleteAll();
 
 				if (mapObj.getSource('route')) {
@@ -244,7 +245,7 @@ const CreateRoute = ({ history }) => {
 							runInstructions.push(steps[j].maneuver.instruction);
 						}
 					}
-					setDrawALine(false)
+					setDrawALine(false);
 					setDisplayedDirections(runInstructions);
 					const directionString = runInstructions.join(';');
 					setDirectionState(directionString);
@@ -258,7 +259,9 @@ const CreateRoute = ({ history }) => {
 					addRoute(coords);
 					// fetch static map from mapbox gl api
 					const polyline = createPolylineStr(coords.coordinates);
-					const static_map = await fetch(`https://api.mapbox.com/styles/v1/mapbox/dark-v10/static/${polyline}/auto/300x300?access_token=${mapboxgl.accessToken}`);
+					const static_map = await fetch(
+						`https://api.mapbox.com/styles/v1/mapbox/dark-v10/static/${polyline}/auto/300x300?access_token=${mapboxgl.accessToken}`
+					);
 					setStaticMap(static_map.url);
 					const stringCoords = coords.coordinates.join(';');
 
@@ -271,17 +274,16 @@ const CreateRoute = ({ history }) => {
 
 			const handleModeChange = (e) => {
 				if (showGetStarted) {
-					setShowGetStarted(false)
-					setDrawALine(true)
+					setShowGetStarted(false);
+					setDrawALine(true);
 				}
-			}
-
+			};
 
 			mapObj.addControl(drawObj);
 			mapObj.on('draw.create', updateRoute);
 			mapObj.on('draw.update', updateRoute);
 			mapObj.on('draw.delete', removeRoute);
-			mapObj.on('draw.modechange', handleModeChange)
+			mapObj.on('draw.modechange', handleModeChange);
 		});
 	};
 
@@ -290,7 +292,7 @@ const CreateRoute = ({ history }) => {
 			createMB();
 		},
 		// eslint-disable-next-line
-		[mapCenter, setMapCenter]
+		[ mapCenter, setMapCenter ]
 	);
 
 	const createRouteClick = async (e) => {
@@ -298,7 +300,6 @@ const CreateRoute = ({ history }) => {
 
 		if (!nameState) {
 			setNameError(true);
-
 		} else {
 			if (nameError) {
 				setNameError(false);
@@ -322,12 +323,15 @@ const CreateRoute = ({ history }) => {
 				}
 			});
 			const route = await routeRes.json();
-			const personalRouteStatsRes = await fetch(`${api.url}/routes/${route.id}/users/${user.userId}/personalroutestats`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
+			const personalRouteStatsRes = await fetch(
+				`${api.url}/routes/${route.id}/users/${user.userId}/personalroutestats`,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					}
 				}
-			})
+			);
 			if (personalRouteStatsRes.ok) {
 				history.push('/my-routes');
 			}
@@ -397,24 +401,28 @@ const CreateRoute = ({ history }) => {
 						)}
 						{showGetStarted && (
 							<React.Fragment>
-								<div className='instructions'>
+								<div className="instructions">
 									<Typography>Search for where in the world you'd like to run.</Typography>
 								</div>
-								<div className='instructions'>
-									<Typography>Once you've found a spot, click the line button in the top right corner of the map to start drawing.</Typography>
+								<div className="instructions">
+									<Typography>
+										Once you've found a spot, click the line button in the top right corner of the
+										map to start drawing.
+									</Typography>
 								</div>
 							</React.Fragment>
-
 						)}
 						{drawALine && (
 							<React.Fragment>
-								<div className='instructions'>
-									<Typography>Draw a general path, and the map will figure out a route for you.</Typography>
+								<div className="instructions">
+									<Typography>
+										Draw a general path, and the map will figure out a route for you.
+									</Typography>
 								</div>
-								<div className='instructions'>
+								<div className="instructions">
 									<Typography>Double-click to end your route.</Typography>
 								</div>
-								<div className='instructions'>
+								<div className="instructions">
 									<Typography>If you want to change your route, just draw a new one.</Typography>
 								</div>
 							</React.Fragment>
