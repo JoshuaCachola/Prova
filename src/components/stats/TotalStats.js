@@ -50,17 +50,17 @@ const TotalStats = ({ runs }) => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.authorization.currentUser);
   const routes = useSelector((state) => state.routes.routes);
-  const [totalMiles, setTotalMiles] = useState(0.00),
-    [totalRuns, setTotalRuns] = useState(0),
-    [avgDist, setAvgDist] = useState(0.00),
-    [avgPace, setAvgPace] = useState(0.00),
-    // [showRunForm, setRunForm] = useState(false),
-    [distance, setDistance] = useState(""), //default should be the distance that comes from the route
-    [date, setDate] = useState(new Date().toISOString().slice(0, 16)),
-    [open, setOpen] = useState(false),
-    [route, setRoute] = useState(""),
-    [time, setTime] = useState(""),
-    [calories, setCalories] = useState("");
+  const [totalMiles, setTotalMiles] = useState(0.00);
+  const [totalRuns, setTotalRuns] = useState(0);
+  const [avgDist, setAvgDist] = useState(0.00);
+  const [avgPace, setAvgPace] = useState(0.00);
+  // [showRunForm, setRunForm] = useState(false),
+  const [distance, setDistance] = useState(""); //default should be the distance that comes from the route
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 16));
+  const [open, setOpen] = useState(false);
+  const [route, setRoute] = useState("");
+  const [time, setTime] = useState("");
+  const [calories, setCalories] = useState("");
 
   useEffect(() => {
     let totalMiles = 0;
@@ -216,12 +216,14 @@ const TotalStats = ({ runs }) => {
         </Box>
 
         <Box>
-          <Box
+          <Button
+            color="secondary"
+            variant="contained"
+            size="large"
             onClick={handleClickOpen}
-            className="formButton"
           >
-            <i className="fas fa-plus-circle"></i>
-          </Box>
+            <i className="fas fa-plus-circle"></i>&nbsp;<span>Add run</span>
+          </Button>
           <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">Add a run</DialogTitle>
             <DialogContent>

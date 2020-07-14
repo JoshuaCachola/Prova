@@ -47,12 +47,19 @@ const RunDetails = ({ run }) => {
     return `${run.day} ${timeOfDay[num]} run`;
   };
 
+  const renderMap = () => {
+    if (run.static_map) {
+      return <img className={classes.map} src={run.static_map} alt='map of route' />;
+    } else {
+      return <img className={classes.map} src={staticMap} alt='map of route' />;
+    }
+  }
   const classes = useStyles();
   return (
     <Box className={classes.container} display='flex'>
       <Box display='flex'>
         <Box alignSelf="center">
-          <img className={classes.map} src={staticMap} alt='map of route' />
+          {renderMap}
         </Box>
         <Box className={classes.inner} flexDirection="column">
           <Box className={classes.grey}>

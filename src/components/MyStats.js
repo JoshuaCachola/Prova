@@ -57,6 +57,7 @@ const MyStats = () => {
 	const [showCal, setShowCal] = useState(true);
 	const [showDistance, setShowDistance] = useState(false);
 	const [showCalories, setShowCalories] = useState(false);
+	const [combinedRuns, setCombinedRuns] = useState([]);
 	const dispatch = useDispatch();
 	const currentUser = useSelector((state) => state.authorization.currentUser);
 	const runs = useSelector((state) => state.runs.runs);
@@ -68,7 +69,7 @@ const MyStats = () => {
 			data: []
 		};
 
-		runs.forEach((run) => {
+		combinedRuns.forEach((run) => {
 			graphData.data.push({
 				x: run.date,
 				y: run[type]
@@ -91,31 +92,43 @@ const MyStats = () => {
 	useEffect(
 		() => {
 			const calendarRuns = [];
-			console.log('runs: ', runs);
 			if (runs.length) {
 				runs.forEach((run) => {
 					const cRun = {};
-					// use findIndex to check if date is already in calendarRuns
-					const objIdx = calendarRuns.findIndex(obj => obj.day === run.date);
-					console.log(objIdx);
-					if (objIdx !== -1) {
-						calendarRuns[objIdx].value += run.distance;
-					} else {
-						cRun.day = run.date;
-						cRun.value = run.distance;
-						calendarRuns.push(cRun);
-					}
+					cRun.day = run.date;
+					cRun.value = run.distance;
+					calendarRuns.push(cRun);
 				});
 
-				console.log(calendarRuns);
-				setDistanceData(lineGraph('distance'));
-				setCaloriesData(lineGraph('calories'));
 				setCalData(calendarRuns);
 			}
 		},
 		// eslint-disable-next-line
-		[distanceData.length, caloriesData.length, runs.length]
+		[runs.length]
 	);
+
+	useEffect(() => {
+		const combinedRuns = [];
+		if (runs.length) {
+			runs.forEach((run) => {
+				const cRun = {};
+				const objIdx = combinedRuns.findIndex(obj => obj.date === run.date);
+				if (objIdx !== -1) {
+					combinedRuns[objIdx].distance += run.distance;
+					combinedRuns[objIdx].calories += run.calories;
+				} else {
+					cRun.date = run.date;
+					cRun.distance = run.distance;
+					cRun.calories = run.calories
+					combinedRuns.push(cRun);
+				}
+			});
+
+			setCombinedRuns(combinedRuns);
+			setDistanceData(lineGraph('distance'));
+			setCaloriesData(lineGraph('calories'));
+		}
+	}, [distanceData.length, caloriesData.length, runs.length]);
 
 	const handleRunDetails = (e) => {
 		console.log('clicked!');
@@ -186,7 +199,7 @@ const MyStats = () => {
 							</Tabs>
 						</Box>
 						{showCal && <Calendar myRuns={calData} />}
-						{showDistance && <LineGraph runs={distanceData} legend="Time in minutes" />}
+						{showDistance && <LineGraph runs={distanceData} legend="Distance in miles" />}
 						{showCalories && <LineGraph runs={caloriesData} legend="Calories" />}
 						{/* {showRunForm &&
               <AddRunForm />

@@ -14,6 +14,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
+import createPolylineStr from '../../utils/create-gradient-path';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -75,16 +76,17 @@ const CreateRoute = ({ history }) => {
 	// 	lat: 37,
 	// 	zoom: 2
 	// });
-	const [ coordState, setCoordState ] = useState(null);
-	const [ distanceState, setDistanceState ] = useState(0.0);
-	const [ durationState, setDurationState ] = useState(0.0);
-	const [ searchInput, setSearch ] = useState('');
-	const [ mapCenter, setMapCenter ] = useState([ -122.675246, 45.529431 ]);
-	const [ directionState, setDirectionState ] = useState(null);
-	const [ displayedDirections, setDisplayedDirections ] = useState(null);
-	const [ nameState, setNameState ] = useState('');
-	const [ nameError, setNameError ] = useState(false);
-	const [ coordError, setCoordError ] = useState(false);
+	const [coordState, setCoordState] = useState(null);
+	const [distanceState, setDistanceState] = useState(0.0);
+	const [durationState, setDurationState] = useState(0.0);
+	const [searchInput, setSearch] = useState('');
+	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
+	const [directionState, setDirectionState] = useState(null);
+	const [displayedDirections, setDisplayedDirections] = useState(null);
+	const [nameState, setNameState] = useState('');
+	const [nameError, setNameError] = useState(false);
+	const [coordError, setCoordError] = useState(false);
+	const [staticMap, setStaticMap] = useState("");
 
 	let mapContainer = useRef(null);
 
@@ -119,14 +121,14 @@ const CreateRoute = ({ history }) => {
 					{
 						id: 'gl-draw-line',
 						type: 'line',
-						filter: [ 'all', [ '==', '$type', 'LineString' ], [ '!=', 'mode', 'static' ] ],
+						filter: ['all', ['==', '$type', 'LineString'], ['!=', 'mode', 'static']],
 						layout: {
 							'line-cap': 'round',
 							'line-join': 'round'
 						},
 						paint: {
 							'line-color': '#3b9ddd',
-							'line-dasharray': [ 0.2, 2 ],
+							'line-dasharray': [0.2, 2],
 							'line-width': 4,
 							'line-opacity': 0.7
 						}
@@ -137,9 +139,9 @@ const CreateRoute = ({ history }) => {
 						type: 'circle',
 						filter: [
 							'all',
-							[ '==', 'meta', 'vertex' ],
-							[ '==', '$type', 'Point' ],
-							[ '!=', 'mode', 'static' ]
+							['==', 'meta', 'vertex'],
+							['==', '$type', 'Point'],
+							['!=', 'mode', 'static']
 						],
 						paint: {
 							'circle-radius': 10,
@@ -152,9 +154,9 @@ const CreateRoute = ({ history }) => {
 						type: 'circle',
 						filter: [
 							'all',
-							[ '==', 'meta', 'vertex' ],
-							[ '==', '$type', 'Point' ],
-							[ '!=', 'mode', 'static' ]
+							['==', 'meta', 'vertex'],
+							['==', '$type', 'Point'],
+							['!=', 'mode', 'static']
 						],
 						paint: {
 							'circle-radius': 6,
@@ -255,7 +257,10 @@ const CreateRoute = ({ history }) => {
 					const coords = res.routes[0].geometry;
 
 					addRoute(coords);
-
+					// fetch static map from mapbox gl api
+					const polyline = createPolylineStr(coords.coordinates);
+					const static_map = await fetch(`https://api.mapbox.com/styles/v1/mapbox/dark-v10/static/${polyline}/auto/300x300?access_token=${mapboxgl.accessToken}`);
+					setStaticMap(static_map.url);
 					const stringCoords = coords.coordinates.join(';');
 
 					setCoordState(stringCoords);
@@ -277,7 +282,7 @@ const CreateRoute = ({ history }) => {
 			createMB();
 		},
 		// eslint-disable-next-line
-		[ mapCenter, setMapCenter ]
+		[mapCenter, setMapCenter]
 	);
 
 	const createRouteClick = async (e) => {
@@ -303,7 +308,7 @@ const CreateRoute = ({ history }) => {
 					coordinates: coordState,
 					creatorId: user.userId,
 					directions: directionState,
-					image: null
+					image: staticMap
 				}),
 				headers: {
 					'Content-Type': 'application/json'

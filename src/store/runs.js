@@ -42,6 +42,7 @@ export const getRuns = userId => async dispatch => {
 
     res = await res.json();
 
+    console.log(res)
     const newRuns = [];
     res.forEach(run => {
       const newRun = { ...run };
