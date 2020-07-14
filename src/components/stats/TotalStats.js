@@ -105,7 +105,7 @@ const TotalStats = ({ runs }) => {
     setRoute(e.target.value);
     const idx = document.getElementById('routes-select').tabIndex;
     const route = routes[idx]
-    setDistance(route.distance.toFixed(2));
+    setDistance(route.route.distance.toFixed(2));
   };
 
   const handleSubmit = async e => {
@@ -228,7 +228,7 @@ const TotalStats = ({ runs }) => {
             <DialogTitle id="form-dialog-title">Add a run</DialogTitle>
             <DialogContent>
               <FormControl className={classes.formControl}>
-                <InputLabel id="routes-input">Routes</InputLabel>
+                <InputLabel id="routes-input">My Saved Routes</InputLabel>
                 <Select
                   labelId="routes"
                   id="routes-select"
@@ -236,7 +236,7 @@ const TotalStats = ({ runs }) => {
                   onChange={handleChange}
                 >
                   {routes &&
-                    routes.map(({ id, name }, i) => <MenuItem id={i} key={id} value={id}>{name}</MenuItem>)}
+                    routes.map(({ route: { id, name } }, i) => <MenuItem id={i} key={id} value={id}>{name}</MenuItem>)}
                 </Select>
               </FormControl>
               <TextField

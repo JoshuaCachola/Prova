@@ -12,7 +12,7 @@ import TotalStats from './stats/TotalStats';
 const useStyles = makeStyles({
 	nav: {
 		maxHeight: '100vh',
-		overflowY: 'scroll',
+		overflowY: 'auto',
 		overflowX: 'hidden',
 		borderRight: `2px solid #e2e2e2`
 	},
@@ -131,7 +131,7 @@ const MyStats = () => {
 	}, [distanceData.length, caloriesData.length, runs.length]);
 
 	const handleRunDetails = (e) => {
-		console.log('clicked!');
+		// console.log('clicked!');
 	};
 
 	const handleShowCalGraph = () => {

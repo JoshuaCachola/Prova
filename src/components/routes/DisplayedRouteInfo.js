@@ -45,11 +45,11 @@ const DisplayedRouteInfo = () => {
         createData('Best Time', convertSecondsToTime(routePersonalInfo.best_time)),
     ];
 
-    // const generalRows = [
-    //     createData('Run Count', currentRoute.total_number_of_runs),
-    //     createData('Average Time', convertSecondsToTime(currentRoute.average_time)),
-    //     createData('Best Time', convertSecondsToTime(currentRoute.best_time)),
-    // ]
+    const generalRows = [
+        createData('Run Count', currentRoute.total_number_of_runs),
+        createData('Average Time', convertSecondsToTime(currentRoute.average_time)),
+        createData('Best Time', convertSecondsToTime(currentRoute.best_time)),
+    ]
 
 
     return (
@@ -95,7 +95,7 @@ const DisplayedRouteInfo = () => {
                     </Table>
                 </TableContainer>
             </div>
-            {/* <div className='general-table'>
+            <div className='general-table'>
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>
@@ -116,7 +116,7 @@ const DisplayedRouteInfo = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-            </div> */}
+            </div>
         </div>
     );
 }
