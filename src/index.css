@@ -22,6 +22,8 @@
 	display: flex;
 	justify-content: space-between;
 	height: 90vh;
+	margin-top: 10px;
+	/* box-shadow: 10px 10px 8px 10px #888888; */
 }
 
 .map-area {
@@ -137,6 +139,7 @@
 .instructions {
 	margin-left: 15px;
 	margin-bottom: 20px;
+	color: #949494;
 }
 
 .other-routes-info {

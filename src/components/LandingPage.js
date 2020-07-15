@@ -3,7 +3,7 @@ import { useAuth0 } from '../react-auth0-spa';
 import Footer from './Footer';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Typography } from '@material-ui/core/';
+import { Container, Typography, Box } from '@material-ui/core/';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		flexDirection: 'column'
+		flexDirection: 'column',
 	},
 	image: {
 		width: '100%'
@@ -34,9 +34,9 @@ const LandingPage = (props) => {
 	return (
 		<React.Fragment>
 			<Container component="main" maxWidth="lg" className={classes.root}>
-				<div>
+				<Box mt={10}>
 					<Typography variant="h3">The Best Way To Track Your Runs</Typography>
-				</div>
+				</Box>
 				<div>
 					<img src={require('../images/imac-data.jpg')} className={classes.image} alt="imac with data" />
 				</div>

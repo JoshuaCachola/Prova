@@ -3,7 +3,7 @@ import mapboxgl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import { useAuth0 } from '../../react-auth0-spa';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Button, Icon, Grid, Typography } from '@material-ui/core';
+import { Box, Button, Icon, Grid, Typography, ListItemIcon } from '@material-ui/core';
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -13,8 +13,12 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
-// import Typography from '@material-ui/core/Typography';
 import createPolylineStr from '../../utils/create-gradient-path';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import TimerIcon from '@material-ui/icons/Timer';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -67,6 +71,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	listMargin: {
 		marginLeft: '20px'
+	},
+	directionText: {
+		fontSize: '8px'
 	}
 }));
 
@@ -76,19 +83,19 @@ const CreateRoute = ({ history }) => {
 
 	const { user } = useAuth0();
 
-	const [ coordState, setCoordState ] = useState(null);
-	const [ distanceState, setDistanceState ] = useState(0.0);
-	const [ durationState, setDurationState ] = useState(0.0);
-	const [ searchInput, setSearch ] = useState('');
-	const [ mapCenter, setMapCenter ] = useState([ -122.675246, 45.529431 ]);
-	const [ directionState, setDirectionState ] = useState(null);
-	const [ displayedDirections, setDisplayedDirections ] = useState(null);
-	const [ nameState, setNameState ] = useState('');
-	const [ nameError, setNameError ] = useState(false);
-	const [ coordError, setCoordError ] = useState(false);
-	const [ staticMap, setStaticMap ] = useState('');
-	const [ showGetStarted, setShowGetStarted ] = useState(true);
-	const [ drawALine, setDrawALine ] = useState(false);
+	const [coordState, setCoordState] = useState(null);
+	const [distanceState, setDistanceState] = useState(0.0);
+
+	const [searchInput, setSearch] = useState('');
+	const [mapCenter, setMapCenter] = useState([-122.675246, 45.529431]);
+	const [directionState, setDirectionState] = useState(null);
+	const [displayedDirections, setDisplayedDirections] = useState(null);
+	const [nameState, setNameState] = useState('');
+	const [nameError, setNameError] = useState(false);
+	const [coordError, setCoordError] = useState(false);
+	const [staticMap, setStaticMap] = useState('');
+	const [showGetStarted, setShowGetStarted] = useState(true);
+	const [drawALine, setDrawALine] = useState(false);
 
 	let mapContainer = useRef(null);
 
@@ -122,14 +129,14 @@ const CreateRoute = ({ history }) => {
 					{
 						id: 'gl-draw-line',
 						type: 'line',
-						filter: [ 'all', [ '==', '$type', 'LineString' ], [ '!=', 'mode', 'static' ] ],
+						filter: ['all', ['==', '$type', 'LineString'], ['!=', 'mode', 'static']],
 						layout: {
 							'line-cap': 'round',
 							'line-join': 'round'
 						},
 						paint: {
-							'line-color': '#3b9ddd',
-							'line-dasharray': [ 0.2, 2 ],
+							'line-color': '#FF0000',
+							'line-dasharray': [0.2, 2],
 							'line-width': 4,
 							'line-opacity': 0.7
 						}
@@ -140,13 +147,13 @@ const CreateRoute = ({ history }) => {
 						type: 'circle',
 						filter: [
 							'all',
-							[ '==', 'meta', 'vertex' ],
-							[ '==', '$type', 'Point' ],
-							[ '!=', 'mode', 'static' ]
+							['==', 'meta', 'vertex'],
+							['==', '$type', 'Point'],
+							['!=', 'mode', 'static']
 						],
 						paint: {
 							'circle-radius': 10,
-							'circle-color': '#FFF'
+							'circle-color': '#F08080'
 						}
 					},
 					// vertex points
@@ -155,13 +162,13 @@ const CreateRoute = ({ history }) => {
 						type: 'circle',
 						filter: [
 							'all',
-							[ '==', 'meta', 'vertex' ],
-							[ '==', '$type', 'Point' ],
-							[ '!=', 'mode', 'static' ]
+							['==', 'meta', 'vertex'],
+							['==', '$type', 'Point'],
+							['!=', 'mode', 'static']
 						],
 						paint: {
 							'circle-radius': 6,
-							'circle-color': '#3b9ddd'
+							'circle-color': '#F08080'
 						}
 					}
 				]
@@ -171,9 +178,6 @@ const CreateRoute = ({ history }) => {
 				// Maybe add directions here
 				removeRoute();
 				const data = drawObj.getAll();
-
-				// add route information here
-				// var answer = document.getElementById('calculated-line');
 
 				const lastFeature = data.features.length - 1;
 				const coords = data.features[lastFeature].geometry.coordinates;
@@ -213,7 +217,7 @@ const CreateRoute = ({ history }) => {
 							'line-cap': 'round'
 						},
 						paint: {
-							'line-color': '#3b9ddd',
+							'line-color': '#FF0000',
 							'line-width': 8,
 							'line-opacity': 0.8
 						}
@@ -234,8 +238,6 @@ const CreateRoute = ({ history }) => {
 					if (!res.ok) throw res;
 					res = await res.json();
 
-					setDurationState(Math.floor(res.routes[0].duration / 60)); // in minutes;
-
 					const instructionSteps = res.routes[0].legs;
 					const runInstructions = [];
 
@@ -252,8 +254,6 @@ const CreateRoute = ({ history }) => {
 
 					// add later to display estimated time and distance
 					const distance = res.routes[0].distance * 0.001 / 1.609;
-					// const duration = res.routes[0].duration / 60;
-
 					const coords = res.routes[0].geometry;
 
 					addRoute(coords);
@@ -292,7 +292,7 @@ const CreateRoute = ({ history }) => {
 			createMB();
 		},
 		// eslint-disable-next-line
-		[ mapCenter, setMapCenter ]
+		[mapCenter, setMapCenter]
 	);
 
 	const createRouteClick = async (e) => {
@@ -365,6 +365,39 @@ const CreateRoute = ({ history }) => {
 		}
 	};
 
+	const directionIcon = (direction, i) => {
+		let icon;
+		if (i === displayedDirections.length - 1) {
+			icon = <TimerIcon />
+		} else if (direction.includes('north')) {
+			icon = <ArrowUpwardIcon />
+		} else if (direction.includes('left') || direction.includes('west')) {
+			icon = <ArrowBackIcon />
+		} else if (direction.includes('right') || direction.includes('east')) {
+			icon = <ArrowForwardIcon />
+		} else if (direction.includes('south')) {
+			icon = <ArrowDownwardIcon />
+		}
+
+		return (
+			<ListItem
+				key={i}
+				className={`${i % 2 ? classes.whiteBackground : classes.inheritBackground} ${'list-item'}`}
+			>
+				<Box display="flex">
+					<Box ml={3} mt={3}>
+						<ListItemIcon>
+							{icon}
+						</ListItemIcon>
+					</Box>
+					<Box mr={1}>
+						<ListItemText primary={direction} className={classes.listMargin} />
+					</Box>
+				</Box>
+			</ListItem>
+		);
+	};
+
 	const classes = useStyles();
 	return (
 		<React.Fragment>
@@ -377,6 +410,7 @@ const CreateRoute = ({ history }) => {
 							id="outlined-basic"
 							label="Name Your Route"
 							variant="outlined"
+							color="secondary"
 							value={nameState}
 							onChange={nameInputChange}
 							helperText={nameError && 'Route must have a name'}
@@ -387,13 +421,7 @@ const CreateRoute = ({ history }) => {
 									<h2 className={classes.listMargin}>Directions:</h2>
 									{displayedDirections.map((direction, i) => {
 										return (
-											<ListItem
-												key={i}
-												className={`
-														${i % 2 ? classes.whiteBackground : classes.inheritBackground} ${'list-item'}`}
-											>
-												<ListItemText primary={direction} className={classes.listMargin} />
-											</ListItem>
+											directionIcon(direction, i)
 										);
 									})}
 								</List>
@@ -433,7 +461,7 @@ const CreateRoute = ({ history }) => {
 					<Box component="form" className={classes.root}>
 						<InputBase
 							className={classes.input}
-							placeholder="Search"
+							placeholder="Search by location"
 							inputProps={{ 'aria-label': 'search' }}
 							onChange={handleSearchInput}
 						/>
@@ -466,7 +494,7 @@ const CreateRoute = ({ history }) => {
 						</Grid>
 						<Grid item xs={6} sm={6}>
 							<Typography variant="h6">Est. route duration</Typography>
-							<Typography variant="body1">{durationState} min</Typography>
+							<Typography variant="body1">{(distanceState * 10).toFixed(2)} min</Typography>
 						</Grid>
 					</Grid>
 				</Grid>

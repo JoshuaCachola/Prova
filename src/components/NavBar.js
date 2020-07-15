@@ -120,7 +120,7 @@ const NavBar = (props) => {
 											<Button variant="contained" color="secondary" className={classes.submit}>
 												<Link to="/create-route" className={classes.linkStyle}>
 													Create Route
-											</Link>
+												</Link>
 											</Button>
 										)}
 										{matchMyRoutes && (

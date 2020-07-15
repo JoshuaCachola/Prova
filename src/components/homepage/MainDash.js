@@ -136,7 +136,7 @@ const MainDash = () => {
 							'line-cap': 'round'
 						},
 						paint: {
-							'line-color': '#3b9ddd',
+							'line-color': '#FF0000',
 							'line-width': 8,
 							'line-opacity': 0.8
 						}
@@ -172,7 +172,10 @@ const MainDash = () => {
 		if (otherRoutes) {
 			setOtherRoutesNumber(otherRoutesNumber + otherRoutes[0].length)
 		}
-	}, [otherRoutes])
+	},
+		// eslint-disable-next-line
+		[otherRoutes]
+	);
 
 
 	useEffect(() => {
@@ -180,7 +183,10 @@ const MainDash = () => {
 			setOtherRoutesDescription(`Showing ${previousOtherRoutesNumber + 1}-${otherRoutesNumber} of ${otherRoutes[1].total_routes} undiscovered routes`)
 
 		}
-	}, [otherRoutesNumber])
+	},
+		// eslint-disable-next-line
+		[otherRoutesNumber]
+	);
 
 
 	const classes = useStyles();

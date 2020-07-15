@@ -45,6 +45,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1)
   },
+  header: {
+    borderBottom: '1px solid #a6a6a6'
+  }
 }));
 
 const TotalStats = ({ runs }) => {
@@ -106,9 +109,9 @@ const TotalStats = ({ runs }) => {
 
   const handleChange = (e) => {
     setRoute(e.target.value);
-    const idx = document.getElementById('routes-select').tabIndex;
-    const route = routes[idx]
-    setDistance(route.route.distance.toFixed(2));
+    // const idx = document.getElementById('routes-select').tabIndex;
+    // const route = routes[idx]
+    // setDistance(route.route.distance.toFixed(2));
   };
 
   const handleDistance = e => {
@@ -136,17 +139,17 @@ const TotalStats = ({ runs }) => {
     } catch (err) {
       console.error(err);
     } finally {
-      setDistance("");
-      setRoute("");
       handleClose();
       dispatch(getRuns(userId));
+      setDistance("");
+      setRoute("");
     }
   };
 
   const classes = useStyles();
   return (
     <React.Fragment>
-      <p className={classes.header}>Total Stats</p>
+      <p>Total Stats</p>
       <Box display="flex" justifyContent="space-around" className={classes.textCenter}>
         <Box flexDirection="column">
           <CountUp
@@ -235,15 +238,16 @@ const TotalStats = ({ runs }) => {
             <i className="fas fa-plus-circle"></i>&nbsp;<span>Add run</span>
           </Button>
           <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Add a run</DialogTitle>
+            <DialogTitle className={classes.header} id="form-dialog-title">Add a run</DialogTitle>
             <DialogContent>
               <FormControl className={classes.formControl}>
-                <InputLabel id="routes-input">My Saved Routes</InputLabel>
+                <InputLabel color="secondary" id="routes-input">My Saved Routes</InputLabel>
                 <Select
                   labelId="routes"
                   id="routes-select"
                   value={route}
                   onChange={handleChange}
+                  color="secondary"
                 >
                   {routes &&
                     routes.map(({ route: { id, name } }, i) => <MenuItem id={i} key={id} value={id}>{name}</MenuItem>)}
@@ -259,6 +263,7 @@ const TotalStats = ({ runs }) => {
                 onChange={handleDistance}
                 placeholder="00.00 in miles"
                 fullWidth
+                color="secondary"
               />
               <TextField
                 autoFocus
@@ -269,6 +274,7 @@ const TotalStats = ({ runs }) => {
                 onChange={e => setTime(e.target.value)}
                 placeholder="(min)'(sec) separated by an apostraphe ( ' )"
                 fullWidth
+                color="secondary"
               />
               <TextField
                 autoFocus
@@ -279,6 +285,7 @@ const TotalStats = ({ runs }) => {
                 onChange={e => setCalories(e.target.value)}
                 placeholder="0.00"
                 fullWidth
+                color="secondary"
               />
               <TextField
                 id="datetime-local"
@@ -287,6 +294,7 @@ const TotalStats = ({ runs }) => {
                 defaultValue={date}
                 onChange={e => setDate(e.target.value)}
                 fullWidth
+                color="secondary"
               />
             </DialogContent>
             <DialogActions>

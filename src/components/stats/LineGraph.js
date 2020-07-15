@@ -29,7 +29,7 @@ const LineGraph = ({ runs, legend }) => {
         legendOffset: -50,
         legendPosition: 'middle'
       }}
-      colors={{ scheme: 'nivo' }}
+      colors={{ scheme: 'set1' }}
       pointSize={10}
       pointColor={{ theme: 'background' }}
       pointBorderWidth={2}

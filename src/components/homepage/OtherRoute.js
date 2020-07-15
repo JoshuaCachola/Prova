@@ -62,7 +62,10 @@ const OtherRoute = ({ id, distance, coordinates, average_time, best_time }) => {
             setMap(mapObj);
         }
 
-    }, [coords])
+    },
+        // eslint-disable-next-line
+        [coords]
+    );
 
     useEffect(() => {
         const firstSplit = coordinates.split(';');
@@ -77,7 +80,10 @@ const OtherRoute = ({ id, distance, coordinates, average_time, best_time }) => {
         });
 
         setCoords(finalArr)
-    }, [])
+    },
+        // eslint-disable-next-line
+        []
+    );
 
     useEffect(
         () => {
@@ -106,7 +112,7 @@ const OtherRoute = ({ id, distance, coordinates, average_time, best_time }) => {
                             'line-cap': 'round'
                         },
                         paint: {
-                            'line-color': '#3b9ddd',
+                            'line-color': '#FF0000',
                             'line-width': 8,
                             'line-opacity': 0.8
                         }
@@ -114,6 +120,7 @@ const OtherRoute = ({ id, distance, coordinates, average_time, best_time }) => {
                 });
             }
         },
+        // eslint-disable-next-line
         [map, coords]
     );
 

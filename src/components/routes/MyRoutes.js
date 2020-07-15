@@ -126,7 +126,7 @@ const MyRoutes = () => {
 								'line-cap': 'round'
 							},
 							paint: {
-								'line-color': '#3b9ddd',
+								'line-color': '#FF0000',
 								'line-width': 8,
 								'line-opacity': 0.8
 							}
@@ -174,7 +174,7 @@ const MyRoutes = () => {
 							'line-cap': 'round'
 						},
 						paint: {
-							'line-color': '#3b9ddd',
+							'line-color': '#FF0000',
 							'line-width': 8,
 							'line-opacity': 0.8
 						}

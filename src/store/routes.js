@@ -32,7 +32,7 @@ export const createRoute = (distance, coordinates, userId, directions) => async 
 		}
 	});
 	const route = await routeRes.json();
-	const personalRouteStatEntry = await fetch(`${api.url}/routes/${route.id}/users/${userId}/personalroutestats`, {
+	await fetch(`${api.url}/routes/${route.id}/users/${userId}/personalroutestats`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'

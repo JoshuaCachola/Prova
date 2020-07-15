@@ -15,7 +15,6 @@ const useStyles = makeStyles({
 		maxHeight: '100vh',
 		overflowY: 'auto',
 		overflowX: 'hidden',
-		borderRight: `2px solid #e2e2e2`
 	},
 	list: {
 		listStyleType: 'none',
@@ -26,10 +25,7 @@ const useStyles = makeStyles({
 		height: '500px',
 		minWidth: '60vw',
 		marginTop: '5px',
-		// display: 'flex',
-		// flexDirection: 'column',
 		justifyContent: 'space-between'
-		// flexGrow: 1,
 	},
 	graphNav: {
 		borderBottom: '1px solid #e6e6e6',
@@ -48,7 +44,7 @@ const useStyles = makeStyles({
 	},
 	calendarContainer: {
 		width: '100px'
-	}
+	},
 });
 
 const MyStats = () => {
@@ -116,7 +112,10 @@ const MyStats = () => {
 			popupObj[run.id] = false;
 		});
 		dispatch(handleShowRunPopup(popupObj));
-	}, [runs.length]);
+	},
+		// eslint-disable-next-line
+		[runs.length, runs]
+	);
 
 	useEffect(() => {
 		const combinedRuns = [];
@@ -139,7 +138,10 @@ const MyStats = () => {
 			setDistanceData(lineGraph('distance'));
 			setCaloriesData(lineGraph('calories'));
 		}
-	}, [distanceData.length, caloriesData.length, runs.length]);
+	},
+		// eslint-disable-next-line
+		[distanceData.length, caloriesData.length, runs.length]
+	);
 
 	const handleShowCalGraph = () => {
 		setShowCalories(false);
@@ -171,9 +173,12 @@ const MyStats = () => {
 	};
 
 	const handlePopup = e => {
-		const newPopupObj = { ...showRunPopup };
-		newPopupObj[e.currentTarget.id] = !newPopupObj[e.currentTarget.id];
-		dispatch(handleShowRunPopup(newPopupObj));
+		const currentTarget = e.currentTarget.id;
+		if (showRunPopup[currentTarget] === false) {
+			const newPopupObj = { ...showRunPopup };
+			newPopupObj[currentTarget] = !newPopupObj[currentTarget];
+			dispatch(handleShowRunPopup(newPopupObj));
+		}
 	};
 
 	const classes = useStyles();
