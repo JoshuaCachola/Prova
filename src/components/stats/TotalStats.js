@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1)
   },
-  header: {
+  popUpHeader: {
     borderBottom: '1px solid #a6a6a6'
   }
 }));
@@ -149,7 +149,7 @@ const TotalStats = ({ runs }) => {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <p>Total Stats</p>
+      <p className={classes.header}>Total Stats</p>
       <Box display="flex" justifyContent="space-around" className={classes.textCenter}>
         <Box flexDirection="column">
           <CountUp
@@ -238,7 +238,7 @@ const TotalStats = ({ runs }) => {
             <i className="fas fa-plus-circle"></i>&nbsp;<span>Add run</span>
           </Button>
           <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle className={classes.header} id="form-dialog-title">Add a run</DialogTitle>
+            <DialogTitle className={classes.popUpHeader} id="form-dialog-title">Add a run</DialogTitle>
             <DialogContent>
               <FormControl className={classes.formControl}>
                 <InputLabel color="secondary" id="routes-input">My Saved Routes</InputLabel>
