@@ -7,6 +7,7 @@ import { Tabs } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import DisplayedRouteInfo from './DisplayedRouteInfo';
 import NoRoutesFound from './NoRoutesFound';
+import DeleteRoute from './DeleteRoute';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -207,31 +208,33 @@ const MyRoutes = () => {
 			{routes && routes.length === 0 ? (
 				<React.Fragment>
 					<NoRoutesFound />
-					{/* <div ref={(el) => (mapContainer = el)} /> */}
 				</React.Fragment>
 			) : (
 					<div className="my-routes-container">
 						<div className={classes.root}>
-							<Tabs
-								orientation="vertical"
-								variant="scrollable"
-								value={selectedTab}
-								aria-label="Vertical tabs example"
-								className={classes.tabs}
-							>
-								{routes &&
-									routes.map(({ route: { id, name } }, i) => {
-										return (
-											<MyRoutesNav
-												index={i}
-												key={id}
-												id={id}
-												name={name}
-												setSelectedTab={setSelectedTab}
-											/>
-										);
-									})}
-							</Tabs>
+							<div className='my-routes-left-bar'>
+								<Tabs
+									orientation="vertical"
+									variant="scrollable"
+									value={selectedTab}
+									aria-label="Vertical tabs example"
+									className={classes.tabs}
+								>
+									{routes &&
+										routes.map(({ route: { id, name } }, i) => {
+											return (
+												<MyRoutesNav
+													index={i}
+													key={id}
+													id={id}
+													name={name}
+													setSelectedTab={setSelectedTab}
+												/>
+											);
+										})}
+								</Tabs>
+								<DeleteRoute />
+							</div>
 							<div className="map-area">
 								<div className="map-grid-container">
 									<div ref={(el) => (mapContainer = el)} className="my-routes-map-container" />
