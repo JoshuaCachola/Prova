@@ -415,7 +415,7 @@ const CreateRoute = ({ history }) => {
 							onChange={nameInputChange}
 							helperText={nameError && 'Route must have a name'}
 						/>
-						{displayedDirections && (
+						{displayedDirections ? (
 							<React.Fragment>
 								<List className={classes.sidebarContainer}>
 									<h2 className={classes.listMargin}>Directions:</h2>
@@ -426,15 +426,17 @@ const CreateRoute = ({ history }) => {
 									})}
 								</List>
 							</React.Fragment>
-						)}
+						)
+							:
+							<h2 style={{ marginLeft: '10px' }}>How to Create a Route:</h2>}
 						{showGetStarted && (
 							<React.Fragment>
 								<div className="instructions">
-									<Typography>Search for where in the world you'd like to run.</Typography>
+									<Typography>1. Search for where in the world you'd like to run.</Typography>
 								</div>
 								<div className="instructions">
 									<Typography>
-										Once you've found a spot, click the line button in the top right corner of the
+										2. Once you've found a spot, click the line button in the top right corner of the
 										map to start drawing.
 									</Typography>
 								</div>
@@ -444,14 +446,14 @@ const CreateRoute = ({ history }) => {
 							<React.Fragment>
 								<div className="instructions">
 									<Typography>
-										Draw a general path, and the map will figure out a route for you.
+										3. Draw a general path, and the map will figure out a route for you.
 									</Typography>
 								</div>
 								<div className="instructions">
-									<Typography>Double-click to end your route.</Typography>
+									<Typography>4. Double-click to end your route.</Typography>
 								</div>
 								<div className="instructions">
-									<Typography>If you want to change your route, just draw a new one.</Typography>
+									<Typography>5. If you want to change your route, just draw a new one!</Typography>
 								</div>
 							</React.Fragment>
 						)}
