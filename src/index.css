@@ -139,12 +139,20 @@
 .instructions {
 	margin-left: 15px;
 	margin-bottom: 20px;
-	color: #949494;
+	color: black;
 }
 
 .other-routes-info {
 	display: flex;
 	justify-content: space-between;
+}
+
+.mapbox-gl-draw_ctrl-draw-btn.mapbox-gl-draw_line {
+	width: 80px;
+	height: 50px;
+	background-color: #f50057;
+	border-radius: 5px;
+	color: white;
 }
 
 .my-routes-left-bar {

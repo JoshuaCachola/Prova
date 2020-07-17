@@ -64,29 +64,6 @@ const MyRoutes = () => {
 		[currentUser]
 	);
 
-
-	// where is it getting the coords from?
-	// currentRoute is left over from previous time. Need to make sure it waits for the new coords from
-	// the new current route before rendering the map
-	useEffect(
-		() => {
-			if (!map && routes && routes.length && coords) {
-
-				const mapObj = new mapboxgl.Map({
-					container: mapContainer, // container id
-					style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
-					center: coords[0], // starting position
-					zoom: 13, // starting zoom
-					minZoom: 11 // keep it local
-				});
-				setMap(mapObj);
-			}
-			// eslint-disable-next-line
-		},
-		// eslint-disable-next-line
-		[routes, coords]
-	);
-
 	useEffect(() => {
 		if (currentRoute && gotNewCurrentRoute) {
 
@@ -107,6 +84,23 @@ const MyRoutes = () => {
 	},
 		// eslint-disable-next-line
 		[currentRoute]
+	);
+
+	useEffect(
+		() => {
+			if (!map && routes && routes.length !== 0 && coords) {
+				const mapObj = new mapboxgl.Map({
+					container: mapContainer, // container id
+					style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
+					center: coords[0], // starting position
+					zoom: 13, // starting zoom
+					minZoom: 11 // keep it local
+				});
+				setMap(mapObj);
+			}
+		},
+		// eslint-disable-next-line
+		[routes, coords]
 	);
 
 
@@ -213,7 +207,17 @@ const MyRoutes = () => {
 		[currentUser, routes]
 	);
 
-
+	useEffect(() => {
+		return () => {
+			setCoords(null);
+			setMap(null);
+			console.log(coords);
+			console.log(map);
+		}
+	},
+		// eslint-disable-next-line
+		[]
+	);
 
 	const classes = useStyles();
 	return (
