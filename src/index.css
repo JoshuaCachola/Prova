@@ -154,3 +154,9 @@
 	border-radius: 5px;
 	color: white;
 }
+
+.my-routes-left-bar {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}

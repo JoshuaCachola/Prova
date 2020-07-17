@@ -277,6 +277,9 @@ const CreateRoute = ({ history }) => {
 					setShowGetStarted(false);
 					setDrawALine(true);
 				}
+				if (coordError) {
+					setCoordError(false)
+				}
 			};
 
 			mapObj.addControl(drawObj);
@@ -300,42 +303,44 @@ const CreateRoute = ({ history }) => {
 
 		if (!nameState) {
 			setNameError(true);
-		} else {
-			if (nameError) {
-				setNameError(false);
-			}
-			if (coordError) {
-				setCoordError(false);
-			}
+		}
 
-			const routeRes = await fetch(`${api.url}/routes`, {
+		if (!coordState) {
+			setCoordError(true)
+		}
+
+		if (!nameState || !coordState) {
+			return
+		}
+
+		const routeRes = await fetch(`${api.url}/routes`, {
+			method: 'POST',
+			body: JSON.stringify({
+				name: nameState,
+				distance: distanceState,
+				coordinates: coordState,
+				creatorId: user.userId,
+				directions: directionState,
+				image: staticMap
+			}),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+		const route = await routeRes.json();
+		const personalRouteStatsRes = await fetch(
+			`${api.url}/routes/${route.id}/users/${user.userId}/personalroutestats`,
+			{
 				method: 'POST',
-				body: JSON.stringify({
-					name: nameState,
-					distance: distanceState,
-					coordinates: coordState,
-					creatorId: user.userId,
-					directions: directionState,
-					image: staticMap
-				}),
 				headers: {
 					'Content-Type': 'application/json'
 				}
-			});
-			const route = await routeRes.json();
-			const personalRouteStatsRes = await fetch(
-				`${api.url}/routes/${route.id}/users/${user.userId}/personalroutestats`,
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					}
-				}
-			);
-			if (personalRouteStatsRes.ok) {
-				history.push('/my-routes');
 			}
+		);
+		if (personalRouteStatsRes.ok) {
+			history.push('/my-routes');
 		}
+
 	};
 
 	const handleLocSearch = async (e) => {
@@ -415,7 +420,7 @@ const CreateRoute = ({ history }) => {
 							onChange={nameInputChange}
 							helperText={nameError && 'Route must have a name'}
 						/>
-						{displayedDirections && (
+						{displayedDirections ? (
 							<React.Fragment>
 								<List className={classes.sidebarContainer}>
 									<h2 className={classes.listMargin}>Directions:</h2>
@@ -426,15 +431,17 @@ const CreateRoute = ({ history }) => {
 									})}
 								</List>
 							</React.Fragment>
-						)}
+						)
+							:
+							<h2 style={{ marginLeft: '10px', color: coordError ? 'red' : 'black' }}>How to Create a Route:</h2>}
 						{showGetStarted && (
 							<React.Fragment>
-								<div className="instructions">
-									<Typography>Search for where in the world you'd like to run.</Typography>
+								<div className="instructions" >
+									<Typography>1. Search for where in the world you'd like to run.</Typography>
 								</div>
 								<div className="instructions">
 									<Typography>
-										Once you've found a spot, click the line button in the top right corner of the
+										2. Once you've found a spot, click the line button in the top right corner of the
 										map to start drawing.
 									</Typography>
 								</div>
@@ -444,14 +451,14 @@ const CreateRoute = ({ history }) => {
 							<React.Fragment>
 								<div className="instructions">
 									<Typography>
-										Draw a general path, and the map will figure out a route for you.
+										3. Draw a general path, and the map will figure out a route for you.
 									</Typography>
 								</div>
 								<div className="instructions">
-									<Typography>Double-click to end your route.</Typography>
+									<Typography>4. Double-click to end your route.</Typography>
 								</div>
 								<div className="instructions">
-									<Typography>If you want to change your route, just draw a new one.</Typography>
+									<Typography>5. If you want to change your route, just draw a new one!</Typography>
 								</div>
 							</React.Fragment>
 						)}
