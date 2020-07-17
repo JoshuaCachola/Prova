@@ -44,6 +44,8 @@ const MyRoutes = () => {
 	const [map, setMap] = useState(null);
 	const [selectedTab, setSelectedTab] = useState(0);
 	const [hasLoaded, setHasLoaded] = useState(false);
+	const [gotNewCurrentRoute, setGotNewCurrentRoute] = useState(false)
+
 
 	useEffect(() => {
 		document.title = 'Prova - My Routes';
@@ -53,6 +55,7 @@ const MyRoutes = () => {
 		() => {
 			if (currentUser) {
 				if ('userId' in currentUser) {
+
 					dispatch(getMyRoutes(currentUser.userId));
 				}
 			}
@@ -61,9 +64,14 @@ const MyRoutes = () => {
 		[currentUser]
 	);
 
+
+	// where is it getting the coords from?
+	// currentRoute is left over from previous time. Need to make sure it waits for the new coords from
+	// the new current route before rendering the map
 	useEffect(
 		() => {
-			if (!map && routes && routes.length !== 0 && coords) {
+			if (!map && routes && routes.length && coords) {
+
 				const mapObj = new mapboxgl.Map({
 					container: mapContainer, // container id
 					style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
@@ -80,7 +88,7 @@ const MyRoutes = () => {
 	);
 
 	useEffect(() => {
-		if (currentRoute) {
+		if (currentRoute && gotNewCurrentRoute) {
 
 			const firstSplit = currentRoute.coordinates.split(';');
 			const secondSplit = firstSplit.map((el) => {
@@ -94,8 +102,12 @@ const MyRoutes = () => {
 			});
 
 			setCoords(finalArr)
+
 		}
-	}, [currentRoute])
+	},
+		// eslint-disable-next-line
+		[currentRoute]
+	);
 
 
 	useEffect(
@@ -191,8 +203,9 @@ const MyRoutes = () => {
 		() => {
 			if (routes && currentUser) {
 				if (routes.length !== 0) {
-					// console.log(routes[0])
+
 					dispatch(displayRoute(routes[0].route.id, currentUser.userId));
+					setGotNewCurrentRoute(true)
 				}
 			}
 		},
