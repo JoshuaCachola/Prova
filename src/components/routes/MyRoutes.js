@@ -44,6 +44,8 @@ const MyRoutes = () => {
 	const [map, setMap] = useState(null);
 	const [selectedTab, setSelectedTab] = useState(0);
 	const [hasLoaded, setHasLoaded] = useState(false);
+	const [gotNewCurrentRoute, setGotNewCurrentRoute] = useState(false)
+
 
 	useEffect(() => {
 		document.title = 'Prova - My Routes';
@@ -53,6 +55,7 @@ const MyRoutes = () => {
 		() => {
 			if (currentUser) {
 				if ('userId' in currentUser) {
+
 					dispatch(getMyRoutes(currentUser.userId));
 				}
 			}
@@ -62,7 +65,7 @@ const MyRoutes = () => {
 	);
 
 	useEffect(() => {
-		if (currentRoute) {
+		if (currentRoute && gotNewCurrentRoute) {
 
 			const firstSplit = currentRoute.coordinates.split(';');
 			const secondSplit = firstSplit.map((el) => {
@@ -76,8 +79,12 @@ const MyRoutes = () => {
 			});
 
 			setCoords(finalArr)
+
 		}
-	}, [currentRoute])
+	},
+		// eslint-disable-next-line
+		[currentRoute]
+	);
 
 	useEffect(
 		() => {
@@ -190,8 +197,9 @@ const MyRoutes = () => {
 		() => {
 			if (routes && currentUser) {
 				if (routes.length !== 0) {
-					// console.log(routes[0])
+
 					dispatch(displayRoute(routes[0].route.id, currentUser.userId));
+					setGotNewCurrentRoute(true)
 				}
 			}
 		},
