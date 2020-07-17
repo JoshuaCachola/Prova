@@ -217,7 +217,7 @@ const MyRoutes = () => {
 									orientation="vertical"
 									variant="scrollable"
 									value={selectedTab}
-									aria-label="Vertical tabs example"
+									aria-label="My routes list"
 									className={classes.tabs}
 								>
 									{routes &&
