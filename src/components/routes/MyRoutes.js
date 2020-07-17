@@ -60,24 +60,6 @@ const MyRoutes = () => {
 		[currentUser]
 	);
 
-	useEffect(
-		() => {
-			if (!map && routes && routes.length !== 0 && coords) {
-				const mapObj = new mapboxgl.Map({
-					container: mapContainer, // container id
-					style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
-					center: coords[0], // starting position
-					zoom: 13, // starting zoom
-					minZoom: 11 // keep it local
-				});
-				setMap(mapObj);
-			}
-			// eslint-disable-next-line
-		},
-		// eslint-disable-next-line
-		[routes, coords]
-	);
-
 	useEffect(() => {
 		if (currentRoute) {
 
@@ -95,6 +77,23 @@ const MyRoutes = () => {
 			setCoords(finalArr)
 		}
 	}, [currentRoute])
+
+	useEffect(
+		() => {
+			if (!map && routes && routes.length !== 0 && coords) {
+				const mapObj = new mapboxgl.Map({
+					container: mapContainer, // container id
+					style: 'mapbox://styles/mapbox/streets-v11', //hosted style id
+					center: coords[0], // starting position
+					zoom: 13, // starting zoom
+					minZoom: 11 // keep it local
+				});
+				setMap(mapObj);
+			}
+		},
+		// eslint-disable-next-line
+		[routes, coords]
+	);
 
 
 	useEffect(
@@ -199,7 +198,17 @@ const MyRoutes = () => {
 		[currentUser, routes]
 	);
 
-
+	useEffect(() => {
+		return () => {
+			setCoords(null);
+			setMap(null);
+			console.log(coords);
+			console.log(map);
+		}
+	},
+		// eslint-disable-next-line
+		[]
+	);
 
 	const classes = useStyles();
 	return (
