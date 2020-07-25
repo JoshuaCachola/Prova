@@ -38,7 +38,7 @@ Prova is a running platform where users' can create running routes and keep trac
 
 ## Technologies used
 - Python
-- Javascript
+- JavaScript
 - Flask
 - React
 - Redux
