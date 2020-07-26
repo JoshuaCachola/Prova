@@ -55,20 +55,20 @@ Prova is a running platform where users' can create running routes and keep trac
 # When a user saves a run, find the route associated with it
 route_for_run = Route.query.filter(Route.id == new_run.route_id).first()
 
-    # If the time of the run is less than the current best time, update the best time. Otherwise, leave it as it is.
-    if not route_for_run.best_time:
-        route_for_run.best_time = new_run.time
-    elif new_run.time < route_for_run.best_time:
-        route_for_run.best_time = new_run.time
-    route_for_run.total_number_of_runs += 1 # Either way, the total number of runs for the route is incremented
+# If the time of the run is less than the current best time, update the best time. Otherwise, leave it as it is.
+if not route_for_run.best_time:
+    route_for_run.best_time = new_run.time
+elif new_run.time < route_for_run.best_time:
+    route_for_run.best_time = new_run.time
+route_for_run.total_number_of_runs += 1 # Either way, the total number of runs for the route is incremented
   
-    # Calculate a new average time for the run
-    if not route_for_run.average_time:
-        route_for_run.average_time = new_run.time
-    else:
-        new_average = (route_for_run.average_time * (route_for_run.total_number_of_runs -
+# Calculate a new average time for the run
+if not route_for_run.average_time:
+    route_for_run.average_time = new_run.time
+else:
+    new_average = (route_for_run.average_time * (route_for_run.total_number_of_runs -
                                                      1) + new_run.time) / route_for_run.total_number_of_runs
-        route_for_run.average_time = new_average
+    route_for_run.average_time = new_average
     
-    db.session.add(route_for_run) # Add the route to the session to be saved in the database
+db.session.add(route_for_run) # Add the route to the session to be saved in the database
 ```
